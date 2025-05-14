@@ -6,24 +6,31 @@ use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class ServiceController extends Controller
+class ServiceController
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
             $data = Service::all();
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Data layanan berhasil diambil',
-                'data' => $data
-            ], 200);
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Data layanan berhasil diambil',
+                    'data' => $data
+                ], 200);
+            }
+
+            return view('pages.home.layanan.index-layanan', compact('data'));
         } catch (\Exception $e) {
             Log::error('Service Index Error: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat mengambil data layanan',
-                'data' => null
-            ], 500);
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Terjadi kesalahan saat mengambil data layanan',
+                    'data' => null
+                ], 500);
+            }
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat mengambil data layanan');
         }
     }
 
@@ -37,22 +44,31 @@ class ServiceController extends Controller
 
             $service = Service::create($request->only('title_service', 'content_service'));
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Layanan berhasil ditambahkan',
-                'data' => $service
-            ], 201);
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Layanan berhasil ditambahkan',
+                    'data' => $service
+                ], 201);
+            }
+            $data = Service::all();
+            return view('pages.home.layanan.index-layanan', compact('data'));
         } catch (\Exception $e) {
             Log::error('Service Store Error: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat menambahkan layanan',
-                'data' => null
-            ], 500);
+
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Terjadi kesalahan saat menambahkan layanan',
+                    'data' => null
+                ], 500);
+            }
+
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         try {
             $service = Service::find($id);
@@ -65,18 +81,27 @@ class ServiceController extends Controller
                 ], 404);
             }
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Detail layanan berhasil diambil',
-                'data' => $service
-            ], 200);
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Detail layanan berhasil diambil',
+                    'data' => $service
+                ], 200);
+            }
+
+            return view('pages.home.layanan.index-layanan', compact('service'));
         } catch (\Exception $e) {
             Log::error('Service Show Error: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat mengambil detail layanan',
-                'data' => null
-            ], 500);
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Terjadi kesalahan saat mengambil detail layanan',
+                    'data' => null
+                ], 500);
+            }
+
+            return redirect()->back()->with('error', $e->getMessage());
+
         }
     }
 
@@ -95,22 +120,29 @@ class ServiceController extends Controller
 
             $service->update($request->only('title_service', 'content_service'));
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Layanan berhasil diperbarui',
-                'data' => $service
-            ], 200);
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Layanan berhasil diperbarui',
+                    'data' => $service
+                ], 200);
+            }
+
+            return view('pages.home.layanan.index-layanan', compact('service'));
         } catch (\Exception $e) {
             Log::error('Service Update Error: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat memperbarui layanan',
-                'data' => null
-            ], 500);
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Terjadi kesalahan saat memperbarui layanan',
+                    'data' => null
+                ], 500);
+            }
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         try {
             $service = Service::find($id);
@@ -125,18 +157,25 @@ class ServiceController extends Controller
 
             $service->delete();
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Layanan berhasil dihapus',
-                'data' => null
-            ], 200);
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Layanan berhasil dihapus',
+                    'data' => null
+                ], 200);
+            }
+
+            return view('pages.home.layanan.index-layanan', compact('service'));
         } catch (\Exception $e) {
             Log::error('Service Delete Error: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat menghapus layanan',
-                'data' => null
-            ], 500);
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Terjadi kesalahan saat menghapus layanan',
+                    'data' => null
+                ], 500);
+            }
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 }

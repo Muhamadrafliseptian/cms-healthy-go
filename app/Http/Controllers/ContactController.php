@@ -7,7 +7,7 @@ use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class ContactController extends Controller
+class ContactController 
 {
     public function index()
     {

@@ -6,17 +6,21 @@ use App\Models\Program;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class ProgramController extends Controller
+class ProgramController 
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
             $data = Program::all();
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Data program berhasil diambil',
-                'data' => $data
-            ], 200);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Data program berhasil diambil',
+                    'data' => $data
+                ], 200);
+            }
+
+            return view('pages.home.program.index-program', compact('data'));
         } catch (\Exception $e) {
             Log::error('Program Index Error: ' . $e->getMessage());
             return response()->json([

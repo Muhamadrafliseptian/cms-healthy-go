@@ -7,7 +7,7 @@ use App\Models\SocialMedia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class SocialMediaController extends Controller
+class SocialMediaController 
 {
     public function index()
     {

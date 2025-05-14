@@ -7,7 +7,7 @@ use App\Models\Faq;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class FaqController extends Controller
+class FaqController 
 {
     public function index()
     {

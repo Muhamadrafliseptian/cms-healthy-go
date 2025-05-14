@@ -7,7 +7,7 @@ use App\Models\TNC;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class TnCController extends Controller
+class TnCController 
 {
     public function index()
     {

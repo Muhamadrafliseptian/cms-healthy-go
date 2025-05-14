@@ -7,7 +7,7 @@ use App\Models\Meal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class MealController extends Controller
+class MealController 
 {
     public function index()
     {

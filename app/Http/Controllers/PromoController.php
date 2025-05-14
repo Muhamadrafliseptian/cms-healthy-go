@@ -7,7 +7,7 @@ use App\Models\Promo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class PromoController extends Controller
+class PromoController 
 {
     public function index()
     {

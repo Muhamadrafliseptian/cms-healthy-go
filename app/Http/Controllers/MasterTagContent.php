@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class MasterTagContent extends Controller
+class MasterTagContent 
 {
     /**
      * Display a listing of the resource.

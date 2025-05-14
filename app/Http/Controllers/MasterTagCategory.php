@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class MasterTagCategory extends Controller
+class MasterTagCategory 
 {
     /**
      * Display a listing of the resource.

@@ -7,24 +7,31 @@ use App\Models\Testimoni;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class TestimoniController extends Controller
+class TestimoniController 
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
             $data = Testimoni::all();
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Data testimoni berhasil diambil',
-                'data' => $data
-            ], 200);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Data testimoni berhasil diambil',
+                    'data' => $data
+                ], 200);
+            }
+
+            return view('pages.home.testimoni.index-testimoni', compact('data'));
         } catch (\Exception $e) {
             Log::error('Testimoni Index Error: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat mengambil data testimoni',
-                'data' => null
-            ], 500);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Terjadi kesalahan saat mengambil data testimoni',
+                    'data' => null
+                ], 500);
+            }
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
-class PartnershipController extends Controller
+class PartnershipController 
 {
     public function index()
     {
