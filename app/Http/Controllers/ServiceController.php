@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Service;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class ServiceController
 {
@@ -51,8 +54,9 @@ class ServiceController
                     'data' => $service
                 ], 201);
             }
-            $data = Service::all();
-            return view('pages.home.layanan.index-layanan', compact('data'));
+
+            return redirect()->back()->with('success', 'Data berhasil ditambah');
+
         } catch (\Exception $e) {
             Log::error('Service Store Error: ' . $e->getMessage());
 
@@ -128,7 +132,7 @@ class ServiceController
                 ], 200);
             }
 
-            return view('pages.home.layanan.index-layanan', compact('service'));
+            return redirect()->back()->with('success', 'Data berhasil diubah');
         } catch (\Exception $e) {
             Log::error('Service Update Error: ' . $e->getMessage());
             if ($request->wantsJson()) {
@@ -165,7 +169,7 @@ class ServiceController
                 ], 200);
             }
 
-            return view('pages.home.layanan.index-layanan', compact('service'));
+            return redirect()->back()->with('success', 'Data berhasil dihapus');
         } catch (\Exception $e) {
             Log::error('Service Delete Error: ' . $e->getMessage());
             if ($request->wantsJson()) {

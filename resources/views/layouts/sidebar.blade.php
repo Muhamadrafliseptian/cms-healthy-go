@@ -33,9 +33,9 @@
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="{{ url('/home') }}">Banner</a>
                                 <a class="nav-link" href="{{ url('/partnership') }}">Video</a>
-                                <a class="nav-link" href="{{ url('/product-service') }}">Certificate</a>
+                                <a class="nav-link {{ Request::is('dashboard/home/certificate*') ? 'active' : '' }}" href="{{ route('certificate.index') }}">Certificate</a>
                                 <a class="nav-link {{ Request::is('dashboard/home/service*') ? 'active' : '' }}"
-                                    href="{{ url('dashboard/home/service') }}">Layanan</a>
+                                    href="{{ route('service.index') }}">Layanan</a>
                                 <a class="nav-link {{ Request::is('dashboard/home/program*') ? 'active' : '' }}" href="{{ url('dashboard/home/program') }}">Program</a>
                                 <a class="nav-link {{ Request::is('dashboard/home/partnership*') ? 'active' : '' }}" href="{{ url('dashboard/home/partnership') }}">Partnership</a>
                                 <a class="nav-link {{ Request::is('dashboard/home/testimoni*') ? 'active' : '' }}" href="{{ url('dashboard/home/testimoni') }}">Testimoni</a>

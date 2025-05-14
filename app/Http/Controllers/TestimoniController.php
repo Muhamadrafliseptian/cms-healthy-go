@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Testimoni;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
-class TestimoniController 
+class TestimoniController
 {
     public function index(Request $request)
     {
         try {
             $data = Testimoni::all();
-            if($request->wantsJson()){
+            if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Data testimoni berhasil diambil',
@@ -24,7 +24,7 @@ class TestimoniController
             return view('pages.home.testimoni.index-testimoni', compact('data'));
         } catch (\Exception $e) {
             Log::error('Testimoni Index Error: ' . $e->getMessage());
-            if($request->wantsJson()){
+            if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Terjadi kesalahan saat mengambil data testimoni',
@@ -58,11 +58,15 @@ class TestimoniController
                 'ava_testimoni' => $imgPath,
             ]);
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Testimoni berhasil ditambahkan',
-                'data' => $testimoni
-            ], 201);
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Testimoni berhasil ditambahkan',
+                    'data' => $testimoni
+                ], 201);
+            }
+
+            return redirect()->back()->with('success', 'berhasil tambah testimoni');
         } catch (\Exception $e) {
             Log::error('Testimoni Store Error: ' . $e->getMessage());
             return response()->json([
@@ -134,11 +138,14 @@ class TestimoniController
             $testimoni->content = $request->content;
             $testimoni->save();
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Testimoni berhasil diperbarui',
-                'data' => $testimoni
-            ], 200);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Testimoni berhasil diperbarui',
+                    'data' => $testimoni
+                ], 200);
+            }
+            return redirect()->back()->with('success', 'berhasil tambah diperbarui');
         } catch (\Exception $e) {
             Log::error('Testimoni Update Error: ' . $e->getMessage());
             return response()->json([
@@ -149,7 +156,7 @@ class TestimoniController
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         try {
             $testimoni = Testimoni::find($id);
@@ -168,11 +175,15 @@ class TestimoniController
 
             $testimoni->delete();
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Testimoni berhasil dihapus',
-                'data' => null
-            ], 200);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Testimoni berhasil dihapus',
+                    'data' => null
+                ], 200);
+            }
+
+            return redirect()->back()->with('success', 'berhasil hapus testimoni');
         } catch (\Exception $e) {
             Log::error('Testimoni Delete Error: ' . $e->getMessage());
             return response()->json([

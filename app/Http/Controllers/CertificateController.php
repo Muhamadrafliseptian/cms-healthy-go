@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
-class CertificateController 
+class CertificateController
 {
-    public function index(Request $request )
+    public function index(Request $request)
     {
         try {
             $data = Certificate::all();
@@ -42,7 +42,7 @@ class CertificateController
     {
         try {
             $request->validate([
-                'img_certificate' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img_certificate' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             $imgPath = null;
@@ -54,11 +54,15 @@ class CertificateController
                 'img_certificate' => $imgPath,
             ]);
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Certificate berhasil ditambahkan',
-                'data' => $certificate
-            ], 201);
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Certificate berhasil ditambahkan',
+                    'data' => $certificate
+                ], 201);
+            }
+
+            return redirect()->back()->with('success', 'Data berhasil ditambah');
         } catch (\Exception $e) {
             Log::error('Certificate Store Error: ' . $e->getMessage());
             return response()->json([
@@ -124,11 +128,15 @@ class CertificateController
 
             $certificate->save();
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Certificate berhasil diperbarui',
-                'data' => $certificate
-            ], 200);
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Certificate berhasil diperbarui',
+                    'data' => $certificate
+                ], 200);
+            }
+
+            return redirect()->back()->with('success', 'Data berhasil diperbarui');
         } catch (\Exception $e) {
             Log::error('Certificate Update Error: ' . $e->getMessage());
             return response()->json([
@@ -139,7 +147,7 @@ class CertificateController
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         try {
             $certificate = Certificate::find($id);
@@ -158,11 +166,16 @@ class CertificateController
 
             $certificate->delete();
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Certificate berhasil dihapus',
-                'data' => null
-            ], 200);
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Certificate berhasil dihapus',
+                    'data' => null
+                ], 200);
+            }
+
+            return redirect()->back()->with('success', 'Data berhasil dihapus');
+
         } catch (\Exception $e) {
             Log::error('Certificate Delete Error: ' . $e->getMessage());
             return response()->json([

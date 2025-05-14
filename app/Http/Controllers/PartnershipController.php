@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Partnership;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -10,15 +9,19 @@ use Illuminate\Support\Facades\Log;
 
 class PartnershipController 
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
             $data = Partnership::all();
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Data partnership berhasil diambil',
-                'data' => $data
-            ], 200);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Data partnership berhasil diambil',
+                    'data' => $data
+                ], 200);
+            }
+
+            return view('pages.home.partnership.index-partnership', compact('data'));
         } catch (\Exception $e) {
             Log::error('Partnership Index Error: ' . $e->getMessage());
             return response()->json([
