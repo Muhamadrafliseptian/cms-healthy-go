@@ -9,15 +9,19 @@ use Illuminate\Support\Facades\Log;
 
 class TnCController 
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
             $data = TNC::all();
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Data Terms and Conditions berhasil diambil',
-                'data' => $data
-            ], 200);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Data Terms and Conditions berhasil diambil',
+                    'data' => $data
+                ], 200);
+            }
+
+            return view ('pages.tnc.index-tnc', compact('data'));
         } catch (\Exception $e) {
             Log::error('TnC Index Error: ' . $e->getMessage());
             return response()->json([

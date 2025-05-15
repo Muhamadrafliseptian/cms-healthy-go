@@ -9,16 +9,20 @@ use Illuminate\Support\Facades\Log;
 
 class FaqController 
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
             $data = Faq::all();
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Data FAQ berhasil diambil',
-                'data' => $data
-            ], 200);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Data FAQ berhasil diambil',
+                    'data' => $data
+                ], 200);
+            }
+
+            return view ('pages.faq.index-faq', compact('data'));
         } catch (\Exception $e) {
             Log::error('FAQ Index Error: ' . $e->getMessage());
 

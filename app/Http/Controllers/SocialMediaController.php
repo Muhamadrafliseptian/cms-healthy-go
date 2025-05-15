@@ -9,15 +9,19 @@ use Illuminate\Support\Facades\Log;
 
 class SocialMediaController 
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
             $data = SocialMedia::all();
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Data socialmedia berhasil diambil',
-                'data' => $data
-            ], 200);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Data socialmedia berhasil diambil',
+                    'data' => $data
+                ], 200);
+            }
+
+            return view('pages.social-media.index-social-media', compact('data'));
         } catch (\Exception $e) {
             Log::error('socialmedia Index Error: ' . $e->getMessage());
             return response()->json([
