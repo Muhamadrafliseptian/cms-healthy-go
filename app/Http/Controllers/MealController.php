@@ -9,16 +9,20 @@ use Illuminate\Support\Facades\Log;
 
 class MealController 
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
             $data = Meal::all();
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Data meal berhasil diambil',
-                'data' => $data
-            ], 200);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Data meal berhasil diambil',
+                    'data' => $data
+                ], 200);
+            }
+
+            return view('pages.product-service.meal.index-meal', compact('data'));
         } catch (\Exception $e) {
             Log::error('Meal Index Error: ' . $e->getMessage());
 
@@ -40,11 +44,15 @@ class MealController
 
             $meal = Meal::create($request->only('meal_title', 'meal_content'));
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Meal berhasil ditambahkan',
-                'data' => $meal
-            ], 201);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Meal berhasil ditambahkan',
+                    'data' => $meal
+                ], 201);
+            }
+
+            return redirect()->back()->with('success', 'data berhasil ditambah');
         } catch (\Exception $e) {
             Log::error('Meal Store Error: ' . $e->getMessage());
 
@@ -100,11 +108,16 @@ class MealController
 
             $meal->update($request->only('meal_title', 'meal_content'));
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Meal berhasil diperbarui',
-                'data' => $meal
-            ], 200);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Meal berhasil diperbarui',
+                    'data' => $meal
+                ], 200);
+            }
+
+            return redirect()->back()->with('success', 'data berhasil diperbarui');
+
         } catch (\Exception $e) {
             Log::error('Meal Update Error: ' . $e->getMessage());
 
@@ -116,7 +129,7 @@ class MealController
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         try {
             $meal = Meal::find($id);
@@ -131,11 +144,15 @@ class MealController
 
             $meal->delete();
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Meal berhasil dihapus',
-                'data' => null
-            ], 200);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Meal berhasil dihapus',
+                    'data' => null
+                ], 200);
+            }
+
+            return redirect()->back()->with('success', 'data berhasil dihapus');
         } catch (\Exception $e) {
             Log::error('Meal Delete Error: ' . $e->getMessage());
 

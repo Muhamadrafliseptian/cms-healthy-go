@@ -1,11 +1,15 @@
 <?php
 
+use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MealController;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MilestoneController;
 use App\Http\Controllers\OperationalStatisticController;
 use App\Http\Controllers\PartnershipController;
 use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\PromoController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TestimoniController;
 use App\Http\Controllers\VideoController;
@@ -76,6 +80,42 @@ Route::prefix('dashboard')->group(function () {
             Route::post('store', [MilestoneController::class, 'store'])->name('milestone.store');
             Route::put('put/{id}', [MilestoneController::class, 'update'])->name('milestone.put');
             Route::delete('destroy/{id}', [MilestoneController::class, 'destroy'])->name('milestone.destroy');
+        });
+    });
+
+    Route::prefix('product-service')->group(function () {
+        Route::prefix('promo')->group(function () {
+            Route::get('/', [PromoController::class, 'index'])->name('promo.index');
+            Route::post('store', [PromoController::class, 'store'])->name('promo.store');
+            Route::put('put/{id}', [PromoController::class, 'update'])->name('promo.put');
+            Route::delete('destroy/{id}', [PromoController::class, 'destroy'])->name('promo.destroy');
+        });
+        Route::prefix('program')->group(function () {
+            Route::get('/', [ProgramController::class, 'index'])->name('programProduct.index');
+            Route::post('store', [ProgramController::class, 'store'])->name('programProduct.store');
+            Route::put('put/{id}', [ProgramController::class, 'update'])->name('programProduct.put');
+            Route::delete('destroy/{id}', [ProgramController::class, 'destroy'])->name('programProduct.destroy');
+        });
+        Route::prefix('meal')->group(function () {
+            Route::get('/', [MealController::class, 'index'])->name('meal.index');
+            Route::post('store', [MealController::class, 'store'])->name('meal.store');
+            Route::put('put/{id}', [MealController::class, 'update'])->name('meal.put');
+            Route::delete('destroy/{id}', [MealController::class, 'destroy'])->name('meal.destroy');
+        });
+    });
+
+    Route::prefix('food')->group(function () {
+        Route::prefix('carousel')->group(function () {
+            Route::get('/', [CarouselController::class, 'index'])->name('carousel.index');
+            Route::post('store', [CarouselController::class, 'store'])->name('carousel.store');
+            Route::put('put/{id}', [CarouselController::class, 'update'])->name('carousel.put');
+            Route::delete('destroy/{id}', [CarouselController::class, 'destroy'])->name('carousel.destroy');
+        });
+        Route::prefix('batch-menu')->group(function () {
+            Route::get('/', [MenuController::class, 'index'])->name('batch-menu.index');
+            Route::post('store', [MenuController::class, 'store'])->name('batch-menu.store');
+            Route::put('put/{id}', [MenuController::class, 'update'])->name('batch-menu.put');
+            Route::delete('destroy/{id}', [MenuController::class, 'destroy'])->name('batch-menu.destroy');
         });
     });
 });

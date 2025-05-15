@@ -21,7 +21,12 @@ class ProgramController
                 ], 200);
             }
 
-            return view('pages.home.program.index-program', compact('data'));
+            if ($request->is('dashboard/product-service/program*')) {
+                return view('pages.product-service.program.index-program', compact('data'));
+            } else {
+                return view('pages.home.program.index-program', compact('data'));
+            }
+
         } catch (\Exception $e) {
             Log::error('Program Index Error: ' . $e->getMessage());
             return response()->json([

@@ -12,7 +12,7 @@
                         Request::is('dashboard/home*') ||
                         Request::is('dashboard/about-us*') ||
                         Request::is('dashboard/partnership*') ||
-                        Request::is('dashboard/product*') ||
+                        Request::is('dashboard/product-service*') ||
                         Request::is('dashboard/food*');
                 @endphp
 
@@ -31,6 +31,8 @@
                         @php
                             $homeActive = Request::is('dashboard/home*');
                             $aboutActive = Request::is('dashboard/about-us*');
+                            $productActive = Request::is('dashboard/product-service*');
+                            $foodActive = Request::is('dashboard/food*');
                         @endphp
 
                         <a class="nav-link {{ $homeActive ? '' : 'collapsed' }}" href="#" data-bs-toggle="collapse"
@@ -72,10 +74,8 @@
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="{{ url('/home') }}">Banner</a>
                                 <a class="nav-link" href="{{ url('/home') }}">Description</a>
-                                <a 
-                                class="nav-link {{ Request::is('dashboard/about-us/milestone*') ? 'active' : '' }}"
-                                    href="{{ route('milestone.index') }}"
-                                >Milestone</a>
+                                <a class="nav-link {{ Request::is('dashboard/about-us/milestone*') ? 'active' : '' }}"
+                                    href="{{ route('milestone.index') }}">Milestone</a>
                                 <a class="nav-link {{ Request::is('dashboard/about-us/partnership*') ? 'active' : '' }}"
                                     href="{{ route('partnershipAbout.index') }}">Partnership</a>
                             </nav>
@@ -96,32 +96,41 @@
                             </nav>
                         </div>
 
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                            data-bs-target="#productCollapse" aria-expanded="false" aria-controls="productCollapse">
+                        <a class="nav-link {{ $productActive ? '' : 'collapsed' }}" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#productCollapse" aria-expanded="{{ $productActive ? 'true' : 'false' }}"
+                            aria-controls="productCollapse">
                             Product & Service
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <div class="collapse" id="productCollapse" data-bs-parent="#sidenavAccordionMenu">
+                        <div class="collapse {{ $productActive ? 'show' : '' }}" id="productCollapse"
+                            data-bs-parent="#sidenavAccordionMenu">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="{{ url('/home') }}">Banner</a>
                                 <a class="nav-link" href="{{ url('/home') }}">Tag</a>
                                 <a class="nav-link" href="{{ url('/partnership') }}">Solution</a>
-                                <a class="nav-link" href="{{ url('/partnership') }}">Promo</a>
-                                <a class="nav-link" href="{{ url('/partnership') }}">Program</a>
-                                <a class="nav-link" href="{{ url('/partnership') }}">Meal</a>
+                                <a class="nav-link {{ Request::is('dashboard/product-service/promo*') ? 'active' : '' }}"
+                                    href="{{ route('promo.index') }}">Promo</a>
+                                <a class="nav-link {{ Request::is('dashboard/product-service/program*') ? 'active' : '' }}"
+                                    href="{{ route('programProduct.index') }}">Program</a>
+                                <a class="nav-link {{ Request::is('dashboard/product-service/meal*') ? 'active' : '' }}"
+                                    href="{{ route('meal.index') }}">Meal</a>
                             </nav>
                         </div>
 
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#foodCollapse"
-                            aria-expanded="false" aria-controls="foodCollapse">
+                        <a class="nav-link {{ $foodActive ? '' : 'collapsed' }}" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#foodCollapse" aria-expanded="{{ $productActive ? 'true' : 'false' }}"
+                            aria-controls="foodCollapse">
                             Food
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <div class="collapse" id="foodCollapse" data-bs-parent="#sidenavAccordionMenu">
+                        <div class="collapse {{ $foodActive ? 'show' : '' }}" id="foodCollapse"
+                            data-bs-parent="#sidenavAccordionMenu">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="{{ url('/home') }}">Banner</a>
-                                <a class="nav-link" href="{{ url('/home') }}">Batch</a>
-                                <a class="nav-link" href="{{ url('/partnership') }}">Carousel</a>
+                                <a class="nav-link {{ Request::is('dashboard/food/batch-menu*') ? 'active' : '' }}"
+                                    href="{{ route('batch-menu.index') }}">Batch</a>
+                                <a class="nav-link {{ Request::is('dashboard/food/carousel*') ? 'active' : '' }}"
+                                    href="{{ route('carousel.index') }}">Carousel</a>
                             </nav>
                         </div>
                         <a href="" class="nav-link">

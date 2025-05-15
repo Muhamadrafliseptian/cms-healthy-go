@@ -7,18 +7,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
-class CarouselController 
+class CarouselController
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
             $data = Carousel::all();
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Data carousel berhasil diambil',
-                'data' => $data
-            ], 200);
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Data carousel berhasil diambil',
+                    'data' => $data
+                ], 200);
+            }
+
+            return view('pages.food.carousel.index-carousel', compact('data'));
         } catch (\Exception $e) {
             Log::error('Carousel Index Error: ' . $e->getMessage());
 
@@ -45,18 +49,21 @@ class CarouselController
 
             $carousel = Carousel::create([
                 'img_carousel' => $imgPath,
-                'name' => $request->name,
-                'program_name' => $request->program_name,
-                'content' => $request->content,
             ]);
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Carousel berhasil ditambahkan',
-                'data' => $carousel
-            ], 201);
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Carousel berhasil ditambahkan',
+                    'data' => $carousel
+                ], 201);
+            }
+
+            return redirect()->back()->with('success', 'Data berhasil ditambah');
         } catch (\Exception $e) {
             Log::error('Carousel Store Error: ' . $e->getMessage());
+
+            dd($e->getMessage());
 
             return response()->json([
                 'status' => 'error',
@@ -120,16 +127,18 @@ class CarouselController
                 $carousel->img_carousel = $request->file('img_carousel')->store('carousel', 'public');
             }
 
-            $carousel->name = $request->name;
-            $carousel->program_name = $request->program_name;
-            $carousel->content = $request->content;
             $carousel->save();
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Carousel berhasil diperbarui',
-                'data' => $carousel
-            ], 200);
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Carousel berhasil diperbarui',
+                    'data' => $carousel
+                ], 200);
+            }
+
+            return redirect()->back()->with('success', 'Data berhasil ditambah');
+
         } catch (\Exception $e) {
             Log::error('Carousel Update Error: ' . $e->getMessage());
 
@@ -141,7 +150,7 @@ class CarouselController
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         try {
             $carousel = Carousel::find($id);
@@ -160,11 +169,16 @@ class CarouselController
 
             $carousel->delete();
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Carousel berhasil dihapus',
-                'data' => null
-            ], 200);
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Carousel berhasil dihapus',
+                    'data' => null
+                ], 200);
+            }
+
+            return redirect()->back()->with('success', 'Data berhasil dihapus');
+
         } catch (\Exception $e) {
             Log::error('Carousel Delete Error: ' . $e->getMessage());
 

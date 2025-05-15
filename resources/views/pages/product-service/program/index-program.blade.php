@@ -7,38 +7,32 @@
 
 @section('content')
     <div class="container my-4">
-        <h3 class="mb-4">Carousel Data</h3>
+        <h3 class="mb-4">Program Data</h3>
 
         @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
+            <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
         @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
+            <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
-        <button class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addCarouselModal">
-            Tambah Gambar +
-        </button>
 
-        <div class="modal fade" id="addCarouselModal" tabindex="-1" aria-labelledby="addCarouselModalLabel"
+        <button class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addProgramModal">Tambah Program
+            +</button>
+
+        {{-- Modal Tambah --}}
+        <div class="modal fade" id="addProgramModal" tabindex="-1" aria-labelledby="addProgramModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
-                <form action="{{ route('carousel.store') }}" method="POST" enctype="multipart/form-data"
+                <form action="{{ route('programProduct.store') }}" method="POST" enctype="multipart/form-data"
                     class="modal-content">
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addCarouselModalLabel">Tambah Gambar Sertifikat</h5>
+                        <h5 class="modal-title" id="addProgramModalLabel">Tambah Program</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="img_carousel" class="form-label">Pilih Gambar</label>
-                            <input type="file" class="form-control" name="img_carousel" accept="image/*" required>
-                        </div>
+                        @include('pages.home.program.form-program', ['prefix' => ''])
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -48,22 +42,18 @@
             </div>
         </div>
 
-        <div class="modal fade" id="editCertificateModal" tabindex="-1" aria-labelledby="editCertificateModalLabel"
+        <div class="modal fade" id="editProgramModal" tabindex="-1" aria-labelledby="editProgramModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
                 <form id="editForm" method="POST" enctype="multipart/form-data" class="modal-content">
                     @csrf
                     @method('PUT')
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editCertificateModalLabel">Edit Gambar Sertifikat</h5>
+                        <h5 class="modal-title">Edit Program</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <input type="hidden" id="edit-id">
-                        <div class="mb-3">
-                            <label for="img_carousel" class="form-label">Pilih Gambar Baru (opsional)</label>
-                            <input type="file" class="form-control" name="img_carousel" accept="image/*">
-                        </div>
+                        @include('pages.home.program.form-program', ['prefix' => 'edit_'])
                         <div class="mb-3">
                             <label>Preview Gambar</label><br>
                             <img id="previewImg" src="" alt="Preview" width="150">
@@ -77,38 +67,38 @@
             </div>
         </div>
 
-
-        <table id="certificate" class="table table-striped table-bordered text-center">
+        <table id="program" class="table table-striped table-bordered text-center">
             <thead>
                 <tr>
-                    <th>
-                        No
-                    </th>
-                    <th>
-                        Image
-                    </th>
-                    <th>
-                        Aksi
-                    </th>
+                    <th>No</th>
+                    <th>Nama Program</th>
+                    <th>Kalori</th>
+                    <th>Protein</th>
+                    <th>Image</th>
+                    <th>Aksi</th>
                 </tr>
+            </thead>
             <tbody>
-                @foreach ($data as $item)
+                @foreach ($data as $index => $item)
                     <tr class="alignMiddle">
+                        <td>{{ $index + 1 }}</td>
                         <td>
-                            1
+                            {!! $item->program_title !!}
                         </td>
                         <td>
-                            <img src="{{ asset('storage/' . $item->img_carousel) }}" alt="Certificate Image"
-                                class="img-fluid" width="150">
+                            {!! $item->program_subtitle !!}
                         </td>
+                        <td>{!! $item->program_subtitle_2 !!}</td>
+                        <td><img src="{{ asset('storage/' . $item->content_program) }}" alt="Program Image" width="150"></td>
                         <td>
                             <button class="btn btn-sm btn-primary btn-edit" data-id="{{ $item->id }}"
-                                data-image="{{ $item->img_carousel }}" data-bs-toggle="modal"
-                                data-bs-target="#editCertificateModal">
+                                data-title="{{ $item->program_title }}" data-subtitle="{{ $item->program_subtitle }}"
+                                data-subtitle2="{{ $item->program_subtitle_2 }}" data-image="{{ $item->content_program }}"
+                                data-bs-toggle="modal" data-bs-target="#editProgramModal">
                                 Edit
                             </button>
 
-                            <form action="{{ route('carousel.destroy', $item->id) }}" method="POST"
+                            <form action="{{ route('programProduct.destroy', $item->id) }}" method="POST"
                                 style="display:inline-block;">
                                 @csrf
                                 @method('DELETE')
@@ -116,34 +106,57 @@
                                     onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
                             </form>
                         </td>
-
                     </tr>
                 @endforeach
             </tbody>
-            </thead>
         </table>
     </div>
 @endsection
 
 @section('js')
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
     <script>
+        let editors = {};
+
+        function initCKEditor(id, key) {
+            ClassicEditor
+                .create(document.querySelector(id))
+                .then(editor => {
+                    editors[key] = editor;
+                })
+                .catch(error => console.error(error));
+        }
+
         $(document).ready(function () {
-            $('#certificate').DataTable();
+            $('#program').DataTable();
+
+            initCKEditor('#program_title', 'program_title');
+            initCKEditor('#program_subtitle', 'program_subtitle');
+            initCKEditor('#program_subtitle_2', 'program_subtitle_2');
+
+            initCKEditor('#edit_program_title', 'edit_program_title');
+            initCKEditor('#edit_program_subtitle', 'edit_program_subtitle');
+            initCKEditor('#edit_program_subtitle_2', 'edit_program_subtitle_2');
 
             $('.btn-edit').on('click', function () {
                 const id = $(this).data('id');
+                const title = $(this).data('title');
+                const subtitle = $(this).data('subtitle');
+                const subtitle2 = $(this).data('subtitle2');
                 const image = $(this).data('image');
 
-                $('#edit-id').val(id);
+                editors['edit_program_title'].setData(title);
+                editors['edit_program_subtitle'].setData(subtitle);
+                editors['edit_program_subtitle_2'].setData(subtitle2);
                 $('#previewImg').attr('src', '/storage/' + image);
 
-                const actionUrl = `/dashboard/food/carousel/put/${id}`;
+                const actionUrl = `/dashboard/home/program/put/${id}`;
                 $('#editForm').attr('action', actionUrl);
             });
         });
     </script>
-
 @endsection

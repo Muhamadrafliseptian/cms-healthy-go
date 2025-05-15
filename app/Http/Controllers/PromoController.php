@@ -9,15 +9,21 @@ use Illuminate\Support\Facades\Log;
 
 class PromoController 
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
             $data = Promo::all();
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Data promo berhasil diambil',
-                'data' => $data
-            ], 200);
+
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Data promo berhasil diambil',
+                    'data' => $data
+                ], 200);
+            }
+
+            return view ('pages.product-service.promo.index-promo', compact('data'));
+            
         } catch (\Exception $e) {
             Log::error('Promo Index Error: ' . $e->getMessage());
             return response()->json([
@@ -38,11 +44,15 @@ class PromoController
 
             $promo = Promo::create($request->only('title_promo', 'content_promo'));
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Promo berhasil ditambahkan',
-                'data' => $promo
-            ], 201);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Promo berhasil ditambahkan',
+                    'data' => $promo
+                ], 201);
+            }
+
+            return redirect()->back()->with('success', 'Data promo berhasil ditambah');
         } catch (\Exception $e) {
             Log::error('Promo Store Error: ' . $e->getMessage());
             return response()->json([
@@ -96,11 +106,16 @@ class PromoController
 
             $promo->update($request->only('title_promo', 'content_promo'));
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Promo berhasil diperbarui',
-                'data' => $promo
-            ], 200);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Promo berhasil diperbarui',
+                    'data' => $promo
+                ], 200);
+            }
+
+            return redirect()->back()->with('success', 'Data promo berhasil ditambah');
+
         } catch (\Exception $e) {
             Log::error('Promo Update Error: ' . $e->getMessage());
             return response()->json([
@@ -111,7 +126,7 @@ class PromoController
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         try {
             $promo = Promo::find($id);
@@ -126,11 +141,16 @@ class PromoController
 
             $promo->delete();
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Promo berhasil dihapus',
-                'data' => null
-            ], 200);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Promo berhasil dihapus',
+                    'data' => null
+                ], 200);
+            }
+
+            return redirect()->back()->with('success', 'Data promo berhasil ditambah');
+            
         } catch (\Exception $e) {
             Log::error('Promo Delete Error: ' . $e->getMessage());
             return response()->json([

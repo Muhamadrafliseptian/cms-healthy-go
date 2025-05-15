@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('lpt_batch_menu', function (Blueprint $table) {
             $table->id();
+            $table->string('day')->nullable();
             $table->string('img_menu')->nullable();
             $table->string('dinner_menu')->nullable();
             $table->string('lunch_menu')->nullable();
