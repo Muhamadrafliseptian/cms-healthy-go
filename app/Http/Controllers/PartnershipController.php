@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ImgPartnership;
 use App\Models\Partnership;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
-class PartnershipController 
+class PartnershipController
 {
     public function index(Request $request)
     {
         try {
             $data = Partnership::all();
-            if($request->wantsJson()){
+            if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Data partnership berhasil diambil',
@@ -169,6 +170,117 @@ class PartnershipController
                 'message' => 'Partnership berhasil dihapus',
                 'data' => null
             ], 200);
+        } catch (\Exception $e) {
+            Log::error('Partnership Delete Error: ' . $e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan saat menghapus partnership',
+                'data' => null
+            ], 500);
+        }
+    }
+
+    public function indexHomePartnership(Request $request)
+    {
+        try {
+            $data = ImgPartnership::all();
+
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Data partnership berhasil diambil',
+                    'data' => $data
+                ], 200);
+            }
+
+            if ($request->is('dashboard/home/partnership-home*')) {
+                return view('pages.home.partnership.index-partnership', compact('data'));
+            } elseif ($request->is('dashboard/about-us/partnership*')) {
+                return view('pages.about-us.partnership.index-partnership', compact('data'));
+            } else {
+                return view('pages.home.partnership.index-partnership', compact('data'));
+            }
+        } catch (err) {
+
+        }
+    }
+
+    public function storeHomePartnership(Request $request)
+    {
+        $request->validate([
+            'img_partnership' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        $imgPath = null;
+        if ($request->hasFile('img_partnership')) {
+            $imgPath = $request->file('img_partnership')->store('home_partnership', 'public');
+        }
+
+        $partnership = ImgPartnership::create([
+            'img_partnership' => $imgPath,
+        ]);
+
+        return redirect()->back()->with('success', 'data image berhasil ditambah');
+    }
+
+    public function updateHomePartnership(Request $request, $id)
+    {
+        try {
+            $partnership = ImgPartnership::find($id);
+
+            if (!$partnership) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Partnership tidak ditemukan',
+                    'data' => null
+                ], 404);
+            }
+
+            $request->validate([
+                'img_partnership' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            ]);
+
+            if ($request->hasFile('img_partnership')) {
+                if ($partnership->img_partnership && Storage::disk('public')->exists($partnership->img_partnership)) {
+                    Storage::disk('public')->delete($partnership->img_partnership);
+                }
+
+                $partnership->img_partnership = $request->file('img_partnership')->store('partnership', 'public');
+            }
+
+            $partnership->save();
+
+            return redirect()->back()->with('success', 'data berhasil diperbarui');
+        } catch (\Exception $e) {
+            Log::error('Partnership Update Error: ' . $e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan saat memperbarui partnership',
+                'data' => null
+            ], 500);
+        }
+    }
+
+    public function destroyHomePartnership($id)
+    {
+        try {
+            $partnership = ImgPartnership::find($id);
+
+            if (!$partnership) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Partnership tidak ditemukan',
+                    'data' => null
+                ], 404);
+            }
+
+            if ($partnership->img_partnership && Storage::disk('public')->exists($partnership->img_partnership)) {
+                Storage::disk('public')->delete($partnership->img_partnership);
+            }
+
+            $partnership->delete();
+
+            return redirect()->back()->with('success', 'data berhasil dihapus');
         } catch (\Exception $e) {
             Log::error('Partnership Delete Error: ' . $e->getMessage());
             return response()->json([

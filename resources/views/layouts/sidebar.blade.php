@@ -7,18 +7,30 @@
                     Dashboard
                 </a>
 
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
-                    aria-expanded="false" aria-controls="collapseLayouts">
+                @php
+                    $pagesActive =
+                        Request::is('dashboard/home*') ||
+                        Request::is('dashboard/about-us*') ||
+                        Request::is('dashboard/partnership*') ||
+                        Request::is('dashboard/product*') ||
+                        Request::is('dashboard/food*');
+                @endphp
+
+
+                <a class="nav-link {{ $pagesActive ? '' : 'collapsed' }}" href="#" data-bs-toggle="collapse"
+                    data-bs-target="#collapseLayouts" aria-expanded="{{ $pagesActive ? 'true' : 'false' }}"
+                    aria-controls="collapseLayouts">
                     <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     Pages
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
 
-                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                <div class="collapse {{ $pagesActive ? 'show' : '' }}" id="collapseLayouts" aria-labelledby="headingOne"
                     data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionMenu">
                         @php
                             $homeActive = Request::is('dashboard/home*');
+                            $aboutActive = Request::is('dashboard/about-us*');
                         @endphp
 
                         <a class="nav-link {{ $homeActive ? '' : 'collapsed' }}" href="#" data-bs-toggle="collapse"
@@ -32,28 +44,40 @@
                             data-bs-parent="#sidenavAccordionMenu">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="{{ url('/home') }}">Banner</a>
-                                <a class="nav-link" href="{{ url('/partnership') }}">Video</a>
-                                <a class="nav-link {{ Request::is('dashboard/home/certificate*') ? 'active' : '' }}" href="{{ route('certificate.index') }}">Certificate</a>
+                                <a class="nav-link {{ Request::is('dashboard/home/video*') ? 'active' : '' }}"
+                                    href="{{ route('video.index') }}">Video</a>
+                                <a class="nav-link {{ Request::is('dashboard/home/certificate*') ? 'active' : '' }}"
+                                    href="{{ route('certificate.index') }}">Certificate</a>
                                 <a class="nav-link {{ Request::is('dashboard/home/service*') ? 'active' : '' }}"
                                     href="{{ route('service.index') }}">Layanan</a>
-                                <a class="nav-link {{ Request::is('dashboard/home/program*') ? 'active' : '' }}" href="{{ url('dashboard/home/program') }}">Program</a>
-                                <a class="nav-link {{ Request::is('dashboard/home/partnership*') ? 'active' : '' }}" href="{{ url('dashboard/home/partnership') }}">Partnership</a>
-                                <a class="nav-link {{ Request::is('dashboard/home/testimoni*') ? 'active' : '' }}" href="{{ url('dashboard/home/testimoni') }}">Testimoni</a>
-                                <a class="nav-link" href="{{ url('/food') }}">Lokasi</a>
+                                <a class="nav-link {{ Request::is('dashboard/home/program*') ? 'active' : '' }}"
+                                    href="{{ url('dashboard/home/program') }}">Program</a>
+                                <a class="nav-link {{ Request::is('dashboard/home/partnership-home*') ? 'active' : '' }}"
+                                    href="{{ url('dashboard/home/partnership-home') }}">Partnership</a>
+                                <a class="nav-link {{ Request::is('dashboard/home/testimoni*') ? 'active' : '' }}"
+                                    href="{{ url('dashboard/home/testimoni') }}">Testimoni</a>
+                                <a class="nav-link {{ Request::is('dashboard/home/statistic*') ? 'active' : '' }}"
+                                    href="{{ url('dashboard/home/statistic') }}">Statistic</a>
                             </nav>
                         </div>
 
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#aboutCollapse"
-                            aria-expanded="false" aria-controls="aboutCollapse">
+                        <a class="nav-link {{ $aboutActive ? '' : 'collapsed' }}" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#aboutCollapse" aria-expanded="{{ $aboutActive ? 'true' : 'false' }}"
+                            aria-controls="aboutCollapse">
                             About Us
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <div class="collapse" id="aboutCollapse" data-bs-parent="#sidenavAccordionMenu">
+                        <div class="collapse {{ $aboutActive ? 'show' : '' }}" id="aboutCollapse"
+                            data-bs-parent="#sidenavAccordionMenu">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="{{ url('/home') }}">Banner</a>
                                 <a class="nav-link" href="{{ url('/home') }}">Description</a>
-                                <a class="nav-link" href="{{ url('/partnership') }}">Milestone</a>
-                                <a class="nav-link" href="{{ url('/partnership') }}">Partnership</a>
+                                <a 
+                                class="nav-link {{ Request::is('dashboard/about-us/milestone*') ? 'active' : '' }}"
+                                    href="{{ route('milestone.index') }}"
+                                >Milestone</a>
+                                <a class="nav-link {{ Request::is('dashboard/about-us/partnership*') ? 'active' : '' }}"
+                                    href="{{ route('partnershipAbout.index') }}">Partnership</a>
                             </nav>
                         </div>
 
