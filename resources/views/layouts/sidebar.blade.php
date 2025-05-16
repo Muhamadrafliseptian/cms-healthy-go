@@ -14,8 +14,8 @@
                         Request::is('dashboard/partnership*') ||
                         Request::is('dashboard/product-service*') ||
                         Request::is('dashboard/food*');
+                        Request::is('dashboard/etc*');
                 @endphp
-
 
                 <a class="nav-link {{ $pagesActive ? '' : 'collapsed' }}" href="#" data-bs-toggle="collapse"
                     data-bs-target="#collapseLayouts" aria-expanded="{{ $pagesActive ? 'true' : 'false' }}"
