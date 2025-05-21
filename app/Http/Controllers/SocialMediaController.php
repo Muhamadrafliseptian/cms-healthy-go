@@ -7,7 +7,7 @@ use App\Models\SocialMedia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class SocialMediaController 
+class SocialMediaController
 {
     public function index(Request $request)
     {
@@ -43,11 +43,14 @@ class SocialMediaController
 
             $sosmed = SocialMedia::create($request->only('name', 'icon', 'content'));
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'socialmedia berhasil ditambahkan',
-                'data' => $sosmed
-            ], 201);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Social Media berhasil ditambahkan',
+                    'data' => $sosmed
+                ], 201);
+            }
+            return redirect()->back()->with('success', 'Social Media berhasil ditambahkan');
         } catch (\Exception $e) {
             Log::error('socialmedia Store Error: ' . $e->getMessage());
             return response()->json([
@@ -101,11 +104,14 @@ class SocialMediaController
 
             $sosmed->update($request->only('name', 'icon', 'content'));
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'socialmedia berhasil diperbarui',
-                'data' => $sosmed
-            ], 200);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'socialmedia berhasil diperbarui',
+                    'data' => $sosmed
+                ], 200);
+            }
+            return redirect()->back()->with('success', 'socialmedia berhasil diperbarui');
         } catch (\Exception $e) {
             Log::error('socialmedia Update Error: ' . $e->getMessage());
             return response()->json([
@@ -116,7 +122,7 @@ class SocialMediaController
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         try {
             $sosmed = SocialMedia::find($id);
@@ -131,11 +137,14 @@ class SocialMediaController
 
             $sosmed->delete();
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'socialmedia berhasil dihapus',
-                'data' => null
-            ], 200);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'socialmedia berhasil dihapus',
+                    'data' => null
+                ], 200);
+            }
+            return redirect()->back()->with('success', 'socialmedia berhasil dihapus');
         } catch (\Exception $e) {
             Log::error('socialmedia Delete Error: ' . $e->getMessage());
             return response()->json([

@@ -5,6 +5,8 @@ use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\IklanController;
+use App\Http\Controllers\MasterSectionCategoryController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MilestoneController;
@@ -12,6 +14,7 @@ use App\Http\Controllers\OperationalStatisticController;
 use App\Http\Controllers\PartnershipController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\PromoController;
+use App\Http\Controllers\SectionContentController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SocialMediaController;
 use App\Http\Controllers\TestimoniController;
@@ -22,26 +25,6 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('dashboard')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::prefix('home')->group(function () {
-        Route::prefix('partnership-home')->group(function () {
-            Route::get('/', [PartnershipController::class, 'indexHomePartnership'])->name('partnershipHome.index');
-            Route::post('store', [PartnershipController::class, 'storeHomePartnership'])->name('partnershipHome.store');
-            Route::put('put/{id}', [PartnershipController::class, 'updateHomePartnership'])->name('partnershipHome.put');
-            Route::delete('destroy/{id}', [PartnershipController::class, 'destroyHomePartnership'])->name('partnershipHome.destroy');
-        });
-
-        Route::prefix('program')->group(function () {
-            Route::get('/', [ProgramController::class, 'index'])->name('program.index');
-            Route::post('store', [ProgramController::class, 'store'])->name('program.store');
-            Route::put('put/{id}', [ProgramController::class, 'update'])->name('program.put');
-            Route::delete('destroy/{id}', [ProgramController::class, 'destroy'])->name('program.destroy');
-        });
-
-        Route::prefix('statistic')->group(function () {
-            Route::get('/', [OperationalStatisticController::class, 'index'])->name('statistic.index');
-            Route::post('store', [OperationalStatisticController::class, 'store'])->name('statistic.store');
-            Route::put('put/{id}', [OperationalStatisticController::class, 'update'])->name('statistic.put');
-            Route::delete('destroy/{id}', [OperationalStatisticController::class, 'destroy'])->name('statistic.destroy');
-        });
 
         Route::prefix('video')->group(function () {
             Route::get('/', [VideoController::class, 'index'])->name('video.index');
@@ -49,36 +32,15 @@ Route::prefix('dashboard')->group(function () {
             Route::put('put/{id}', [VideoController::class, 'update'])->name('video.put');
             Route::delete('destroy/{id}', [VideoController::class, 'destroy'])->name('video.destroy');
         });
-
-        Route::prefix('certificate')->group(function () {
-            Route::get('/', [CertificateController::class, 'index'])->name('certificate.index');
-            Route::post('store', [CertificateController::class, 'store'])->name('certificate.store');
-            Route::put('put/{id}', [CertificateController::class, 'update'])->name('certificate.put');
-            Route::delete('destroy/{id}', [CertificateController::class, 'destroy'])->name('certificate.destroy');
-        });
-
         Route::prefix('service')->group(function () {
             Route::get('/', [ServiceController::class, 'index'])->name('service.index');
             Route::post('store', [ServiceController::class, 'store'])->name('service.store');
             Route::put('put/{id}', [ServiceController::class, 'update'])->name('service.put');
             Route::delete('destroy/{id}', [ServiceController::class, 'destroy'])->name('service.destroy');
         });
-
-        Route::prefix('testimoni')->group(function () {
-            Route::get('/', [TestimoniController::class, 'index'])->name('testimoni.index');
-            Route::post('store', [TestimoniController::class, 'store'])->name('testimoni.store');
-            Route::put('put/{id}', [TestimoniController::class, 'update'])->name('testimoni.put');
-            Route::delete('destroy/{id}', [TestimoniController::class, 'destroy'])->name('testimoni.destroy');
-        });
     });
 
     Route::prefix('about-us')->group(function () {
-        Route::prefix('partnership')->group(function () {
-            Route::get('/', [PartnershipController::class, 'indexHomePartnership'])->name('partnershipAbout.index');
-            Route::post('store', [PartnershipController::class, 'storeHomePartnership'])->name('partnershipAbout.store');
-            Route::put('put/{id}', [PartnershipController::class, 'updateHomePartnership'])->name('partnershipAbout.put');
-            Route::delete('destroy/{id}', [PartnershipController::class, 'destroyHomePartnership'])->name('partnershipAbout.destroy');
-        });
         Route::prefix('milestone')->group(function () {
             Route::get('/', [MilestoneController::class, 'index'])->name('milestone.index');
             Route::post('store', [MilestoneController::class, 'store'])->name('milestone.store');
@@ -94,18 +56,6 @@ Route::prefix('dashboard')->group(function () {
             Route::put('put/{id}', [PromoController::class, 'update'])->name('promo.put');
             Route::delete('destroy/{id}', [PromoController::class, 'destroy'])->name('promo.destroy');
         });
-        Route::prefix('program')->group(function () {
-            Route::get('/', [ProgramController::class, 'index'])->name('programProduct.index');
-            Route::post('store', [ProgramController::class, 'store'])->name('programProduct.store');
-            Route::put('put/{id}', [ProgramController::class, 'update'])->name('programProduct.put');
-            Route::delete('destroy/{id}', [ProgramController::class, 'destroy'])->name('programProduct.destroy');
-        });
-        Route::prefix('meal')->group(function () {
-            Route::get('/', [MealController::class, 'index'])->name('meal.index');
-            Route::post('store', [MealController::class, 'store'])->name('meal.store');
-            Route::put('put/{id}', [MealController::class, 'update'])->name('meal.put');
-            Route::delete('destroy/{id}', [MealController::class, 'destroy'])->name('meal.destroy');
-        });
     });
 
     Route::prefix('food')->group(function () {
@@ -115,11 +65,29 @@ Route::prefix('dashboard')->group(function () {
             Route::put('put/{id}', [CarouselController::class, 'update'])->name('carousel.put');
             Route::delete('destroy/{id}', [CarouselController::class, 'destroy'])->name('carousel.destroy');
         });
-        Route::prefix('batch-menu')->group(function () {
-            Route::get('/', [MenuController::class, 'index'])->name('batch-menu.index');
-            Route::post('store', [MenuController::class, 'store'])->name('batch-menu.store');
-            Route::put('put/{id}', [MenuController::class, 'update'])->name('batch-menu.put');
-            Route::delete('destroy/{id}', [MenuController::class, 'destroy'])->name('batch-menu.destroy');
+    });
+
+    Route::prefix('iklan')->group(function () {
+        Route::prefix('achievement')->group(function () {
+            Route::get('/', [IklanController::class, 'indexAchievement'])->name('achievement.index');
+        });
+        Route::prefix('banner')->group(function () {
+            Route::get('/', [IklanController::class, 'indexBanner'])->name('banner.index');
+        });
+        Route::prefix('benefit')->group(function () {
+            Route::get('/', [IklanController::class, 'indexBenefit'])->name('benefits.index');
+        });
+        Route::prefix('galeri')->group(function () {
+            Route::get('/', [IklanController::class, 'indexGaleri'])->name('galeri.index');
+        });
+        Route::prefix('goals')->group(function () {
+            Route::get('/', [IklanController::class, 'indexGoals'])->name('goals.index');
+        });
+        Route::prefix('pains')->group(function () {
+            Route::get('/', [IklanController::class, 'indexPains'])->name('pains.index');
+        });
+        Route::prefix('promo')->group(function () {
+            Route::get('/', [IklanController::class, 'indexPromo'])->name('promoIklan.index');
         });
     });
 
@@ -142,11 +110,70 @@ Route::prefix('dashboard')->group(function () {
             Route::put('put/{id}', [ContactController::class, 'update'])->name('contact.put');
             Route::delete('destroy/{id}', [ContactController::class, 'destroy'])->name('contact.destroy');
         });
-        Route::prefix(prefix: 'faq')->group(function () {
+        Route::prefix('faq')->group(function () {
             Route::get('/', [FaqController::class, 'index'])->name('faq.index');
             Route::post('store', [FaqController::class, 'store'])->name('faq.store');
             Route::put('put/{id}', [FaqController::class, 'update'])->name('faq.put');
             Route::delete('destroy/{id}', [FaqController::class, 'destroy'])->name('faq.destroy');
+        });
+    });
+
+    Route::prefix('master')->group(function () {
+        Route::get('section-category', [MasterSectionCategoryController::class, 'index'])->name('scategory.index');
+        Route::post('section-category/store', [MasterSectionCategoryController::class, 'store'])->name('scategory.store');
+        Route::put('section-category/put/{id}', [MasterSectionCategoryController::class, 'update'])->name('scategory.put');
+        Route::delete('section-category/destroy/{id}', [MasterSectionCategoryController::class, 'destroy'])->name('scategory.destroy');
+        Route::get('section-content', [SectionContentController::class, 'index'])->name('section.index');
+
+        Route::prefix('konten')->group(function () {
+            Route::prefix('testimoni')->group(function () {
+                Route::get('/', [TestimoniController::class, 'index'])->name('testimoni.index');
+                Route::post('section/store', [TestimoniController::class, 'storeContentTestimoni'])->name('testimoni.storeContentTestimoni');
+                Route::put('section/put/{id}', [TestimoniController::class, 'updateContentTestimoni'])->name('testimoni.updateContentTestimoni');
+                Route::post('store', [TestimoniController::class, 'store'])->name('testimoni.store');
+                Route::put('put/{id}', [TestimoniController::class, 'update'])->name('testimoni.put');
+                Route::delete('destroy/{id}', [TestimoniController::class, 'destroy'])->name('testimoni.destroy');
+            });
+            Route::prefix('certificate')->group(function () {
+                Route::get('/', [CertificateController::class, 'index'])->name('certificate.index');
+                Route::post('store', [CertificateController::class, 'store'])->name('certificate.store');
+                Route::put('put/{id}', [CertificateController::class, 'update'])->name('certificate.put');
+                Route::delete('destroy/{id}', [CertificateController::class, 'destroy'])->name('certificate.destroy');
+            });
+            Route::prefix('program')->group(function () {
+                Route::get('/', [ProgramController::class, 'index'])->name('program.index');
+                Route::post('section/store', [ProgramController::class, 'storeContentProgram'])->name('program.store.content');
+                Route::put('section/put/{id}', [ProgramController::class, 'updateContentProgram'])->name('program.update.content');
+                Route::post('store', [ProgramController::class, 'store'])->name('program.store');
+                Route::put('put/{id}', [ProgramController::class, 'update'])->name('program.put');
+                Route::delete('destroy/{id}', [ProgramController::class, 'destroy'])->name('program.destroy');
+            });
+            Route::prefix('statistic')->group(function () {
+                Route::get('/', [OperationalStatisticController::class, 'index'])->name('statistic.index');
+                Route::post('store', [OperationalStatisticController::class, 'store'])->name('statistic.store');
+                Route::put('put/{id}', [OperationalStatisticController::class, 'update'])->name('statistic.put');
+                Route::delete('destroy/{id}', [OperationalStatisticController::class, 'destroy'])->name('statistic.destroy');
+            });
+            Route::prefix('partnership')->group(function () {
+                Route::get('/', [PartnershipController::class, 'indexHomePartnership'])->name('partnershipHome.index');
+                Route::post('store', [PartnershipController::class, 'storeHomePartnership'])->name('partnershipHome.store');
+                Route::put('put/{id}', [PartnershipController::class, 'updateHomePartnership'])->name('partnershipHome.put');
+                Route::delete('destroy/{id}', [PartnershipController::class, 'destroyHomePartnership'])->name('partnershipHome.destroy');
+            });
+            Route::prefix('meal')->group(function () {
+                Route::get('/', [MealController::class, 'index'])->name('meal.index');
+                Route::post('store', [MealController::class, 'store'])->name('meal.store');
+                Route::post('section/store', [MealController::class, 'storeContentMeal'])->name('meal.store.content');
+                Route::put('section/put/{id}', [MealController::class, 'updateContentMeal'])->name('meal.update.content');
+                Route::put('put/{id}', [MealController::class, 'update'])->name('meal.put');
+                Route::delete('destroy/{id}', [MealController::class, 'destroy'])->name('meal.destroy');
+            });
+            Route::prefix('batch-menu')->group(function () {
+                Route::get('/', [MenuController::class, 'index'])->name('batch-menu.index');
+                Route::post('store', [MenuController::class, 'store'])->name('batch-menu.store');
+                Route::put('put/{id}', [MenuController::class, 'update'])->name('batch-menu.put');
+                Route::delete('destroy/{id}', [MenuController::class, 'destroy'])->name('batch-menu.destroy');
+            });
         });
     });
 });

@@ -7,7 +7,7 @@
 
 @section('content')
     <div class="container my-4">
-        <h3 class="mb-4">Testimoni Data</h3>
+        <h3 class="mb-4">Section Testimoni</h3>
 
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
@@ -17,7 +17,33 @@
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
 
-        <button class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addTestimoniModal">Tambah Testimoni
+        <form
+            action="{{ $section ? route('testimoni.updateContentTestimoni', $section->id) : route('testimoni.storeContentTestimoni') }}"
+            method="POST">
+            @csrf
+            @if ($section)
+                @method('PUT')
+            @endif
+
+            <div>
+                <label for="title" class="form-label">Title</label>
+                <input type="text" name="title" class="form-control mb-3" value="{{ old('title', $section->title ?? '') }}"
+                    required>
+
+                <label for="subtitle1" class="form-label">Subtitle</label>
+                <input type="text" name="subtitle1" class="form-control"
+                    value="{{ old('subtitle1', $section->subtitle1 ?? '') }}">
+            </div>
+
+            <button type="submit" class="btn btn-sm btn-primary mt-3 mb-3">
+                {{ $section ? 'Update' : 'Simpan' }}
+            </button>
+        </form>
+
+        <h3 class="mb-4">Data Testimoni</h3>
+
+        <button class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addTestimoniModal">Tambah
+            Testimoni
             +</button>
 
         {{-- Modal Tambah --}}
@@ -89,7 +115,8 @@
                             {!! $item->program_name !!}
                         </td>
                         <td>{!! $item->content !!}</td>
-                        <td><img src="{{ asset('storage/' . $item->ava_testimoni) }}" alt="Program Image" width="150"></td>
+                        <td><img src="{{ asset('storage/' . $item->ava_testimoni) }}" alt="Program Image" width="150">
+                        </td>
                         <td>
                             <button class="btn btn-sm btn-primary btn-edit" data-id="{{ $item->id }}"
                                 data-name="{{ $item->name }}" data-program-name="{{ $item->program_name }}"
@@ -120,7 +147,7 @@
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script>
         let editors = {};
-    
+
         function initCKEditor(id, key) {
             ClassicEditor
                 .create(document.querySelector(id))
@@ -129,30 +156,29 @@
                 })
                 .catch(error => console.error(error));
         }
-    
-        $(document).ready(function () {
+
+        $(document).ready(function() {
             $('#program').DataTable();
-    
+
             initCKEditor('#content', 'content');
             initCKEditor('#edit_content', 'edit_content');
-    
-            $('.btn-edit').on('click', function () {
+
+            $('.btn-edit').on('click', function() {
                 const id = $(this).data('id');
                 const name = $(this).data('name');
                 const programName = $(this).data('program-name');
                 const content = $(this).data('content');
                 const image = $(this).data('ava-testimoni');
-    
+
                 $('#edit_name').val(name);
                 $('#edit_program_name').val(programName);
                 editors['edit_content'].setData(content);
-    
+
                 $('#previewImg').attr('src', '/storage/' + image);
-    
+
                 const actionUrl = `/dashboard/home/testimoni/put/${id}`;
                 $('#editForm').attr('action', actionUrl);
             });
         });
     </script>
-    
 @endsection

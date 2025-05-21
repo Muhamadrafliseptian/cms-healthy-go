@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\MasterSectionCategory;
 use App\Models\Promo;
+use App\Models\SectionContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class PromoController 
+class PromoController
 {
     public function index(Request $request)
     {
@@ -23,7 +25,7 @@ class PromoController
             }
 
             return view ('pages.product-service.promo.index-promo', compact('data'));
-            
+
         } catch (\Exception $e) {
             Log::error('Promo Index Error: ' . $e->getMessage());
             return response()->json([
@@ -60,6 +62,40 @@ class PromoController
                 'message' => 'Terjadi kesalahan saat menambahkan promo',
                 'data' => null
             ], 500);
+        }
+    }
+
+    public function storeContentTestimoni(Request $request)
+    {
+        try {
+            $category = MasterSectionCategory::where('slug', 'spromo')->first();
+
+            SectionContent::create([
+                'menu_id'    => $category->id,
+                'section'    => 'spromo',
+                'title'      => $request->title,
+                'subtitle1'  => $request->subtitle1,
+            ]);
+
+            return back()->with('success', 'Data testimonial berhasil disimpan.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function updateContentTestimoni(Request $request, $id)
+    {
+        try {
+            $content = SectionContent::findOrFail($id);
+
+            $content->update([
+                'title'     => $request->title,
+                'subtitle1' => $request->subtitle1,
+            ]);
+
+            return back()->with('success', 'Data testimonial berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 
@@ -150,7 +186,7 @@ class PromoController
             }
 
             return redirect()->back()->with('success', 'Data promo berhasil ditambah');
-            
+
         } catch (\Exception $e) {
             Log::error('Promo Delete Error: ' . $e->getMessage());
             return response()->json([

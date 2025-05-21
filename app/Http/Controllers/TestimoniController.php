@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MasterSectionCategory;
+use App\Models\SectionContent;
 use App\Models\Testimoni;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -21,7 +23,12 @@ class TestimoniController
                 ], 200);
             }
 
-            return view('pages.home.testimoni.index-testimoni', compact('data'));
+            $category = MasterSectionCategory::where('slug', 'stestimoni')->first();
+            $section = SectionContent::where('menu_id', $category->id)
+                ->where('section', 'stestimoni')
+                ->first();
+
+            return view('pages.home.testimoni.index-testimoni', compact('data', 'section'));
         } catch (\Exception $e) {
             Log::error('Testimoni Index Error: ' . $e->getMessage());
             if ($request->wantsJson()) {
@@ -34,6 +41,41 @@ class TestimoniController
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+
+    public function storeContentTestimoni(Request $request)
+    {
+        try {
+            $category = MasterSectionCategory::where('slug', 'stestimoni')->first();
+
+            SectionContent::create([
+                'menu_id'    => $category->id,
+                'section'    => 'stestimoni',
+                'title'      => $request->title,
+                'subtitle1'  => $request->subtitle1,
+            ]);
+
+            return back()->with('success', 'Data testimonial berhasil disimpan.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function updateContentTestimoni(Request $request, $id)
+    {
+        try {
+            $content = SectionContent::findOrFail($id);
+
+            $content->update([
+                'title'     => $request->title,
+                'subtitle1' => $request->subtitle1,
+            ]);
+
+            return back()->with('success', 'Data testimonial berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
 
     public function store(Request $request)
     {
@@ -126,8 +168,8 @@ class TestimoniController
             ]);
 
             if ($request->hasFile('ava_testimoni')) {
-                if ($testimoni->ava_testimoni && \Storage::disk('public')->exists($testimoni->ava_testimoni)) {
-                    \Storage::disk('public')->delete($testimoni->ava_testimoni);
+                if ($testimoni->ava_testimoni && Storage::disk('public')->exists($testimoni->ava_testimoni)) {
+                    Storage::disk('public')->delete($testimoni->ava_testimoni);
                 }
 
                 $testimoni->ava_testimoni = $request->file('ava_testimoni')->store('testimoni', 'public');
@@ -138,7 +180,7 @@ class TestimoniController
             $testimoni->content = $request->content;
             $testimoni->save();
 
-            if($request->wantsJson()){
+            if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Testimoni berhasil diperbarui',
@@ -169,13 +211,13 @@ class TestimoniController
                 ], 404);
             }
 
-            if ($testimoni->ava_testimoni && \Storage::disk('public')->exists($testimoni->ava_testimoni)) {
-                \Storage::disk('public')->delete($testimoni->ava_testimoni);
+            if ($testimoni->ava_testimoni && Storage::disk('public')->exists($testimoni->ava_testimoni)) {
+                Storage::disk('public')->delete($testimoni->ava_testimoni);
             }
 
             $testimoni->delete();
 
-            if($request->wantsJson()){
+            if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Testimoni berhasil dihapus',

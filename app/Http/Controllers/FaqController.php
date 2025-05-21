@@ -7,7 +7,7 @@ use App\Models\Faq;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class FaqController 
+class FaqController
 {
     public function index(Request $request)
     {
@@ -39,16 +39,20 @@ class FaqController
         try {
             $request->validate([
                 'ask_title' => 'nullable|string',
-                'ask_content' => 'nullable|string',
+                'answer_content' => 'nullable|string',
             ]);
 
-            $faq = Faq::create($request->only('ask_title', 'ask_content'));
+            $faq = Faq::create($request->only('ask_title', 'answer_content'));
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'FAQ berhasil ditambahkan',
-                'data' => $faq
-            ], 201);
+           if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'FAQ berhasil ditambahkan',
+                    'data' => $faq
+                ], 201);
+            }
+
+            return redirect()->back()->with('success', 'FAQ berhasil ditambahkan');
         } catch (\Exception $e) {
             Log::error('FAQ Store Error: ' . $e->getMessage());
 
@@ -102,13 +106,17 @@ class FaqController
                 ], 404);
             }
 
-            $faq->update($request->only('ask_title', 'ask_content'));
+            $faq->update($request->only('ask_title', 'answer_content'));
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'FAQ berhasil diperbarui',
-                'data' => $faq
-            ], 200);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'FAQ berhasil diperbarui',
+                    'data' => $faq
+                ], 200);
+            }
+
+            return redirect()->back()->with('success', 'FAQ berhasil diperbarui');
         } catch (\Exception $e) {
             Log::error('FAQ Update Error: ' . $e->getMessage());
 
@@ -120,7 +128,7 @@ class FaqController
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         try {
             $faq = Faq::find($id);
@@ -135,11 +143,15 @@ class FaqController
 
             $faq->delete();
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'FAQ berhasil dihapus',
-                'data' => null
-            ], 200);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'FAQ berhasil dihapus',
+                    'data' => null
+                ], 200);
+            }
+
+            return redirect()->back()->with('success', 'FAQ berhasil dihapus');
         } catch (\Exception $e) {
             Log::error('FAQ Delete Error: ' . $e->getMessage());
 

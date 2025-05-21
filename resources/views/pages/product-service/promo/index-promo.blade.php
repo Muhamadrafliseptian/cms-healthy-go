@@ -21,7 +21,7 @@
             </div>
         @endif
         <button class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addMealModal">
-            Add Statistic +
+            Add Promo +
         </button>
 
         <div class="modal fade" id="addMealModal" tabindex="-1" aria-labelledby="addMealModalLabel"
@@ -169,19 +169,19 @@
             .catch(error => {
                 console.error(error);
             });
-    
+
         $('.btn-edit').on('click', function () {
             const id = $(this).data('id');
             const title = $(this).data('title');
             const content = $(this).data('content');
-    
+
             $('#edit_title_promo').val(title);
             window.editEditor.setData(content);
-    
+
             const formAction = `{{ url('dashboard/product-service/promo') }}/put/${id}`;
             $('#editPromoForm').attr('action', formAction);
         });
     </script>
-    
+
 
 @endsection

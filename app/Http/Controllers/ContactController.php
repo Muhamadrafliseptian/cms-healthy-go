@@ -7,7 +7,7 @@ use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class ContactController 
+class ContactController
 {
     public function index(Request $request)
     {
@@ -43,11 +43,15 @@ class ContactController
 
             $contact = Contact::create($request->only('name', 'icon', 'content'));
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'contact berhasil ditambahkan',
-                'data' => $contact
-            ], 201);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Contact berhasil ditambahkan',
+                    'data' => $contact
+                ], 201);
+            }
+
+            return redirect()->back()->with('success', 'Contact berhasil ditambahkan');
         } catch (\Exception $e) {
             Log::error('contact Store Error: ' . $e->getMessage());
             return response()->json([
@@ -101,11 +105,14 @@ class ContactController
 
             $contact->update($request->only('name', 'icon', 'content'));
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'contact berhasil diperbarui',
-                'data' => $contact
-            ], 200);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'contact berhasil diperbarui',
+                    'data' => $contact
+                ], 200);
+            }
+            return redirect()->back()->with('success', 'contact berhasil diperbarui');
         } catch (\Exception $e) {
             Log::error('contact Update Error: ' . $e->getMessage());
             return response()->json([
@@ -116,7 +123,7 @@ class ContactController
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         try {
             $contact = Contact::find($id);
@@ -131,11 +138,14 @@ class ContactController
 
             $contact->delete();
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'contact berhasil dihapus',
-                'data' => null
-            ], 200);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'contact berhasil dihapus',
+                    'data' => null
+                ], 200);
+            }
+            return redirect()->back()->with('success', 'contact berhasil dihapus');
         } catch (\Exception $e) {
             Log::error('contact Delete Error: ' . $e->getMessage());
             return response()->json([

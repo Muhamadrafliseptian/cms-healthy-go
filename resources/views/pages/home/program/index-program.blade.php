@@ -7,15 +7,43 @@
 
 @section('content')
     <div class="container my-4">
-        <h3 class="mb-4">Program Data</h3>
 
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
+        <h3 class="mb-4">Section Program</h3>
+        <form
+            action="{{ $section ? route('program.update.content', $section->id) : route('program.store.content') }}"
+            method="POST">
+            @csrf
+            @if ($section)
+                @method('PUT')
+            @endif
+
+            <div>
+                <label for="title" class="form-label">Title</label>
+                <input type="text" name="title" class="form-control mb-3"
+                    value="{{ old('title', $section->title ?? '') }}" required>
+
+                <label for="subtitle1" class="form-label">Subtitle</label>
+                <input type="text" name="subtitle1" class="form-control mb-3"
+                    value="{{ old('subtitle1', $section->subtitle1 ?? '') }}">
+
+                    <label for="subtitle1" class="form-label">Subtitle 2</label>
+                <input type="text" name="subtitle2" class="form-control mb-3"
+                    value="{{ old('subtitle2', $section->subtitle2 ?? '') }}">
+            </div>
+
+            <button type="submit" class="btn btn-sm btn-primary mt-3 mb-3">
+                {{ $section ? 'Update' : 'Simpan' }}
+            </button>
+        </form>
 
         @if (session('error'))
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
+
+        <h3 class="mb-4">Program Data</h3>
 
         <button class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addProgramModal">Tambah Program
             +</button>
@@ -89,7 +117,8 @@
                             {!! $item->program_subtitle !!}
                         </td>
                         <td>{!! $item->program_subtitle_2 !!}</td>
-                        <td><img src="{{ asset('storage/' . $item->content_program) }}" alt="Program Image" width="150"></td>
+                        <td><img src="{{ asset('storage/' . $item->content_program) }}" alt="Program Image" width="150">
+                        </td>
                         <td>
                             <button class="btn btn-sm btn-primary btn-edit" data-id="{{ $item->id }}"
                                 data-title="{{ $item->program_title }}" data-subtitle="{{ $item->program_subtitle }}"
@@ -131,7 +160,7 @@
                 .catch(error => console.error(error));
         }
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#program').DataTable();
 
             initCKEditor('#program_title', 'program_title');
@@ -142,7 +171,7 @@
             initCKEditor('#edit_program_subtitle', 'edit_program_subtitle');
             initCKEditor('#edit_program_subtitle_2', 'edit_program_subtitle_2');
 
-            $('.btn-edit').on('click', function () {
+            $('.btn-edit').on('click', function() {
                 const id = $(this).data('id');
                 const title = $(this).data('title');
                 const subtitle = $(this).data('subtitle');

@@ -13,8 +13,9 @@
                         Request::is('dashboard/about-us*') ||
                         Request::is('dashboard/partnership*') ||
                         Request::is('dashboard/product-service*') ||
-                        Request::is('dashboard/food*');
-                        Request::is('dashboard/etc*');
+                        Request::is('dashboard/food*') ||
+                        Request::is('dashboard/etc*') ||
+                        Request::is('dashboard/master*');
                 @endphp
 
                 <a class="nav-link {{ $pagesActive ? '' : 'collapsed' }}" href="#" data-bs-toggle="collapse"
@@ -33,11 +34,45 @@
                             $aboutActive = Request::is('dashboard/about-us*');
                             $productActive = Request::is('dashboard/product-service*');
                             $foodActive = Request::is('dashboard/food*');
+                            $sosmedActive = Request::is('dashboard/etc*');
+                            $masterActive = Request::is('dashboard/master/konten*');
                         @endphp
 
-                        <a class="nav-link {{ $homeActive ? '' : 'collapsed' }}" href="#" data-bs-toggle="collapse"
-                            data-bs-target="#homeCollapse" aria-expanded="{{ $homeActive ? 'true' : 'false' }}"
-                            aria-controls="homeCollapse">
+                        <a class="nav-link {{ Request::is('dashboard/master*') ? 'active' : '' }}"
+                            href="{{ route('scategory.index') }}">
+                            Master Category
+                        </a>
+
+                        <a class="nav-link {{ $masterActive ? '' : 'collapsed' }}" href="#"
+                            data-bs-toggle="collapse" data-bs-target="#masterKontenCollapse"
+                            aria-expanded="{{ $masterActive ? 'true' : 'false' }}" aria-controls="masterKontenCollapse">
+                            Master
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+
+                        <div class="collapse {{ $masterActive ? 'show' : '' }}" id="masterKontenCollapse"
+                            data-bs-parent="#sidenavAccordionMenu">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link {{ Request::is('dashboard/master/konten/certificate*') ? 'active' : '' }}"
+                                    href="{{ route('certificate.index') }}">Certificate</a>
+                                <a class="nav-link {{ Request::is('dashboard/master/konten/program*') ? 'active' : '' }}"
+                                    href="{{ route('program.index') }}">Program</a>
+                                <a class="nav-link {{ Request::is('dashboard/master/konten/testimoni*') ? 'active' : '' }}"
+                                    href="{{ route('testimoni.index') }}">Testimoni</a>
+                                <a class="nav-link {{ Request::is('dashboard/master/konten/partnership*') ? 'active' : '' }}"
+                                    href="{{ route('partnershipHome.index') }}">Partnership</a>
+                                <a class="nav-link {{ Request::is('dashboard/master/konten/meal*') ? 'active' : '' }}"
+                                    href="{{ route('meal.index') }}">Meal</a>
+                                <a class="nav-link {{ Request::is('dashboard/master/konten/batch-menu*') ? 'active' : '' }}"
+                                    href="{{ route('batch-menu.index') }}">Batch</a>
+                                <a class="nav-link {{ Request::is('dashboard/master/konten/statistic*') ? 'active' : '' }}"
+                                    href="{{ route('statistic.index') }}">Statistic</a>
+                            </nav>
+                        </div>
+
+                        <a class="nav-link {{ $homeActive ? '' : 'collapsed' }}" href="#"
+                            data-bs-toggle="collapse" data-bs-target="#homeCollapse"
+                            aria-expanded="{{ $homeActive ? 'true' : 'false' }}" aria-controls="homeCollapse">
                             Home
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
@@ -48,24 +83,14 @@
                                 <a class="nav-link" href="{{ url('/home') }}">Banner</a>
                                 <a class="nav-link {{ Request::is('dashboard/home/video*') ? 'active' : '' }}"
                                     href="{{ route('video.index') }}">Video</a>
-                                <a class="nav-link {{ Request::is('dashboard/home/certificate*') ? 'active' : '' }}"
-                                    href="{{ route('certificate.index') }}">Certificate</a>
                                 <a class="nav-link {{ Request::is('dashboard/home/service*') ? 'active' : '' }}"
                                     href="{{ route('service.index') }}">Layanan</a>
-                                <a class="nav-link {{ Request::is('dashboard/home/program*') ? 'active' : '' }}"
-                                    href="{{ url('dashboard/home/program') }}">Program</a>
-                                <a class="nav-link {{ Request::is('dashboard/home/partnership-home*') ? 'active' : '' }}"
-                                    href="{{ url('dashboard/home/partnership-home') }}">Partnership</a>
-                                <a class="nav-link {{ Request::is('dashboard/home/testimoni*') ? 'active' : '' }}"
-                                    href="{{ url('dashboard/home/testimoni') }}">Testimoni</a>
-                                <a class="nav-link {{ Request::is('dashboard/home/statistic*') ? 'active' : '' }}"
-                                    href="{{ url('dashboard/home/statistic') }}">Statistic</a>
                             </nav>
                         </div>
 
-                        <a class="nav-link {{ $aboutActive ? '' : 'collapsed' }}" href="#" data-bs-toggle="collapse"
-                            data-bs-target="#aboutCollapse" aria-expanded="{{ $aboutActive ? 'true' : 'false' }}"
-                            aria-controls="aboutCollapse">
+                        <a class="nav-link {{ $aboutActive ? '' : 'collapsed' }}" href="#"
+                            data-bs-toggle="collapse" data-bs-target="#aboutCollapse"
+                            aria-expanded="{{ $aboutActive ? 'true' : 'false' }}" aria-controls="aboutCollapse">
                             About Us
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
@@ -76,8 +101,6 @@
                                 <a class="nav-link" href="{{ url('/home') }}">Description</a>
                                 <a class="nav-link {{ Request::is('dashboard/about-us/milestone*') ? 'active' : '' }}"
                                     href="{{ route('milestone.index') }}">Milestone</a>
-                                <a class="nav-link {{ Request::is('dashboard/about-us/partnership*') ? 'active' : '' }}"
-                                    href="{{ route('partnershipAbout.index') }}">Partnership</a>
                             </nav>
                         </div>
 
@@ -96,9 +119,9 @@
                             </nav>
                         </div>
 
-                        <a class="nav-link {{ $productActive ? '' : 'collapsed' }}" href="#" data-bs-toggle="collapse"
-                            data-bs-target="#productCollapse" aria-expanded="{{ $productActive ? 'true' : 'false' }}"
-                            aria-controls="productCollapse">
+                        <a class="nav-link {{ $productActive ? '' : 'collapsed' }}" href="#"
+                            data-bs-toggle="collapse" data-bs-target="#productCollapse"
+                            aria-expanded="{{ $productActive ? 'true' : 'false' }}" aria-controls="productCollapse">
                             Product & Service
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
@@ -110,16 +133,16 @@
                                 <a class="nav-link" href="{{ url('/partnership') }}">Solution</a>
                                 <a class="nav-link {{ Request::is('dashboard/product-service/promo*') ? 'active' : '' }}"
                                     href="{{ route('promo.index') }}">Promo</a>
-                                <a class="nav-link {{ Request::is('dashboard/product-service/program*') ? 'active' : '' }}"
-                                    href="{{ route('programProduct.index') }}">Program</a>
-                                <a class="nav-link {{ Request::is('dashboard/product-service/meal*') ? 'active' : '' }}"
-                                    href="{{ route('meal.index') }}">Meal</a>
+                                {{-- <a class="nav-link {{ Request::is('dashboard/product-service/program*') ? 'active' : '' }}"
+                                    href="{{ route('programProduct.index') }}">Program</a> --}}
+                                {{-- <a class="nav-link {{ Request::is('dashboard/product-service/meal*') ? 'active' : '' }}"
+                                    href="{{ route('meal.index') }}">Meal</a> --}}
                             </nav>
                         </div>
 
-                        <a class="nav-link {{ $foodActive ? '' : 'collapsed' }}" href="#" data-bs-toggle="collapse"
-                            data-bs-target="#foodCollapse" aria-expanded="{{ $productActive ? 'true' : 'false' }}"
-                            aria-controls="foodCollapse">
+                        <a class="nav-link {{ $foodActive ? '' : 'collapsed' }}" href="#"
+                            data-bs-toggle="collapse" data-bs-target="#foodCollapse"
+                            aria-expanded="{{ $productActive ? 'true' : 'false' }}" aria-controls="foodCollapse">
                             Food
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
@@ -127,22 +150,27 @@
                             data-bs-parent="#sidenavAccordionMenu">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="{{ url('/home') }}">Banner</a>
-                                <a class="nav-link {{ Request::is('dashboard/food/batch-menu*') ? 'active' : '' }}"
-                                    href="{{ route('batch-menu.index') }}">Batch</a>
+                                {{-- <a class="nav-link {{ Request::is('dashboard/food/batch-menu*') ? 'active' : '' }}"
+                                    href="{{ route('batch-menu.index') }}">Batch</a> --}}
                                 <a class="nav-link {{ Request::is('dashboard/food/carousel*') ? 'active' : '' }}"
                                     href="{{ route('carousel.index') }}">Carousel</a>
                             </nav>
                         </div>
-                        <a href="" class="nav-link">
+                        <a class="nav-link {{ Request::is('dashboard/etc/sosmed*') ? 'active' : '' }}"
+                            href="{{ route('sosmed.index') }}">
                             Social Media
                         </a>
-                        <a href="" class="nav-link">
+
+                        <a class="nav-link {{ Request::is('dashboard/etc/contact*') ? 'active' : '' }}"
+                            href="{{ route('contact.index') }}">
                             Contact
                         </a>
-                        <a href="" class="nav-link">
+                        <a class="nav-link {{ Request::is('dashboard/etc/faq*') ? 'active' : '' }}"
+                            href="{{ route('faq.index') }}">
                             FAQ
                         </a>
-                        <a href="" class="nav-link">
+                        <a class="nav-link {{ Request::is('dashboard/etc/tnc*') ? 'active' : '' }}"
+                            href="{{ route('tnc.index') }}">
                             Terms & Conditions
                         </a>
                     </nav>

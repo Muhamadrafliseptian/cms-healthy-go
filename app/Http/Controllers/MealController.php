@@ -3,18 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\MasterSectionCategory;
 use App\Models\Meal;
+use App\Models\SectionContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
-class MealController 
+class MealController
 {
     public function index(Request $request)
     {
         try {
             $data = Meal::all();
 
-            if($request->wantsJson()){
+            if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Data meal berhasil diambil',
@@ -22,7 +25,12 @@ class MealController
                 ], 200);
             }
 
-            return view('pages.product-service.meal.index-meal', compact('data'));
+            $category = MasterSectionCategory::where('slug', 'smeal')->first();
+            $section = SectionContent::where('menu_id', $category->id)
+                ->where('section', 'smeal')
+                ->first();
+
+            return view('pages.product-service.meal.index-meal', compact('data', 'section'));
         } catch (\Exception $e) {
             Log::error('Meal Index Error: ' . $e->getMessage());
 
@@ -44,7 +52,7 @@ class MealController
 
             $meal = Meal::create($request->only('meal_title', 'meal_content'));
 
-            if($request->wantsJson()){
+            if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Meal berhasil ditambahkan',
@@ -61,6 +69,52 @@ class MealController
                 'message' => 'Terjadi kesalahan saat menyimpan meal',
                 'data' => null
             ], 500);
+        }
+    }
+
+    public function storeContentMeal(Request $request)
+    {
+        try {
+            $category = MasterSectionCategory::where('slug', 'smeal')->first();
+
+            $imgPath = null;
+
+            if ($request->hasFile('img')) {
+                $imgPath = $request->file('img')->store('meal', 'public');
+            }
+
+            SectionContent::create([
+                'menu_id'    => $category->id,
+                'section'    => 'smeal',
+                'img'      => $imgPath,
+                'title'      => $request->title,
+            ]);
+
+            return back()->with('success', 'Data testimonial berhasil disimpan.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function updateContentMeal(Request $request, $id)
+    {
+        try {
+            $content = SectionContent::findOrFail($id);
+
+            if ($request->hasFile('img')) {
+                if ($content->img && Storage::disk('public')->exists($content->img)) {
+                    Storage::disk('public')->delete($content->img);
+                }
+
+                $content->img = $request->file('img')->store('meal', 'public');
+            }
+
+            $content->title = $request->title;
+            $content->save();
+
+            return back()->with('success', 'Data testimonial berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 
@@ -108,7 +162,7 @@ class MealController
 
             $meal->update($request->only('meal_title', 'meal_content'));
 
-            if($request->wantsJson()){
+            if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Meal berhasil diperbarui',
@@ -117,7 +171,6 @@ class MealController
             }
 
             return redirect()->back()->with('success', 'data berhasil diperbarui');
-
         } catch (\Exception $e) {
             Log::error('Meal Update Error: ' . $e->getMessage());
 
@@ -144,7 +197,7 @@ class MealController
 
             $meal->delete();
 
-            if($request->wantsJson()){
+            if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Meal berhasil dihapus',

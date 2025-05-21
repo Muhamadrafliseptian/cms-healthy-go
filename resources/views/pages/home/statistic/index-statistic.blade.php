@@ -7,7 +7,7 @@
 
 @section('content')
     <div class="container my-4">
-        <h3 class="mb-4">Statisti Data</h3>
+        <h3 class="mb-4">Statistic Data</h3>
 
         @if (session('success'))
             <div class="alert alert-success">
@@ -169,19 +169,19 @@
             .catch(error => {
                 console.error(error);
             });
-    
+
         $('.btn-edit').on('click', function () {
             const id = $(this).data('id');
             const title = $(this).data('title');
             const content = $(this).data('content');
-    
+
             $('#edit_title_statistic').val(title);
             window.editEditor.setData(content);
-    
+
             const formAction = `{{ url('dashboard/home/statistic') }}/put/${id}`;
             $('#editServiceForm').attr('action', formAction);
         });
     </script>
-    
+
 
 @endsection

@@ -7,6 +7,7 @@
 
 @section('content')
     <div class="container my-4">
+        <h3 class="mb-4">Master Category</h3>
 
         @if (session('success'))
             <div class="alert alert-success">
@@ -19,54 +20,28 @@
                 {{ session('error') }}
             </div>
         @endif
-        <h3 class="mb-4">Section Meal</h3>
-        <form action="{{ $section ? route('meal.update.content', $section->id) : route('meal.store.content') }}"
-            enctype="multipart/form-data" method="POST">
-            @csrf
-            @if ($section)
-                @method('PUT')
-            @endif
-
-            <div>
-                <label for="title" class="form-label">Title</label>
-                <input type="text" name="title" class="form-control mb-3"
-                    value="{{ old('title', $section->title ?? '') }}" required>
-
-                <label for="img" class="form-label">Gambar</label>
-                <input type="file" name="img" class="form-control mb-3">
-
-                @if ($section && $section->img)
-                    <img src="{{ asset('storage/' . $section->img) }}" alt="Program Image" width="150">
-                @endif
-            </div>
-
-            <button type="submit" class="btn btn-sm btn-primary mt-3 mb-3">
-                {{ $section ? 'Update' : 'Simpan' }}
-            </button>
-        </form>
-
-        <h3 class="mb-4">Meal Data</h3>
         <button class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addMealModal">
-            Add Meal +
+            Add Category +
         </button>
 
-        <div class="modal fade" id="addMealModal" tabindex="-1" aria-labelledby="addMealModalLabel" aria-hidden="true">
+        <div class="modal fade" id="addMealModal" tabindex="-1" aria-labelledby="addMealModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
-                <form action="{{ route('meal.store') }}" method="POST">
+                <form action="{{ route('scategory.store') }}" method="POST">
                     @csrf
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addMealModalLabel">Add New Service</h5>
+                            <h5 class="modal-title" id="addMealModalLabel">Add New Promo</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label for="meal_title" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="meal_title" name="meal_title" required>
+                                <label for="name" class="form-label">Nama Kategori</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
                             </div>
                             <div class="mb-3">
-                                <label for="meal_content" class="form-label">Content</label>
-                                <textarea name="meal_content" id="meal_content" rows="5" class="form-control"></textarea>
+                                <label for="slug" class="form-label">Slug</label>
+                                <input type="text" class="form-control" id="slug" name="slug" required>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -78,25 +53,27 @@
             </div>
         </div>
 
-        <div class="modal fade" id="editServiceModal" tabindex="-1" aria-labelledby="editServiceModalLabel"
+        <div class="modal fade" id="editPromoModal" tabindex="-1" aria-labelledby="editPromoModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
-                <form id="editServiceForm" method="POST">
+                <form id="editPromoForm" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Edit Service</h5>
+                            <h5 class="modal-title">Edit Promo</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label for="edit_meal_title" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="edit_meal_title" name="meal_title" required>
+                                <label for="edit_name" class="form-label">Title</label>
+                                <input type="text" class="form-control" id="edit_name" name="name"
+                                    required>
                             </div>
                             <div class="mb-3">
-                                <label for="edit_meal_content" class="form-label">Content</label>
-                                <textarea class="form-control" name="meal_content" id="edit_meal_content" rows="5"></textarea>
+                                <label for="edit_slug" class="form-label">Title</label>
+                                <input type="text" class="form-control" id="edit_slug" name="slug"
+                                    required>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -132,20 +109,20 @@
                         <td class="text-center">
                             1
                         </td>
-                        <td class="text-center" style="">
-                            {{ $item->meal_title }}
+                        <td class="text-center">
+                            {{$item->name}}
                         </td>
-                        <td>
-                            {!! $item->meal_content !!}
+                        <td class="text-center">
+                            {{ $item->slug}}
                         </td>
                         <td class="text-center">
                             <button class="btn btn-sm btn-primary btn-edit" data-id="{{ $item->id }}"
-                                data-title="{{ $item->meal_title }}" data-content="{{ $item->meal_content }}"
-                                data-bs-toggle="modal" data-bs-target="#editServiceModal">
+                                data-title="{{ $item->name }}" data-content="{{ $item->slug }}"
+                                data-bs-toggle="modal" data-bs-target="#editPromoModal">
                                 Edit
                             </button>
 
-                            <form action="{{ route('meal.destroy', $item->id) }}" method="POST"
+                            <form action="{{ route('scategory.destroy', $item->id) }}" method="POST"
                                 style="display:inline-block;">
                                 @csrf
                                 @method('DELETE')
@@ -167,7 +144,7 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#certificate').DataTable({
                 responsive: true,
                 fixedHeader: true
@@ -176,32 +153,18 @@
     </script>
     <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
     <script>
-        ClassicEditor
-            .create(document.querySelector('#meal_content'))
-            .catch(error => {
-                console.error(error);
-            });
-    </script>
-    <script>
-        ClassicEditor
-            .create(document.querySelector('#edit_meal_content'))
-            .then(editor => {
-                window.editEditor = editor;
-            })
-            .catch(error => {
-                console.error(error);
-            });
-
-        $('.btn-edit').on('click', function() {
+        $('.btn-edit').on('click', function () {
             const id = $(this).data('id');
             const title = $(this).data('title');
             const content = $(this).data('content');
 
-            $('#edit_meal_title').val(title);
-            window.editEditor.setData(content);
+            $('#edit_name').val(title);
+            $('#edit_slug').val(content);
 
-            const formAction = `{{ url('dashboard/product-service/meal') }}/put/${id}`;
-            $('#editServiceForm').attr('action', formAction);
+            const formAction = `{{ url('dashboard/master/section-category') }}/put/${id}`;
+            $('#editPromoForm').attr('action', formAction);
         });
     </script>
+
+
 @endsection

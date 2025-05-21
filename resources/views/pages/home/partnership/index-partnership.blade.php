@@ -7,7 +7,7 @@
 
 @section('content')
     <div class="container my-4">
-        <h3 class="mb-4">Certificate Data</h3>
+        <h3 class="mb-4">Partnership Data</h3>
 
         @if (session('success'))
             <div class="alert alert-success">

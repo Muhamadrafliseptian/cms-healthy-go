@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MasterSectionCategory;
 use App\Models\Program;
+use App\Models\SectionContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -21,10 +23,15 @@ class ProgramController
                 ], 200);
             }
 
+            $category = MasterSectionCategory::where('slug', 'sprogram')->first();
+            $section = SectionContent::where('menu_id', $category->id)
+                ->where('section', 'sprogram')
+                ->first();
+
             if ($request->is('dashboard/product-service/program*')) {
-                return view('pages.product-service.program.index-program', compact('data'));
+                return view('pages.product-service.program.index-program', compact('data', 'section'));
             } else {
-                return view('pages.home.program.index-program', compact('data'));
+                return view('pages.home.program.index-program', compact('data', 'section'));
             }
 
         } catch (\Exception $e) {
@@ -76,6 +83,42 @@ class ProgramController
                 'message' => 'Terjadi kesalahan saat menambahkan program',
                 'data' => null
             ], 500);
+        }
+    }
+
+    public function storeContentProgram(Request $request)
+    {
+        try {
+            $category = MasterSectionCategory::where('slug', 'sprogram')->first();
+
+            SectionContent::create([
+                'menu_id'    => $category->id,
+                'section'    => 'sprogram',
+                'title'      => $request->title,
+                'subtitle1'  => $request->subtitle1,
+                'subtitle2'  => $request->subtitle2,
+            ]);
+
+            return back()->with('success', 'Data testimonial berhasil disimpan.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function updateContentProgram(Request $request, $id)
+    {
+        try {
+            $content = SectionContent::findOrFail($id);
+
+            $content->update([
+                'title'     => $request->title,
+                'subtitle1' => $request->subtitle1,
+                'subtitle2' => $request->subtitle2,
+            ]);
+
+            return back()->with('success', 'Data testimonial berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 

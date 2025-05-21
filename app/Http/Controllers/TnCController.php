@@ -7,7 +7,7 @@ use App\Models\TNC;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class TnCController 
+class TnCController
 {
     public function index(Request $request)
     {
@@ -43,11 +43,14 @@ class TnCController
 
             $tnc = TNC::create($request->only('title_tnc', 'subtitle_tnc', 'content_tnc'));
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Terms and Conditions berhasil ditambahkan',
-                'data' => $tnc
-            ], 201);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Terms and Conditions berhasil ditambahkan',
+                    'data' => $tnc
+                ], 201);
+            }
+            return redirect()->back()->with('success', 'Terms and Conditions berhasil ditambahkan');
         } catch (\Exception $e) {
             Log::error('TnC Store Error: ' . $e->getMessage());
             return response()->json([
@@ -107,11 +110,14 @@ class TnCController
 
             $tnc->update($request->only('title_tnc', 'subtitle_tnc', 'content_tnc'));
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Terms and Conditions berhasil diperbarui',
-                'data' => $tnc
-            ], 200);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Terms and Conditions berhasil diperbarui',
+                    'data' => $tnc
+                ], 200);
+            }
+            return redirect()->back()->with('success', 'Terms and Conditions berhasil diperbarui');
         } catch (\Exception $e) {
             Log::error('TnC Update Error: ' . $e->getMessage());
             return response()->json([
@@ -122,7 +128,7 @@ class TnCController
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         try {
             $tnc = TNC::find($id);
@@ -137,11 +143,15 @@ class TnCController
 
             $tnc->delete();
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Terms and Conditions berhasil dihapus',
-                'data' => null
-            ], 200);
+            if($request->wantsJson()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Terms and Conditions berhasil dihapus',
+                    'data' => null
+                ], 200);
+            }
+
+            return redirect()->back()->with('success', 'Terms and Conditions berhasil dihapus');
         } catch (\Exception $e) {
             Log::error('TnC Delete Error: ' . $e->getMessage());
             return response()->json([

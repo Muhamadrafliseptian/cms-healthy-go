@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ImgPartnership;
 use App\Models\Partnership;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
@@ -200,7 +201,7 @@ class PartnershipController
             } else {
                 return view('pages.home.partnership.index-partnership', compact('data'));
             }
-        } catch (err) {
+        } catch (Exception $err) {
 
         }
     }
