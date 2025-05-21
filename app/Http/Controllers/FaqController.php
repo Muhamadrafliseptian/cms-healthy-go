@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Faq;
+use App\Models\MasterSectionCategory;
+use App\Models\SectionContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -13,16 +15,20 @@ class FaqController
     {
         try {
             $data = Faq::all();
-
-            if($request->wantsJson()){
+            $category = MasterSectionCategory::where('slug', 'sfaq')->first();
+            $section = SectionContent::where('menu_id', $category->id)
+                ->where('section', 'sfaq')
+                ->first();
+            if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Data FAQ berhasil diambil',
-                    'data' => $data
+                    'data' => $data,
+                    'section' => $section
                 ], 200);
             }
 
-            return view ('pages.faq.index-faq', compact('data'));
+            return view('pages.faq.index-faq', compact('data', 'section'));
         } catch (\Exception $e) {
             Log::error('FAQ Index Error: ' . $e->getMessage());
 
@@ -31,6 +37,42 @@ class FaqController
                 'message' => 'Terjadi kesalahan saat mengambil data FAQ',
                 'data' => null
             ], 500);
+        }
+    }
+
+    public function storeContentFaq(Request $request)
+    {
+        try {
+            $category = MasterSectionCategory::where('slug', 'sfaq')->first();
+
+            SectionContent::create([
+                'menu_id'    => $category->id,
+                'section'    => 'sfaq',
+                'title'      => $request->title,
+                'subtitle1'  => $request->subtitle1,
+                'subtitle2'  => $request->subtitle2,
+            ]);
+
+            return back()->with('success', 'Data berhasil disimpan.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function updateContentFaq(Request $request, $id)
+    {
+        try {
+            $content = SectionContent::findOrFail($id);
+
+            $content->update([
+                'title'     => $request->title,
+                'subtitle1' => $request->subtitle1,
+                'subtitle2' => $request->subtitle2,
+            ]);
+
+            return back()->with('success', 'Data berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 
@@ -44,7 +86,7 @@ class FaqController
 
             $faq = Faq::create($request->only('ask_title', 'answer_content'));
 
-           if($request->wantsJson()){
+            if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'FAQ berhasil ditambahkan',
@@ -108,7 +150,7 @@ class FaqController
 
             $faq->update($request->only('ask_title', 'answer_content'));
 
-            if($request->wantsJson()){
+            if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'FAQ berhasil diperbarui',
@@ -143,7 +185,7 @@ class FaqController
 
             $faq->delete();
 
-            if($request->wantsJson()){
+            if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'FAQ berhasil dihapus',

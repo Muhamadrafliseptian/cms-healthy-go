@@ -70,24 +70,41 @@ Route::prefix('dashboard')->group(function () {
     Route::prefix('iklan')->group(function () {
         Route::prefix('achievement')->group(function () {
             Route::get('/', [IklanController::class, 'indexAchievement'])->name('achievement.index');
+            Route::post('store', [IklanController::class, 'storeAchievement'])->name('achievement.store');
+            Route::put('put/{id}', [IklanController::class, 'updateAchievement'])->name('achievement.put');
         });
         Route::prefix('banner')->group(function () {
             Route::get('/', [IklanController::class, 'indexBanner'])->name('banner.index');
+            Route::post('store', [IklanController::class, 'storeBanner'])->name('banner.store');
+            Route::put('put/{id}', [IklanController::class, 'updateBanner'])->name('banner.put');
         });
         Route::prefix('benefit')->group(function () {
             Route::get('/', [IklanController::class, 'indexBenefit'])->name('benefits.index');
+            Route::post('store', [IklanController::class, 'storeBenefit'])->name('benefits.store');
+            Route::put('put/{id}', [IklanController::class, 'updateBenefit'])->name('benefits.put');
+            Route::delete('destroy/{id}', [IklanController::class, 'destroyBenefit'])->name('benefits.destroy');
         });
         Route::prefix('galeri')->group(function () {
             Route::get('/', [IklanController::class, 'indexGaleri'])->name('galeri.index');
+            Route::post('store', [IklanController::class, 'storeGaleri'])->name('galeri.store');
+            Route::put('put/{id}', [IklanController::class, 'updateGaleri'])->name('galeri.put');
+            Route::delete('destroy/{id}', [IklanController::class, 'destroyGaleri'])->name('galeri.destroy');
         });
         Route::prefix('goals')->group(function () {
             Route::get('/', [IklanController::class, 'indexGoals'])->name('goals.index');
+            Route::post('store', [IklanController::class, 'storeGoals'])->name('goals.store');
+            Route::put('put/{id}', [IklanController::class, 'updateGoals'])->name('goals.put');
         });
         Route::prefix('pains')->group(function () {
             Route::get('/', [IklanController::class, 'indexPains'])->name('pains.index');
+            Route::post('store', [IklanController::class, 'storePains'])->name('pains.store');
+            Route::put('put/{id}', [IklanController::class, 'updatePains'])->name('pains.put');
+            Route::delete('destroy/{id}', [IklanController::class, 'destroyPains'])->name('pains.destroy');
         });
         Route::prefix('promo')->group(function () {
             Route::get('/', [IklanController::class, 'indexPromo'])->name('promoIklan.index');
+            Route::post('store', [IklanController::class, 'storePromo'])->name('promoIklan.store');
+            Route::put('put/{id}', [IklanController::class, 'updatePromo'])->name('promoIklan.put');
         });
     });
 
@@ -112,6 +129,8 @@ Route::prefix('dashboard')->group(function () {
         });
         Route::prefix('faq')->group(function () {
             Route::get('/', [FaqController::class, 'index'])->name('faq.index');
+            Route::post('content/store', [FaqController::class, 'storeContentFaq'])->name('faq.storeContent');
+            Route::put('content/put/{id}', [FaqController::class, 'updateContentFaq'])->name('faq.updateContent');
             Route::post('store', [FaqController::class, 'store'])->name('faq.store');
             Route::put('put/{id}', [FaqController::class, 'update'])->name('faq.put');
             Route::delete('destroy/{id}', [FaqController::class, 'destroy'])->name('faq.destroy');
@@ -150,6 +169,8 @@ Route::prefix('dashboard')->group(function () {
             });
             Route::prefix('statistic')->group(function () {
                 Route::get('/', [OperationalStatisticController::class, 'index'])->name('statistic.index');
+                 Route::post('content/store', [OperationalStatisticController::class, 'storeContentStats'])->name('statistic.storeContent');
+                Route::put('content/put/{id}', [OperationalStatisticController::class, 'updateContentStats'])->name('statistic.putContent');
                 Route::post('store', [OperationalStatisticController::class, 'store'])->name('statistic.store');
                 Route::put('put/{id}', [OperationalStatisticController::class, 'update'])->name('statistic.put');
                 Route::delete('destroy/{id}', [OperationalStatisticController::class, 'destroy'])->name('statistic.destroy');

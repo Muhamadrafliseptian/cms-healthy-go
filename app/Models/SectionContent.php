@@ -19,7 +19,9 @@ class SectionContent extends Model
         'subtitle2',
         'subtitle3',
         'subtitle4',
+        'subtitle5',
         'img',
+        'img2',
     ];
 
     public function menu()

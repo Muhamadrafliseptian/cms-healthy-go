@@ -7,7 +7,6 @@
 
 @section('content')
     <div class="container my-4">
-        <h3 class="mb-4">FAQ Data</h3>
 
         @if (session('success'))
             <div class="alert alert-success">
@@ -20,12 +19,43 @@
                 {{ session('error') }}
             </div>
         @endif
+
+        <h3 class="mb-4">FAQ Section</h3>
+        <form
+            action="{{ $section ? route('faq.updateContent', $section->id) : route('faq.storeContent') }}"
+            method="POST">
+            @csrf
+            @if ($section)
+                @method('PUT')
+            @endif
+
+            <div>
+                <label for="title" class="form-label">Title</label>
+                <input type="text" name="title" class="form-control mb-3"
+                    value="{{ old('title', $section->title ?? '') }}" required>
+
+                <label for="subtitle1" class="form-label">Subtitle</label>
+                <input type="text" name="subtitle1" class="form-control"
+                    value="{{ old('subtitle1', $section->subtitle1 ?? '') }}">
+
+                <label for="subtitle2" class="form-label">Subtitle</label>
+                <input type="text" name="subtitle2" class="form-control"
+                    value="{{ old('subtitle2', $section->subtitle2 ?? '') }}">
+            </div>
+
+            <button type="submit" class="btn btn-sm btn-primary mt-3 mb-3">
+                {{ $section ? 'Update' : 'Simpan' }}
+            </button>
+        </form>
+
+        <h3 class="mb-4">FAQ Data</h3>
+
+
         <button class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addMealModal">
-            Add Promo +
+            Add FAQ +
         </button>
 
-        <div class="modal fade" id="addMealModal" tabindex="-1" aria-labelledby="addMealModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="addMealModal" tabindex="-1" aria-labelledby="addMealModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <form action="{{ route('faq.store') }}" method="POST">
                     @csrf
@@ -41,8 +71,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="answer_content" class="form-label">Content</label>
-                                <textarea name="answer_content" id="answer_content" rows="5"
-                                    class="form-control"></textarea>
+                                <textarea name="answer_content" id="answer_content" rows="5" class="form-control"></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -54,8 +83,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="editPromoModal" tabindex="-1" aria-labelledby="editPromoModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="editPromoModal" tabindex="-1" aria-labelledby="editPromoModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <form id="editPromoForm" method="POST">
                     @csrf
@@ -68,13 +96,11 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="edit_ask_title" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="edit_ask_title" name="ask_title"
-                                    required>
+                                <input type="text" class="form-control" id="edit_ask_title" name="ask_title" required>
                             </div>
                             <div class="mb-3">
                                 <label for="edit_answer_content" class="form-label">Content</label>
-                                <textarea class="form-control" name="answer_content" id="edit_answer_content"
-                                    rows="5"></textarea>
+                                <textarea class="form-control" name="answer_content" id="edit_answer_content" rows="5"></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -111,7 +137,7 @@
                             1
                         </td>
                         <td class="text-center" style="">
-                            {{$item->ask_title}}
+                            {{ $item->ask_title }}
                         </td>
                         <td>
                             {!! $item->answer_content !!}
@@ -145,7 +171,7 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#certificate').DataTable({
                 responsive: true,
                 fixedHeader: true
@@ -170,7 +196,7 @@
                 console.error(error);
             });
 
-        $('.btn-edit').on('click', function () {
+        $('.btn-edit').on('click', function() {
             const id = $(this).data('id');
             const title = $(this).data('title');
             const content = $(this).data('content');
@@ -182,6 +208,4 @@
             $('#editPromoForm').attr('action', formAction);
         });
     </script>
-
-
 @endsection

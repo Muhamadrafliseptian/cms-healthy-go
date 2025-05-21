@@ -36,6 +36,12 @@ class MasterSectionCategorySeeder extends Seeder
             'faq' => 'sfaq',
             'faq2' => 'sfaq2',
             'footer' => 'sfooter',
+            'iachievement' => 'isachievement',
+            'ibanner' => 'isbanner',
+            'ipromo' => 'ispromo',
+            'ipromo1' => 'ispromo1',
+            'igoals' => 'isigoals',
+            'statistic' => 'sstatistic',
         ];
 
         foreach ($sections as $name => $slug) {

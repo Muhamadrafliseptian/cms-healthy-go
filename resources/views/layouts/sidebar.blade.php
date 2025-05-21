@@ -15,6 +15,7 @@
                         Request::is('dashboard/product-service*') ||
                         Request::is('dashboard/food*') ||
                         Request::is('dashboard/etc*') ||
+                        Request::is('dashboard/iklan*') ||
                         Request::is('dashboard/master*');
                 @endphp
 
@@ -36,6 +37,7 @@
                             $foodActive = Request::is('dashboard/food*');
                             $sosmedActive = Request::is('dashboard/etc*');
                             $masterActive = Request::is('dashboard/master/konten*');
+                            $iklanActive = Request::is('dashboard/iklan*');
                         @endphp
 
                         <a class="nav-link {{ Request::is('dashboard/master*') ? 'active' : '' }}"
@@ -133,10 +135,6 @@
                                 <a class="nav-link" href="{{ url('/partnership') }}">Solution</a>
                                 <a class="nav-link {{ Request::is('dashboard/product-service/promo*') ? 'active' : '' }}"
                                     href="{{ route('promo.index') }}">Promo</a>
-                                {{-- <a class="nav-link {{ Request::is('dashboard/product-service/program*') ? 'active' : '' }}"
-                                    href="{{ route('programProduct.index') }}">Program</a> --}}
-                                {{-- <a class="nav-link {{ Request::is('dashboard/product-service/meal*') ? 'active' : '' }}"
-                                    href="{{ route('meal.index') }}">Meal</a> --}}
                             </nav>
                         </div>
 
@@ -150,12 +148,38 @@
                             data-bs-parent="#sidenavAccordionMenu">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="{{ url('/home') }}">Banner</a>
-                                {{-- <a class="nav-link {{ Request::is('dashboard/food/batch-menu*') ? 'active' : '' }}"
-                                    href="{{ route('batch-menu.index') }}">Batch</a> --}}
                                 <a class="nav-link {{ Request::is('dashboard/food/carousel*') ? 'active' : '' }}"
                                     href="{{ route('carousel.index') }}">Carousel</a>
                             </nav>
                         </div>
+
+                        <a class="nav-link {{ $iklanActive ? '' : 'collapsed' }}" href="#"
+                            data-bs-toggle="collapse" data-bs-target="#iklanCollapse"
+                            aria-expanded="{{ $iklanActive ? 'true' : 'false' }}" aria-controls="iklanCollapse">
+                            Iklan
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+
+                        <div class="collapse {{ $iklanActive ? 'show' : '' }}" id="iklanCollapse"
+                            data-bs-parent="#sidenavAccordionMenu">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link {{ Request::is('dashboard/iklan/achievement*') ? 'active' : '' }}"
+                                    href="{{ route('achievement.index') }}">Achievement</a>
+                                <a class="nav-link {{ Request::is('dashboard/iklan/banner*') ? 'active' : '' }}"
+                                    href="{{ route('banner.index') }}">Banner</a>
+                                <a class="nav-link {{ Request::is('dashboard/iklan/benefit*') ? 'active' : '' }}"
+                                    href="{{ route('benefits.index') }}">Benefit</a>
+                                <a class="nav-link {{ Request::is('dashboard/iklan/galeri*') ? 'active' : '' }}"
+                                    href="{{ route('galeri.index') }}">Galeri</a>
+                                <a class="nav-link {{ Request::is('dashboard/iklan/goals*') ? 'active' : '' }}"
+                                    href="{{ route('goals.index') }}">Goals</a>
+                                <a class="nav-link {{ Request::is('dashboard/iklan/pains*') ? 'active' : '' }}"
+                                    href="{{ route('pains.index') }}">Pains</a>
+                                <a class="nav-link {{ Request::is('dashboard/iklan/promo*') ? 'active' : '' }}"
+                                    href="{{ route('promoIklan.index') }}">Promo</a>
+                            </nav>
+                        </div>
+
                         <a class="nav-link {{ Request::is('dashboard/etc/sosmed*') ? 'active' : '' }}"
                             href="{{ route('sosmed.index') }}">
                             Social Media

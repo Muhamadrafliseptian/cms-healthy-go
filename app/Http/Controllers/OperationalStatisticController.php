@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MasterSectionCategory;
 use App\Models\OperationalStatistic;
+use App\Models\SectionContent;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class OperationalStatisticController
 {
@@ -13,6 +16,11 @@ class OperationalStatisticController
     {
         try {
             $data = OperationalStatistic::all();
+            $category = MasterSectionCategory::where('slug', 'sstatistic')->first();
+            $section = SectionContent::where('menu_id', $category->id)
+                ->where('section', 'sstatistic')
+                ->first();
+
             if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
@@ -21,7 +29,7 @@ class OperationalStatisticController
                 ], 200);
             }
 
-            return view('pages.home.statistic.index-statistic', compact('data'));
+            return view('pages.home.statistic.index-statistic', compact('data', 'section'));
         } catch (\Exception $e) {
             Log::error('Service Index Error: ' . $e->getMessage());
             if ($request->wantsJson()) {
@@ -32,6 +40,71 @@ class OperationalStatisticController
                 ], 500);
             }
             return redirect()->back()->with('error', 'Terjadi kesalahan saat mengambil data Statistic');
+        }
+    }
+
+    public function storeContentStats(Request $request)
+    {
+        try {
+
+            $category = MasterSectionCategory::where('slug', 'sstatistic')->first();
+
+            $request->validate([
+                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'title' => 'required|string|max:255',
+                'subtitle1' => 'nullable|string|max:255',
+            ]);
+
+            $imgPath = null;
+
+            if ($request->hasFile('img')) {
+                $imgPath = $request->file('img')->store('stats', 'public');
+            }
+
+            SectionContent::create([
+                'img' => $imgPath,
+                'title' => $request->title,
+                'subtitle1' => $request->subtitle1,
+                'menu_id' => $category->id,
+                'section' => 'sstatistic',
+            ]);
+
+            return redirect()->back()->with('success', 'Berhasil tambah');
+        } catch (\Exception $err) {
+            dd($err->getMessage());
+        }
+    }
+
+    public function updateContentStats(Request $request, $id)
+    {
+        try {
+            $benefit = SectionContent::find($id);
+
+            if (!$benefit) {
+                return redirect()->back()->with('error', 'Data tidak ditemukan.');
+            }
+
+            $request->validate([
+                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'title' => 'required|string|max:255',
+                'subtitle1' => 'nullable|string|max:255',
+            ]);
+
+            if ($request->hasFile('img')) {
+                if ($benefit->img && Storage::disk('public')->exists($benefit->img)) {
+                    Storage::disk('public')->delete($benefit->img);
+                }
+                $benefit->img = $request->file('img')->store('iklan', 'public');
+            }
+
+            $benefit->title = $request->title;
+            $benefit->subtitle1 = $request->subtitle1;
+
+            $benefit->save();
+
+            return redirect()->back()->with('success', 'Data berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 
@@ -54,7 +127,6 @@ class OperationalStatisticController
             }
 
             return redirect()->back()->with('success', 'Data berhasil ditambah');
-
         } catch (\Exception $e) {
             Log::error('Service Store Error: ' . $e->getMessage());
 
@@ -103,7 +175,6 @@ class OperationalStatisticController
             }
 
             return redirect()->back()->with('error', $e->getMessage());
-
         }
     }
 

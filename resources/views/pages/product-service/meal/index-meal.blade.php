@@ -9,41 +9,53 @@
     <div class="container my-4">
 
         @if (session('success'))
-            <div class="alert alert-success">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
 
         @if (session('error'))
-            <div class="alert alert-danger">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
-        <h3 class="mb-4">Section Meal</h3>
-        <form action="{{ $section ? route('meal.update.content', $section->id) : route('meal.store.content') }}"
-            enctype="multipart/form-data" method="POST">
-            @csrf
-            @if ($section)
-                @method('PUT')
-            @endif
 
-            <div>
-                <label for="title" class="form-label">Title</label>
-                <input type="text" name="title" class="form-control mb-3"
-                    value="{{ old('title', $section->title ?? '') }}" required>
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+                <h3 class="card-title mb-4">Section Meal</h3>
 
-                <label for="img" class="form-label">Gambar</label>
-                <input type="file" name="img" class="form-control mb-3">
+                <form action="{{ $section ? route('meal.update.content', $section->id) : route('meal.store.content') }}"
+                    enctype="multipart/form-data" method="POST">
+                    @csrf
+                    @if ($section)
+                        @method('PUT')
+                    @endif
+                    @if ($section && $section->img)
+                        <div class="mb-3 text-center">
+                            <img src="{{ asset('storage/' . $section->img) }}" alt="Program Image" class="img-thumbnail"
+                                >
+                            <p class="text-muted mt-2">Gambar saat ini</p>
+                        </div>
+                    @endif
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Judul</label>
+                        <input type="text" name="title" class="form-control"
+                            value="{{ old('title', $section->title ?? '') }}" required>
+                    </div>
 
-                @if ($section && $section->img)
-                    <img src="{{ asset('storage/' . $section->img) }}" alt="Program Image" width="150">
-                @endif
+                    <div class="mb-3">
+                        <label for="img" class="form-label">Upload Gambar</label>
+                        <input type="file" name="img" class="form-control">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">
+                        {{ $section ? 'Perbarui Data' : 'Simpan Data' }}
+                    </button>
+                </form>
             </div>
-
-            <button type="submit" class="btn btn-sm btn-primary mt-3 mb-3">
-                {{ $section ? 'Update' : 'Simpan' }}
-            </button>
-        </form>
+        </div>
 
         <h3 class="mb-4">Meal Data</h3>
         <button class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addMealModal">
@@ -92,7 +104,8 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="edit_meal_title" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="edit_meal_title" name="meal_title" required>
+                                <input type="text" class="form-control" id="edit_meal_title" name="meal_title"
+                                    required>
                             </div>
                             <div class="mb-3">
                                 <label for="edit_meal_content" class="form-label">Content</label>

@@ -20,7 +20,9 @@ return new class extends Migration
             $table->text('subtitle2')->nullable();
             $table->text('subtitle3')->nullable();
             $table->text('subtitle4')->nullable();
+            $table->text('subtitle5')->nullable();
             $table->string('img')->nullable();
+            $table->string('img2')->nullable();
             $table->timestamps();
         });
     }
