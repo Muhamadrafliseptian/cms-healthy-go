@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Milestone;
 use Illuminate\Http\Request;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class MilestoneController
 {

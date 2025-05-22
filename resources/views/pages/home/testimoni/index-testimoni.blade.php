@@ -93,7 +93,7 @@
             </div>
         </div>
 
-        <table id="program" class="table table-striped table-bordered text-center">
+        <table id="program" class="table table-striped table-bordered w-100">
             <thead>
                 <tr>
                     <th>No</th>
@@ -158,7 +158,10 @@
         }
 
         $(document).ready(function() {
-            $('#program').DataTable();
+            $('#program').DataTable({
+                scrollX: true,
+                responsive: true
+            });
 
             initCKEditor('#content', 'content');
             initCKEditor('#edit_content', 'edit_content');

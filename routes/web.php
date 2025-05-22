@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\AboutSectionController;
+use App\Http\Controllers\BatchController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\HomeSectionController;
 use App\Http\Controllers\IklanController;
 use App\Http\Controllers\MasterSectionCategoryController;
 use App\Http\Controllers\MealController;
@@ -25,7 +28,18 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('dashboard')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::prefix('home')->group(function () {
-
+        Route::prefix('section')->group(function () {
+            Route::prefix('banner')->group(function () {
+                Route::get('/', [HomeSectionController::class, 'index'])->name('section.home.index');
+                Route::post('store', [HomeSectionController::class, 'storeSectionBanner'])->name('section.home.store');
+                Route::put('put/{id}', [HomeSectionController::class, 'updateSectionBanner'])->name('section.home.put');
+            });
+            Route::prefix('description')->group(function () {
+                Route::get('/', [HomeSectionController::class, 'index'])->name('section.description.index');
+                Route::post('store', [HomeSectionController::class, 'storeSectionDescription'])->name('section.description.store');
+                Route::put('put/{id}', [HomeSectionController::class, 'updateSectionDescription'])->name('section.description.put');
+            });
+        });
         Route::prefix('video')->group(function () {
             Route::get('/', [VideoController::class, 'index'])->name('video.index');
             Route::post('store', [VideoController::class, 'store'])->name('video.store');
@@ -46,6 +60,19 @@ Route::prefix('dashboard')->group(function () {
             Route::post('store', [MilestoneController::class, 'store'])->name('milestone.store');
             Route::put('put/{id}', [MilestoneController::class, 'update'])->name('milestone.put');
             Route::delete('destroy/{id}', [MilestoneController::class, 'destroy'])->name('milestone.destroy');
+        });
+
+        Route::prefix('section')->group(function () {
+            Route::prefix('banner')->group(function () {
+                Route::get('/', [AboutSectionController::class, 'index'])->name('section.about.index');
+                Route::post('store', [AboutSectionController::class, 'storeSectionBanner'])->name('section.about.store');
+                Route::put('put/{id}', [AboutSectionController::class, 'updateSectionBanner'])->name('section.about.put');
+            });
+            Route::prefix('description')->group(function () {
+                Route::get('/', [AboutSectionController::class, 'indexContentDescription'])->name('section.about.description.index');
+                Route::post('store', [AboutSectionController::class, 'storeSectionDescription'])->name('section.about.description.store');
+                Route::put('put/{id}', [AboutSectionController::class, 'updateSectionDescription'])->name('section.about.description.put');
+            });
         });
     });
 
@@ -137,6 +164,27 @@ Route::prefix('dashboard')->group(function () {
         });
     });
 
+    Route::prefix('partnership')->group(function () {
+        Route::prefix('main')->group(function () {
+            Route::get('/', [PartnershipController::class, 'index'])->name('partnership.index');
+            Route::post('store', [PartnershipController::class, 'store'])->name('partnership.store');
+            Route::put('put/{id}', [PartnershipController::class, 'update'])->name('partnership.put');
+            Route::delete('destroy/{id}', [PartnershipController::class, 'destroy'])->name('partnership.destroy');
+        });
+        // Route::prefix('section')->group(function () {
+        //     Route::prefix('banner')->group(function () {
+        //         Route::get('/', [AboutSectionController::class, 'index'])->name('section.about.index');
+        //         Route::post('store', [AboutSectionController::class, 'storeSectionBanner'])->name('section.about.store');
+        //         Route::put('put/{id}', [AboutSectionController::class, 'updateSectionBanner'])->name('section.about.put');
+        //     });
+        //     Route::prefix('description')->group(function () {
+        //         Route::get('/', [AboutSectionController::class, 'indexContentDescription'])->name('section.about.description.index');
+        //         Route::post('store', [AboutSectionController::class, 'storeSectionDescription'])->name('section.about.description.store');
+        //         Route::put('put/{id}', [AboutSectionController::class, 'updateSectionDescription'])->name('section.about.description.put');
+        //     });
+        // });
+    });
+
     Route::prefix('master')->group(function () {
         Route::get('section-category', [MasterSectionCategoryController::class, 'index'])->name('scategory.index');
         Route::post('section-category/store', [MasterSectionCategoryController::class, 'store'])->name('scategory.store');
@@ -169,7 +217,7 @@ Route::prefix('dashboard')->group(function () {
             });
             Route::prefix('statistic')->group(function () {
                 Route::get('/', [OperationalStatisticController::class, 'index'])->name('statistic.index');
-                 Route::post('content/store', [OperationalStatisticController::class, 'storeContentStats'])->name('statistic.storeContent');
+                Route::post('content/store', [OperationalStatisticController::class, 'storeContentStats'])->name('statistic.storeContent');
                 Route::put('content/put/{id}', [OperationalStatisticController::class, 'updateContentStats'])->name('statistic.putContent');
                 Route::post('store', [OperationalStatisticController::class, 'store'])->name('statistic.store');
                 Route::put('put/{id}', [OperationalStatisticController::class, 'update'])->name('statistic.put');
@@ -189,11 +237,17 @@ Route::prefix('dashboard')->group(function () {
                 Route::put('put/{id}', [MealController::class, 'update'])->name('meal.put');
                 Route::delete('destroy/{id}', [MealController::class, 'destroy'])->name('meal.destroy');
             });
-            Route::prefix('batch-menu')->group(function () {
+            Route::prefix('menu')->group(function () {
                 Route::get('/', [MenuController::class, 'index'])->name('batch-menu.index');
                 Route::post('store', [MenuController::class, 'store'])->name('batch-menu.store');
-                Route::put('put/{id}', [MenuController::class, 'update'])->name('batch-menu.put');
+                Route::put('put', [MenuController::class, 'update'])->name('batch-menu.put');
                 Route::delete('destroy/{id}', [MenuController::class, 'destroy'])->name('batch-menu.destroy');
+            });
+            Route::prefix('batch')->group(function () {
+                Route::get('/', [BatchController::class, 'index'])->name('batch.index');
+                Route::post('store', [BatchController::class, 'store'])->name('batch.store');
+                Route::put('put/{id}', [BatchController::class, 'update'])->name('batch.put');
+                Route::delete('destroy/{id}', [BatchController::class, 'destroy'])->name('batch.destroy');
             });
         });
     });

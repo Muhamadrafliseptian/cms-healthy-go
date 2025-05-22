@@ -67,7 +67,7 @@
             </div>
         </div>
 
-        <table id="program" class="table table-striped table-bordered text-center">
+        <table id="program" class="">
             <thead>
                 <tr>
                     <th>No</th>
@@ -114,7 +114,6 @@
 @endsection
 
 @section('js')
-    <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
@@ -132,7 +131,10 @@
         }
 
         $(document).ready(function () {
-            $('#program').DataTable();
+            $('#program').DataTable({
+                scrollX: true,
+                responsive: true
+            });
 
             initCKEditor('#program_title', 'program_title');
             initCKEditor('#program_subtitle', 'program_subtitle');

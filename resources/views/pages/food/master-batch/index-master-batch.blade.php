@@ -7,7 +7,7 @@
 
 @section('content')
     <div class="container my-4">
-        <h3 class="mb-4">Benefit Data</h3>
+        <h3 class="mb-4">Master Batch</h3>
 
         @if (session('success'))
             <div class="alert alert-success">
@@ -20,28 +20,28 @@
                 {{ session('error') }}
             </div>
         @endif
-        <button class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addCarouselModal">
+        <button class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addBatchModal">
             Tambah +
         </button>
 
-        <div class="modal fade" id="addCarouselModal" tabindex="-1" aria-labelledby="addCarouselModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="addBatchModal" tabindex="-1" aria-labelledby="addBatchModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <form action="{{ route('benefits.store') }}" method="POST" enctype="multipart/form-data"
+                <form action="{{ route('batch.store') }}" method="POST" enctype="multipart/form-data"
                     class="modal-content">
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addCarouselModalLabel">Tambah Data</h5>
+                        <h5 class="modal-title" id="addBatchModalLabel">Tambah Data</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="content" class="form-label">Content</label>
-                            <textarea name="content" id="content" rows="5" class="form-control"></textarea>
+                            <label for="name" class="form-label">Batch</label>
+                            <input type="text" class="form-control" name="name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="img_mealb" class="form-label">Pilih Gambar</label>
-                            <input type="file" class="form-control" name="img_mealb" accept="image/*" required>
+                            <label for="start_date" class="form-label">Start Date</label>
+                            <input type="date" class="form-control" name="start_date" min="{{ date('Y-m-d') }}"
+                                max="{{ date('Y-m-d', strtotime('+14 days')) }}" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -49,32 +49,29 @@
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
+
             </div>
         </div>
 
-        <div class="modal fade" id="editCertificateModal" tabindex="-1" aria-labelledby="editCertificateModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="editBatchModal" tabindex="-1" aria-labelledby="editBatchModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <form id="editForm" method="POST" enctype="multipart/form-data" class="modal-content">
+                <form id="editForm" method="POST" class="modal-content">
                     @csrf
                     @method('PUT')
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editCertificateModalLabel">Edit Data</h5>
+                        <h5 class="modal-title" id="editBatchModalLabel">Edit Data</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <input type="hidden" id="edit-id">
                         <div class="mb-3">
-                            <label for="edit_answer_content" class="form-label">Content</label>
-                            <textarea class="form-control" name="content" id="edit_answer_content" rows="5"></textarea>
+                            <label for="edit-name" class="form-label">Batch</label>
+                            <input type="text" class="form-control" id="edit-name" name="name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="img_mealb" class="form-label">Pilih Gambar Baru (opsional)</label>
-                            <input type="file" class="form-control" name="img_mealb" accept="image/*">
-                        </div>
-                        <div class="mb-3">
-                            <label>Preview Gambar</label><br>
-                            <img id="previewImg" src="" alt="Preview" width="150">
+                            <label for="edit-start-date" class="form-label">Start Date</label>
+                            <input type="date" class="form-control" id="edit-start-date" name="start_date" required
+                                min="{{ date('Y-m-d') }}" max="{{ date('Y-m-d', strtotime('+14 days')) }}">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -82,21 +79,25 @@
                         <button type="submit" class="btn btn-primary">Perbarui</button>
                     </div>
                 </form>
+
             </div>
         </div>
 
 
-        <table id="certificate" class="table table-striped table-bordered w-100">
+        <table id="batch" class="table table-striped table-bordered w-100">
             <thead>
                 <tr>
                     <th>
                         No
                     </th>
                     <th>
-                        Content
+                        Name
                     </th>
                     <th>
-                        Image
+                        Start Date
+                    </th>
+                    <th>
+                        End Date
                     </th>
                     <th>
                         Aksi
@@ -109,20 +110,22 @@
                             1
                         </td>
                         <td>
-                            {!! $item->content !!}
+                            {{ $item->name }}
                         </td>
                         <td>
-                            <img src="{{ asset('storage/' . $item->img_mealb) }}" alt="Certificate Image" class="img-fluid"
-                                width="150">
+                            {{ $item->start_date }}
+                        </td>
+                        <td>
+                            {{ $item->end_date }}
                         </td>
                         <td>
                             <button class="btn btn-sm btn-primary btn-edit" data-id="{{ $item->id }}"
-                                data-image="{{ $item->img_mealb }}" data-bs-toggle="modal"
-                                data-content="{{ $item->content }}" data-bs-target="#editCertificateModal">
+                                data-name="{{ $item->name }}" data-start="{{ $item->start_date }}"
+                                data-bs-toggle="modal" data-bs-target="#editBatchModal">
                                 Edit
                             </button>
 
-                            <form action="{{ route('benefits.destroy', $item->id) }}" method="POST"
+                            <form action="{{ route('batch.destroy', $item->id) }}" method="POST"
                                 style="display:inline-block;">
                                 @csrf
                                 @method('DELETE')
@@ -143,38 +146,24 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
-    <script>
-        ClassicEditor
-            .create(document.querySelector('#content'))
-            .catch(error => {
-                console.error(error);
-            });
-    </script>
     <script>
         $(document).ready(function() {
-            $('#certificate').DataTable({
+            $('#batch').DataTable({
                 scrollX: true,
                 responsive: true
             });
-            ClassicEditor
-                .create(document.querySelector('#edit_answer_content'))
-                .then(editor => {
-                    window.editEditor = editor;
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+
             $('.btn-edit').on('click', function() {
                 const id = $(this).data('id');
-                const image = $(this).data('image');
-                const content = $(this).data('content');
-                window.editEditor.setData(content);
+                const name = $(this).data('name');
+                const start = $(this).data('start');
 
                 $('#edit-id').val(id);
-                $('#previewImg').attr('src', '/storage/' + image);
+                $('#edit-name').val(name);
+                $('#edit-start-date').val(start);
 
-                const actionUrl = `/dashboard/iklan/benefit/put/${id}`;
+                const actionUrl = `{{ url('dashboard/master/konten/batch') }}/put/${id}`;
+
                 $('#editForm').attr('action', actionUrl);
             });
         });

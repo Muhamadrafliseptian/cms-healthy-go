@@ -78,7 +78,7 @@
         </div>
 
 
-        <table id="certificate" class="table table-striped table-bordered text-center">
+        <table id="certificate" class="table table-bordered table-stripped w-100">
             <thead>
                 <tr>
                     <th>
@@ -131,7 +131,10 @@
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#certificate').DataTable();
+            $('#certificate').DataTable({
+                scrollX: true,
+                responsive: true
+            });
 
             $('.btn-edit').on('click', function () {
                 const id = $(this).data('id');

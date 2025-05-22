@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\VideoHome;
+use Illuminate\Support\Facades\Storage;
+
 
 class VideoController
 {
@@ -48,8 +50,8 @@ class VideoController
             $path = $file->storeAs('video_home', $filename, 'public');
 
             // Hapus file lama jika ada
-            if ($video->video_home && \Storage::disk('public')->exists($video->video_home)) {
-                \Storage::disk('public')->delete($video->video_home);
+            if ($video->video_home && Storage::disk('public')->exists($video->video_home)) {
+                Storage::disk('public')->delete($video->video_home);
             }
 
             $video->video_home = $path;

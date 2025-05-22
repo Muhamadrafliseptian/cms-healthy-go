@@ -17,7 +17,7 @@
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
 
-        <button class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addBatchMenu">Tambah Testimoni
+        <button class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addBatchMenu">Tambah Data
             +</button>
 
         <div class="modal fade" id="addBatchMenu" tabindex="-1" aria-labelledby="addBatchMenuLabel" aria-hidden="true">
@@ -26,11 +26,23 @@
                     class="modal-content">
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addBatchMenuLabel">Tambah Testimoni</h5>
+                        <h5 class="modal-title" id="addBatchMenuLabel">Tambah Data</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        @include('pages.food.batch.form-batch', ['prefix' => ''])
+                        <div class="mb-3">
+                            <label for="batch_id" class="form-label">Pilih Batch</label>
+                            <select name="batch_id" class="form-select" required>
+                                @foreach ($batches as $batch)
+                                    <option value="{{ $batch->id }}">
+                                        {{ $batch->name }}
+                                        ({{ \Carbon\Carbon::parse($batch->start_date)->translatedFormat('d F Y') }} -
+                                        {{ \Carbon\Carbon::parse($batch->end_date)->translatedFormat('d F Y') }})
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @include('pages.food.batch.form-batch', ['prefix' => '', 'menus' => []])
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -42,19 +54,17 @@
 
         <div class="modal fade" id="editBatchMenu" tabindex="-1" aria-labelledby="editBatchMenuLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <form id="editForm" method="POST" enctype="multipart/form-data" class="modal-content">
+                <form id="editForm" method="POST" enctype="multipart/form-data" class="modal-content" action="{{ route('batch-menu.put') }}">
                     @csrf
                     @method('PUT')
                     <div class="modal-header">
-                        <h5 class="modal-title">Edit Testimoni</h5>
+                        <h5 class="modal-title">Edit Data</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        @include('pages.food.batch.form-batch', ['prefix' => 'edit_'])
-                        <div class="mb-3">
-                            <label>Preview Gambar</label><br>
-                            <img id="previewImg" src="" alt="Preview" width="150">
-                        </div>
+                        @include('pages.food.batch.form-edit-batch', [
+                            'batches' => $batches ?? [],
+                        ])
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -64,10 +74,12 @@
             </div>
         </div>
 
-        <table id="program" class="table table-striped table-bordered text-center">
+        <table id="program" class="table table-striped table-bordered w-100">
             <thead>
                 <tr>
                     <th>No</th>
+                    <th>Batch</th>
+                    <th>Periode</th>
                     <th>Hari</th>
                     <th>Lunch Menu</th>
                     <th>Dinner Menu</th>
@@ -79,9 +91,17 @@
                 @foreach ($data as $index => $item)
                     <tr class="alignMiddle">
                         <td>{{ $index + 1 }}</td>
+                        <td>{{ $item->batch->name }}
+
+                        </td>
+                        <td>
+                            <br>{{ \Carbon\Carbon::parse($item->batch->start_date)->translatedFormat('d F Y') }} s/d
+                            <br>{{ \Carbon\Carbon::parse($item->batch->end_date)->translatedFormat('d F Y') }}
+                        </td>
                         <td>
                             {!! $item->day !!}
-                        </td><td>
+                        </td>
+                        <td>
                             {!! $item->dinner_menu !!}
                         </td>
                         <td>
@@ -90,9 +110,9 @@
                         <td><img src="{{ asset('storage/' . $item->img_menu) }}" alt="Program Image" width="150"></td>
                         <td>
                             <button class="btn btn-sm btn-primary btn-edit" data-id="{{ $item->id }}"
-                                data-dinner="{{ $item->dinner_menu }}" data-lunch="{{ $item->lunch_menu }}"
-                                data-day="{{$item->day}}"
-                                data-img-menu="{{ $item->img_menu }}" data-bs-toggle="modal" data-bs-target="#editBatchMenu">
+                                data-day="{{ $item->day }}" data-lunch="{{ $item->lunch_menu }}"
+                                data-dinner="{{ $item->dinner_menu }}" data-bs-toggle="modal"
+                                data-bs-target="#editBatchMenu">
                                 Edit
                             </button>
 
@@ -128,26 +148,24 @@
                 .catch(error => console.error(error));
         }
 
-        $(document).ready(function () {
-            $('#program').DataTable();
-
-            $('.btn-edit').on('click', function () {
-                const id = $(this).data('id');
-                const dinner = $(this).data('dinner');
-                const lunch = $(this).data('lunch');
-                const image = $(this).data('img-menu');
-                const day = $(this).data('day');
-
-                $('#edit_dinner_menu').val(dinner);
-                $('#edit_lunch_menu').val(lunch);
-                $('#edit_day_menu').val(day);
-                $('#previewImg').attr('src', '/storage/' + image);
-
-                const actionUrl = `/dashboard/food/batch-menu/put/${id}`;
-                $('#editForm').attr('action', actionUrl);
+        $(document).ready(function() {
+            $('#program').DataTable({
+                responsive: true,
+                scrollX: true
             });
-
         });
     </script>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll(".btn-edit").forEach(btn => {
+                btn.addEventListener("click", function() {
+                    document.getElementById("edit_id").value = this.dataset.id;
+                    document.getElementById("edit_day").value = this.dataset.day || '';
+                    document.getElementById("edit_lunch_menu").value = this.dataset.lunch || '';
+                    document.getElementById("edit_dinner_menu").value = this.dataset.dinner || '';
+                });
+            });
+        });
+    </script>
 @endsection

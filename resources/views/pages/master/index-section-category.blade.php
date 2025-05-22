@@ -86,7 +86,7 @@
         </div>
 
 
-        <table id="certificate" class="table table-striped table-bordered">
+        <table id="certificate" class="table table-striped table-bordered w-100">
             <thead class="text-center">
                 <tr>
                     <th>
@@ -146,8 +146,8 @@
     <script>
         $(document).ready(function () {
             $('#certificate').DataTable({
-                responsive: true,
-                fixedHeader: true
+                scrollX: true,
+                responsive: true
             });
         });
     </script>

@@ -78,7 +78,7 @@
         </div>
 
 
-        <table id="certificate" class="table table-striped table-bordered text-center">
+        <table id="certificate" class="table table-striped table-bordered w-100">
             <thead>
                 <tr>
                     <th>
@@ -130,10 +130,14 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $('#certificate').DataTable();
+        $(document).ready(function() {
+            $('#certificate').DataTable({
+                responsive: true,
+                scrollX: true
+                // ,
+            });
 
-            $('.btn-edit').on('click', function () {
+            $('.btn-edit').on('click', function() {
                 const id = $(this).data('id');
                 const image = $(this).data('image');
 
@@ -145,5 +149,4 @@
             });
         });
     </script>
-
 @endsection

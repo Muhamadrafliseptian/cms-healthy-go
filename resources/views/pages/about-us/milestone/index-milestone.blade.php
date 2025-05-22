@@ -97,7 +97,7 @@
         </div>
 
 
-        <table id="milestone" class="table table-striped table-bordered">
+        <table id="milestone" class="table table-striped table-bordered w-100">
             <thead class="text-center">
                 <tr>
                     <th>
@@ -165,7 +165,7 @@
         $(document).ready(function () {
             $('#milestone').DataTable({
                 responsive: true,
-                fixedHeader: true
+                scrollX: true
             });
         });
     </script>

@@ -38,6 +38,7 @@
                             $sosmedActive = Request::is('dashboard/etc*');
                             $masterActive = Request::is('dashboard/master/konten*');
                             $iklanActive = Request::is('dashboard/iklan*');
+                            $partnershipActive = Request::is('dashboard/partnership*');
                         @endphp
 
                         <a class="nav-link {{ Request::is('dashboard/master*') ? 'active' : '' }}"
@@ -65,8 +66,10 @@
                                     href="{{ route('partnershipHome.index') }}">Partnership</a>
                                 <a class="nav-link {{ Request::is('dashboard/master/konten/meal*') ? 'active' : '' }}"
                                     href="{{ route('meal.index') }}">Meal</a>
-                                <a class="nav-link {{ Request::is('dashboard/master/konten/batch-menu*') ? 'active' : '' }}"
-                                    href="{{ route('batch-menu.index') }}">Batch</a>
+                                <a class="nav-link {{ Request::is('dashboard/master/konten/menu*') ? 'active' : '' }}"
+                                    href="{{ route('batch-menu.index') }}">Menu</a>
+                                <a class="nav-link {{ Request::is('dashboard/master/konten/batch*') ? 'active' : '' }}"
+                                    href="{{ route('batch.index') }}">Batch</a>
                                 <a class="nav-link {{ Request::is('dashboard/master/konten/statistic*') ? 'active' : '' }}"
                                     href="{{ route('statistic.index') }}">Statistic</a>
                             </nav>
@@ -82,7 +85,8 @@
                         <div class="collapse {{ $homeActive ? 'show' : '' }}" id="homeCollapse"
                             data-bs-parent="#sidenavAccordionMenu">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="{{ url('/home') }}">Banner</a>
+                                <a class="nav-link {{ Request::is('dashboard/home/section/banner*') ? 'active' : '' }}"
+                                    href="{{ route('section.home.index') }}">Banner</a>
                                 <a class="nav-link {{ Request::is('dashboard/home/video*') ? 'active' : '' }}"
                                     href="{{ route('video.index') }}">Video</a>
                                 <a class="nav-link {{ Request::is('dashboard/home/service*') ? 'active' : '' }}"
@@ -99,25 +103,28 @@
                         <div class="collapse {{ $aboutActive ? 'show' : '' }}" id="aboutCollapse"
                             data-bs-parent="#sidenavAccordionMenu">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="{{ url('/home') }}">Banner</a>
-                                <a class="nav-link" href="{{ url('/home') }}">Description</a>
+                                <a class="nav-link {{ Request::is('dashboard/about-us/section/banner*') ? 'active' : '' }}"
+                                    href="{{ route('section.about.index') }}">Banner</a>
+                                <a class="nav-link {{ Request::is('dashboard/about-us/section/description*') ? 'active' : '' }}"
+                                    href="{{ route('section.about.description.index') }}">Description</a>
                                 <a class="nav-link {{ Request::is('dashboard/about-us/milestone*') ? 'active' : '' }}"
                                     href="{{ route('milestone.index') }}">Milestone</a>
                             </nav>
                         </div>
 
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        <a class="nav-link {{ $partnershipActive ? '' : 'collapsed' }}" href="#" data-bs-toggle="collapse"
                             data-bs-target="#partnerCollapse" aria-expanded="false" aria-controls="partnerCollapse">
                             Partnership
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <div class="collapse" id="partnerCollapse" data-bs-parent="#sidenavAccordionMenu">
+                        <div class="collapse {{ $partnershipActive ? 'show' : '' }}" id="partnerCollapse" data-bs-parent="#sidenavAccordionMenu">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="{{ url('/home') }}">Banner</a>
                                 <a class="nav-link" href="{{ url('/home') }}">Tag</a>
                                 <a class="nav-link" href="{{ url('/partnership') }}">Collaborate</a>
                                 <a class="nav-link" href="{{ url('/partnership') }}">Working Together</a>
-                                <a class="nav-link" href="{{ url('/partnership') }}">Partnership</a>
+                                <a class="nav-link {{ Request::is('dashboard/partnership/main*') ? 'active' : '' }}"
+                                    href="{{ route('partnership.index') }}">Partnership</a>
                             </nav>
                         </div>
 

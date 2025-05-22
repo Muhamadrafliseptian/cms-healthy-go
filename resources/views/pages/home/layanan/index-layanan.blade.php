@@ -87,7 +87,7 @@
         </div>
 
 
-        <table id="certificate" class="table table-striped table-bordered">
+        <table id="certificate" class="table table-striped table-bordered w-100">
             <thead class="text-center">
                 <tr>
                     <th>
@@ -147,8 +147,8 @@
     <script>
         $(document).ready(function () {
             $('#certificate').DataTable({
-                responsive: true,
-                fixedHeader: true
+                scrollX: true,
+                responsive: true
             });
         });
     </script>
@@ -169,19 +169,19 @@
             .catch(error => {
                 console.error(error);
             });
-    
+
         $('.btn-edit').on('click', function () {
             const id = $(this).data('id');
             const title = $(this).data('title');
             const content = $(this).data('content');
-    
+
             $('#edit_title_service').val(title);
             window.editEditor.setData(content);
-    
+
             const formAction = `{{ url('dashboard/home/service') }}/put/${id}`;
             $('#editServiceForm').attr('action', formAction);
         });
     </script>
-    
+
 
 @endsection

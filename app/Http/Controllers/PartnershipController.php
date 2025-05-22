@@ -23,7 +23,7 @@ class PartnershipController
                 ], 200);
             }
 
-            return view('pages.home.partnership.index-partnership', compact('data'));
+            return view('pages.partnership.main-partnership.index-partnership', compact('data'));
         } catch (\Exception $e) {
             Log::error('Partnership Index Error: ' . $e->getMessage());
             return response()->json([

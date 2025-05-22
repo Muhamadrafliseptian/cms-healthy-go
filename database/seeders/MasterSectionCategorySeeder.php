@@ -14,10 +14,10 @@ class MasterSectionCategorySeeder extends Seeder
     public function run(): void
     {
         $sections = [
-            'banner' => 'sb',
-            'taghome1' => 'staghome1',
-            'taghome2' => 'staghome2',
-            'taghome3' => 'staghome3',
+            'bhome' => 'sbhome',
+            'shome' => 'shome1',
+            'babout' => 'sabout',
+            'sabout' => 'sabout1',
             'service' => 'ssservice',
             'program' => 'sprogram',
             'partnership' => 'spartnership',
@@ -26,7 +26,6 @@ class MasterSectionCategorySeeder extends Seeder
             'meal' => 'smeal',
             'promo' => 'spromo',
             'solution' => 'ssolution',
-            'about' => 'sabout',
             'milestones' => 'smilestones',
             'contact' => 'scontact',
             'partnership2' => 'spartnership2',
