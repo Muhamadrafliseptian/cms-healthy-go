@@ -40,6 +40,42 @@ class FaqController
         }
     }
 
+    public function storeBannerFaq(Request $request)
+    {
+        try {
+            $category = MasterSectionCategory::where('slug', 'sfaq')->first();
+
+
+            SectionContent::create([
+                'menu_id'    => $category->id,
+                'section'    => 'sfaq',
+                'title'      => $request->title,
+                'subtitle1'  => $request->subtitle1,
+                'subtitle2'  => $request->subtitle2,
+            ]);
+
+            return back()->with('success', 'Data berhasil disimpan.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function updateBannerFaq(Request $request, $id)
+    {
+        try {
+            $content = SectionContent::findOrFail($id);
+            $content->update([
+                'title'     => $request->title,
+                'subtitle1' => $request->subtitle1,
+                'subtitle2' => $request->subtitle2,
+            ]);
+
+            return back()->with('success', 'Data berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
     public function storeContentFaq(Request $request)
     {
         try {
