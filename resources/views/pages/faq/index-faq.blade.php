@@ -21,9 +21,7 @@
         @endif
 
         <h3 class="mb-4">FAQ Section</h3>
-        <form
-            action="{{ $section ? route('faq.updateContent', $section->id) : route('faq.storeContent') }}"
-            method="POST">
+        <form action="{{ $section ? route('faq.updateContentFaq', $section->id) : route('faq.storeContentFaq') }}" method="POST">
             @csrf
             @if ($section)
                 @method('PUT')
@@ -34,13 +32,17 @@
                 <input type="text" name="title" class="form-control mb-3"
                     value="{{ old('title', $section->title ?? '') }}" required>
 
-                <label for="subtitle1" class="form-label">Subtitle</label>
-                <input type="text" name="subtitle1" class="form-control"
-                    value="{{ old('subtitle1', $section->subtitle1 ?? '') }}">
+                <div class="mb-3">
+                    <label for="subtitle1" class="form-label">Subtitle</label>
+                <textarea class="form-control ckeditor" id="subtitle1" name="subtitle1" rows="3">
+                        {{ old('subtitle1', $section->subtitle1 ?? '') }}
+                    </textarea>
+                </div>
 
                 <label for="subtitle2" class="form-label">Subtitle</label>
-                <input type="text" name="subtitle2" class="form-control"
-                    value="{{ old('subtitle2', $section->subtitle2 ?? '') }}">
+                <textarea class="form-control ckeditor" id="subtitle2" name="subtitle2" rows="3">
+                        {{ old('subtitle2', $section->subtitle2 ?? '') }}
+                    </textarea>
             </div>
 
             <button type="submit" class="btn btn-sm btn-primary mt-3 mb-3">
@@ -206,6 +208,18 @@
 
             const formAction = `{{ url('dashboard/etc/faq') }}/put/${id}`;
             $('#editPromoForm').attr('action', formAction);
+        });
+    </script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('.ckeditor').forEach(function(el) {
+                ClassicEditor
+                    .create(el)
+                    .catch(error => {
+                        console.error(error);
+                    });
+            });
         });
     </script>
 @endsection

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MasterSectionCategory;
 use App\Models\Milestone;
+use App\Models\SectionContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -12,24 +14,33 @@ class MilestoneController
     {
         try {
             $data = Milestone::all();
+
+            $category = MasterSectionCategory::where('slug', 'smilestones')->first();
+            $section = SectionContent::where('menu_id', $category->id)
+                ->where('section', 'smilestones')
+                ->first();
+
             if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Data layanan berhasil diambil',
-                    'data' => $data
+                    'data' => $data,
+                    'section' => $section,
                 ], 200);
             }
 
-            return view('pages.about-us.milestone.index-milestone', compact('data'));
+            return view('pages.about-us.milestone.index-milestone', compact('data', 'section'));
         } catch (\Exception $e) {
             Log::error('Service Index Error: ' . $e->getMessage());
             if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Terjadi kesalahan saat mengambil data layanan',
-                    'data' => null
+                    'data' => null,
+                    'section' => null
                 ], 500);
             }
+
             return redirect()->back()->with('error', 'Terjadi kesalahan saat mengambil data layanan');
         }
     }
@@ -45,27 +56,8 @@ class MilestoneController
 
             $milestone = Milestone::create($request->only('year', 'title_milestone', 'content_milestone'));
 
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'Milestone berhasil ditambahkan',
-                    'data' => $milestone
-                ], 201);
-            }
-
             return redirect()->back()->with('success', 'Data berhasil ditambah');
-
         } catch (\Exception $e) {
-            Log::error('Service Store Error: ' . $e->getMessage());
-
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Terjadi kesalahan saat menambahkan milestone',
-                    'data' => null
-                ], 500);
-            }
-
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
@@ -103,7 +95,6 @@ class MilestoneController
             }
 
             return redirect()->back()->with('error', $e->getMessage());
-
         }
     }
 
@@ -120,7 +111,7 @@ class MilestoneController
                 ], 404);
             }
 
-            $milestone->update($request->only('year','title_milestone', 'content_milestone'));
+            $milestone->update($request->only('year', 'title_milestone', 'content_milestone'));
 
             if ($request->wantsJson()) {
                 return response()->json([
@@ -132,14 +123,6 @@ class MilestoneController
 
             return redirect()->back()->with('success', 'Data berhasil diubah');
         } catch (\Exception $e) {
-            Log::error('Service Update Error: ' . $e->getMessage());
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Terjadi kesalahan saat memperbarui layanan',
-                    'data' => null
-                ], 500);
-            }
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
@@ -159,24 +142,48 @@ class MilestoneController
 
             $milestone->delete();
 
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'Layanan berhasil dihapus',
-                    'data' => null
-                ], 200);
-            }
-
             return redirect()->back()->with('success', 'Data berhasil dihapus');
         } catch (\Exception $e) {
-            Log::error('Service Delete Error: ' . $e->getMessage());
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Terjadi kesalahan saat menghapus layanan',
-                    'data' => null
-                ], 500);
-            }
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function storeSection(Request $request)
+    {
+        try {
+            $category = MasterSectionCategory::where('slug', 'smilestones')->first();
+
+            SectionContent::create([
+                'title' => $request->title,
+                'subtitle1' => $request->subtitle1,
+                'subtitle2' => $request->subtitle2,
+                'subtitle3' => $request->subtitle3,
+                'menu_id' => $category->id,
+                'section' => 'smilestones',
+            ]);
+
+            return redirect()->back()->with('success', 'Data berhasil ditambah');
+        } catch (\Exception $e) {
+            Log::error('Service Store Error: ' . $e->getMessage());
+
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function updateSection(Request $request, $id)
+    {
+        try {
+            $benefit = SectionContent::find($id);
+
+            $benefit->title = $request->title;
+            $benefit->subtitle1 = $request->subtitle1;
+            $benefit->subtitle2 = $request->subtitle2;
+            $benefit->subtitle3 = $request->subtitle3;
+
+            $benefit->save();
+
+            return redirect()->back()->with('success', 'Data berhasil diperbarui.');
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }

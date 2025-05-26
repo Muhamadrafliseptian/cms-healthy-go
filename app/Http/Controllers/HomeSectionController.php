@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 class HomeSectionController
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
             $categories = MasterSectionCategory::whereIn('slug', ['sbhome', 'shome1'])
@@ -23,6 +23,16 @@ class HomeSectionController
                 ->get()
                 ->keyBy('section');
 
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'data' => [
+                        'sbhome' => $sections->get('sbhome'),
+                        'shome1' => $sections->get('shome1'),
+                    ]
+                ], 200);
+            }
+
             return view('pages.home.banner.index-banner', [
                 'section' => $sections->get('sbhome'),
                 'section2' => $sections->get('shome1'),
@@ -32,7 +42,6 @@ class HomeSectionController
             abort(500, 'Terjadi kesalahan saat memuat data.');
         }
     }
-
 
     public function storeSectionBanner(Request $request)
     {
@@ -107,7 +116,7 @@ class HomeSectionController
     {
         try {
 
-            $category = MasterSectionCategory::where('slug', 'sbhome')->first();
+            $category = MasterSectionCategory::where('slug', 'shome1')->first();
 
             $request->validate([
                 'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
@@ -134,7 +143,7 @@ class HomeSectionController
                 'subtitle4' => $request->subtitle4,
                 'subtitle5' => $request->subtitle5,
                 'menu_id' => $category->id,
-                'section' => 'sbhome',
+                'section' => 'shome1',
             ]);
 
             return redirect()->back()->with('success', 'Berhasil tambah benefit');

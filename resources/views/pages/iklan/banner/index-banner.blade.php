@@ -19,7 +19,7 @@
 
         <div class="card shadow-sm">
             <div class="card-body">
-                <h4 class="card-title mb-4">{{ $section ? 'Edit Banner' : 'Tambah Banner' }}</h4>
+                <h4 class="card-title mb-3">{{ $section ? 'Edit Banner' : 'Tambah Banner' }}</h4>
 
                 <form action="{{ $section ? route('banner.put', $section->id) : route('banner.store') }}" method="POST"
                     enctype="multipart/form-data">
@@ -28,8 +28,7 @@
                         @method('PUT')
                     @endif
 
-                    <div class="row mb-4">
-                        {{-- Preview Gambar --}}
+                    <div class="row mb-3">
                         @if ($section && $section->img)
                             <div class="col-md-12 text-center">
                                 <img src="{{ asset('storage/' . $section->img) }}" class="img-thumbnail"
@@ -40,45 +39,30 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="img" class="form-label">Upload Background Banner</label>
-                        <input type="file" name="img" class="form-control">
+                        <label for="subtitle1" class="form-label">Subjudul 1</label>
+                        <textarea name="subtitle1" id="subtitle1" class="form-control ckeditor" rows="3">{{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="title" class="form-label">Judul Banner</label>
-                        <input type="text" name="title" class="form-control"
-                            value="{{ old('title', $section->title ?? '') }}" required>
+                        <label for="subtitle2" class="form-label">Subjudul 2</label>
+                        <textarea name="subtitle2" id="subtitle2" class="form-control ckeditor" rows="3">{{ old('subtitle2', $section->subtitle2 ?? '') }}</textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="subtitle" class="form-label">Subjudul 1</label>
-                        <input type="text" name="subtitle1" class="form-control"
-                            value="{{ old('subtitle1', $section->subtitle1 ?? '') }}" required>
+                        <label for="subtitle3" class="form-label">Subjudul 3</label>
+                        <textarea name="subtitle3" id="subtitle3" class="form-control ckeditor" rows="3">{{ old('subtitle3', $section->subtitle3 ?? '') }}</textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="subtitle" class="form-label">Subjudul 2</label>
-                        <input type="text" name="subtitle2" class="form-control"
-                            value="{{ old('subtitle2', $section->subtitle2 ?? '') }}" required>
+                        <label for="subtitle4" class="form-label">Subjudul 4</label>
+                        <textarea name="subtitle4" id="subtitle4" class="form-control ckeditor" rows="3">{{ old('subtitle4', $section->subtitle4 ?? '') }}</textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="subtitle" class="form-label">Subjudul 3</label>
-                        <input type="text" name="subtitle3" class="form-control"
-                            value="{{ old('subtitle3', $section->subtitle3 ?? '') }}" required>
+                        <label for="subtitle5" class="form-label">Subjudul 5</label>
+                        <textarea name="subtitle5" id="subtitle5" class="form-control ckeditor" rows="3">{{ old('subtitle5', $section->subtitle5 ?? '') }}</textarea>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="subtitle" class="form-label">Subjudul 4</label>
-                        <input type="text" name="subtitle4" class="form-control"
-                            value="{{ old('subtitle4', $section->subtitle4 ?? '') }}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="subtitle" class="form-label">Subjudul 5</label>
-                        <input type="text" name="subtitle5" class="form-control"
-                            value="{{ old('subtitle', $section->subtitle5 ?? '') }}" required>
-                    </div>
 
                     <button type="submit" class="btn btn-primary w-100">
                         {{ $section ? 'Perbarui Data' : 'Simpan Data' }}

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\ImgPartnership;
+use App\Models\MasterSectionCategory;
 use App\Models\Partnership;
+use App\Models\SectionContent;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -14,16 +16,22 @@ class PartnershipController
     public function index(Request $request)
     {
         try {
+
             $data = Partnership::all();
+            $category = MasterSectionCategory::where('slug', 'spartnership4')->first();
+            $section = SectionContent::where('menu_id', $category->id)
+                ->where('section', 'spartnership4')
+                ->first();
             if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Data partnership berhasil diambil',
-                    'data' => $data
+                    'data' => $data,
+                    'section' => $section
                 ], 200);
             }
 
-            return view('pages.partnership.main-partnership.index-partnership', compact('data'));
+            return view('pages.partnership.main-partnership.index-partnership', compact('data', 'section'));
         } catch (\Exception $e) {
             Log::error('Partnership Index Error: ' . $e->getMessage());
             return response()->json([
@@ -41,6 +49,7 @@ class PartnershipController
                 'title_partnership' => 'nullable|string',
                 'program_partnership' => 'nullable|string',
                 'content_program_partnership' => 'nullable|string',
+                'btn_color' => 'nullable|string',
                 'img_partnership' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
@@ -56,18 +65,9 @@ class PartnershipController
                 'img_partnership' => $imgPath,
             ]);
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Partnership berhasil ditambahkan',
-                'data' => $partnership
-            ], 201);
+            return redirect()->back()->with('success', 'data berhasil ditambah');
         } catch (\Exception $e) {
-            Log::error('Partnership Store Error: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat menyimpan partnership',
-                'data' => null
-            ], 500);
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -99,6 +99,10 @@ class PartnershipController
         }
     }
 
+    public function test(Request $request, $id){
+        dd("ada");
+    }
+
     public function update(Request $request, $id)
     {
         try {
@@ -114,6 +118,7 @@ class PartnershipController
 
             $request->validate([
                 'title_partnership' => 'nullable|string',
+                'btn_color' => 'nullable|string',
                 'program_partnership' => 'nullable|string',
                 'content_program_partnership' => 'nullable|string',
                 'img_partnership' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
@@ -130,20 +135,12 @@ class PartnershipController
             $partnership->title_partnership = $request->title_partnership;
             $partnership->program_partnership = $request->program_partnership;
             $partnership->content_program_partnership = $request->content_program_partnership;
+            $partnership->btn_color = $request->btn_color;
             $partnership->save();
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Partnership berhasil diperbarui',
-                'data' => $partnership
-            ], 200);
+            return redirect()->back()->with('success', 'data berhasil diperbarui');
         } catch (\Exception $e) {
-            Log::error('Partnership Update Error: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat memperbarui partnership',
-                'data' => null
-            ], 500);
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -166,18 +163,9 @@ class PartnershipController
 
             $partnership->delete();
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Partnership berhasil dihapus',
-                'data' => null
-            ], 200);
+            return redirect()->back()->with('success', 'data berhasil diperbarui');
         } catch (\Exception $e) {
-            Log::error('Partnership Delete Error: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat menghapus partnership',
-                'data' => null
-            ], 500);
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -202,7 +190,6 @@ class PartnershipController
                 return view('pages.home.partnership.index-partnership', compact('data'));
             }
         } catch (Exception $err) {
-
         }
     }
 

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('program_subtitle')->nullable();
             $table->string('program_subtitle_2')->nullable();
             $table->text('content_program')->nullable();
+            $table->text('content_program_2')->nullable();
             $table->timestamps();
         });
     }

@@ -2,7 +2,6 @@
 
 @section('content')
     <div class="container my-4">
-        {{-- Alert Messages --}}
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ session('success') }}
@@ -49,15 +48,13 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="subtitle" class="form-label">Judul Banner 2</label>
-                        <input type="text" name="subtitle1" class="form-control"
-                            value="{{ old('subtitle1', $section->subtitle1 ?? '') }}" required>
+                        <label for="subtitle1" class="form-label">Judul Banner 2</label>
+                        <textarea name="subtitle1" id="subtitlee" class="form-control" rows="3">{{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="subtitle" class="form-label">Judul Banner 3</label>
-                        <input type="text" name="subtitle2" class="form-control"
-                            value="{{ old('subtitle2', $section->subtitle2 ?? '') }}" required>
+                        <label for="subtitle2" class="form-label">Judul Banner 3</label>
+                        <textarea name="subtitle2" id="subtitlee1" class="form-control" rows="3">{{ old('subtitle2', $section->subtitle2 ?? '') }}</textarea>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100">
@@ -74,7 +71,7 @@
                     action="{{ $section2 ? route('section.description.put', $section2->id) : route('section.description.store') }}"
                     method="POST" enctype="multipart/form-data">
                     @csrf
-                    @if ($section)
+                    @if ($section2)
                         @method('PUT')
                     @endif
 
@@ -85,33 +82,28 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="subtitle" class="form-label">Judul Banner 2</label>
-                        <input type="text" name="subtitle1" class="form-control"
-                            value="{{ old('subtitle1', $section2->subtitle1 ?? '') }}" required>
+                        <label for="subtitle1" class="form-label">Judul Banner 2</label>
+                        <textarea name="subtitle1" id="subtitle1" class="form-control" rows="3">{{ old('subtitle1', $section2->subtitle1 ?? '') }}</textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="subtitle" class="form-label">Judul Banner 3</label>
-                        <input type="text" name="subtitle2" class="form-control"
-                            value="{{ old('subtitle2', $section2->subtitle2 ?? '') }}" required>
+                        <label for="subtitle2" class="form-label">Judul Banner 3</label>
+                        <textarea name="subtitle2" id="subtitle2" class="form-control" rows="3">{{ old('subtitle2', $section2->subtitle2 ?? '') }}</textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="subtitle" class="form-label">Judul Banner 4</label>
-                        <input type="text" name="subtitle3" class="form-control"
-                            value="{{ old('subtitle3', $section2->subtitle3 ?? '') }}" required>
+                        <label for="subtitle3" class="form-label">Judul Banner 4</label>
+                        <textarea name="subtitle3" id="subtitle3" class="form-control" rows="3">{{ old('subtitle3', $section2->subtitle3 ?? '') }}</textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="subtitle" class="form-label">Judul Banner 5</label>
-                        <input type="text" name="subtitle4" class="form-control"
-                            value="{{ old('subtitle4', $section2->subtitle4 ?? '') }}" required>
+                        <label for="subtitle4" class="form-label">Judul Banner 5</label>
+                        <textarea name="subtitle4" id="subtitle4" class="form-control" rows="3">{{ old('subtitle4', $section2->subtitle4 ?? '') }}</textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="subtitle" class="form-label">Judul Banner 6</label>
-                        <input type="text" name="subtitle5" class="form-control"
-                            value="{{ old('subtitle5', $section2->subtitle5 ?? '') }}" required>
+                        <label for="subtitle5" class="form-label">Judul Banner 6</label>
+                        <textarea name="subtitle5" id="subtitle5" class="form-control" rows="3">{{ old('subtitle5', $section2->subtitle5 ?? '') }}</textarea>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100">
@@ -121,20 +113,21 @@
             </div>
         </div>
 
+
     </div>
 @endsection
 
 @section('js')
     <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll('.ckeditor').forEach(function(el) {
+        const editors = ['title', 'subtitle1', 'subtitle2', 'subtitle3', 'subtitle4', 'subtitle5', 'subtitlee', 'subtitlee1'];
+        editors.forEach(id => {
+            const el = document.querySelector(`#${id}`);
+            if (el) {
                 ClassicEditor
                     .create(el)
-                    .catch(error => {
-                        console.error(error);
-                    });
-            });
+                    .catch(error => console.error(`CKEditor init failed for ${id}:`, error));
+            }
         });
     </script>
 @endsection

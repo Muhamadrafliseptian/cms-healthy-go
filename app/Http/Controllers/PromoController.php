@@ -15,17 +15,20 @@ class PromoController
     {
         try {
             $data = Promo::all();
-
-            if($request->wantsJson()){
+            $category = MasterSectionCategory::where('slug', 'spromo')->first();
+            $section = SectionContent::where('menu_id', $category->id)
+                ->where('section', 'spromo')
+                ->first();
+            if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Data promo berhasil diambil',
-                    'data' => $data
+                    'data' => $data,
+                    'section' =>  $section
                 ], 200);
             }
 
-            return view ('pages.product-service.promo.index-promo', compact('data'));
-
+            return view('pages.product-service.promo.index-promo', compact('data', 'section'));
         } catch (\Exception $e) {
             Log::error('Promo Index Error: ' . $e->getMessage());
             return response()->json([
@@ -46,7 +49,7 @@ class PromoController
 
             $promo = Promo::create($request->only('title_promo', 'content_promo'));
 
-            if($request->wantsJson()){
+            if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Promo berhasil ditambahkan',
@@ -65,7 +68,7 @@ class PromoController
         }
     }
 
-    public function storeContentTestimoni(Request $request)
+    public function storeContentPromo(Request $request)
     {
         try {
             $category = MasterSectionCategory::where('slug', 'spromo')->first();
@@ -75,6 +78,7 @@ class PromoController
                 'section'    => 'spromo',
                 'title'      => $request->title,
                 'subtitle1'  => $request->subtitle1,
+                'subtitle2'  => $request->subtitle2,
             ]);
 
             return back()->with('success', 'Data testimonial berhasil disimpan.');
@@ -83,7 +87,7 @@ class PromoController
         }
     }
 
-    public function updateContentTestimoni(Request $request, $id)
+    public function updateContentPromo(Request $request, $id)
     {
         try {
             $content = SectionContent::findOrFail($id);
@@ -91,6 +95,7 @@ class PromoController
             $content->update([
                 'title'     => $request->title,
                 'subtitle1' => $request->subtitle1,
+                'subtitle2' => $request->subtitle2,
             ]);
 
             return back()->with('success', 'Data testimonial berhasil diperbarui.');
@@ -142,7 +147,7 @@ class PromoController
 
             $promo->update($request->only('title_promo', 'content_promo'));
 
-            if($request->wantsJson()){
+            if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Promo berhasil diperbarui',
@@ -151,7 +156,6 @@ class PromoController
             }
 
             return redirect()->back()->with('success', 'Data promo berhasil ditambah');
-
         } catch (\Exception $e) {
             Log::error('Promo Update Error: ' . $e->getMessage());
             return response()->json([
@@ -177,7 +181,7 @@ class PromoController
 
             $promo->delete();
 
-            if($request->wantsJson()){
+            if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Promo berhasil dihapus',
@@ -186,7 +190,6 @@ class PromoController
             }
 
             return redirect()->back()->with('success', 'Data promo berhasil ditambah');
-
         } catch (\Exception $e) {
             Log::error('Promo Delete Error: ' . $e->getMessage());
             return response()->json([

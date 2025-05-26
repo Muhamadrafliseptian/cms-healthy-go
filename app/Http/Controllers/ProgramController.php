@@ -15,25 +15,24 @@ class ProgramController
     {
         try {
             $data = Program::all();
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'Data program berhasil diambil',
-                    'data' => $data
-                ], 200);
-            }
-
             $category = MasterSectionCategory::where('slug', 'sprogram')->first();
             $section = SectionContent::where('menu_id', $category->id)
                 ->where('section', 'sprogram')
                 ->first();
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Data program berhasil diambil',
+                    'data' => $data,
+                    'section' => $section
+                ], 200);
+            }
 
             if ($request->is('dashboard/product-service/program*')) {
                 return view('pages.product-service.program.index-program', compact('data', 'section'));
             } else {
                 return view('pages.home.program.index-program', compact('data', 'section'));
             }
-
         } catch (\Exception $e) {
             Log::error('Program Index Error: ' . $e->getMessage());
             return response()->json([
@@ -99,7 +98,7 @@ class ProgramController
                 'subtitle2'  => $request->subtitle2,
             ]);
 
-            return back()->with('success', 'Data testimonial berhasil disimpan.');
+            return back()->with('success', 'Data berhasil disimpan.');
         } catch (\Exception $e) {
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
@@ -116,7 +115,7 @@ class ProgramController
                 'subtitle2' => $request->subtitle2,
             ]);
 
-            return back()->with('success', 'Data testimonial berhasil diperbarui.');
+            return back()->with('success', 'Data berhasil diperbarui.');
         } catch (\Exception $e) {
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
@@ -193,7 +192,6 @@ class ProgramController
             }
 
             return redirect()->back()->with('success', 'Program berhasil diperbarui');
-
         } catch (\Exception $e) {
             Log::error('Program Update Error: ' . $e->getMessage());
             return response()->json([
@@ -242,5 +240,4 @@ class ProgramController
             ], 500);
         }
     }
-
 }

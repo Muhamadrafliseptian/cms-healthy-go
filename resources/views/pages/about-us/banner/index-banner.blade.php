@@ -20,7 +20,8 @@
         <div class="card shadow-sm">
             <div class="card-body">
                 <h4 class="card-title mb-1">{{ $section ? 'Edit Banner' : 'Tambah Banner' }}</h4>
-                <form action="{{ $section ? route('section.about.put', $section->id) : route('section.about.store') }}"
+                <form
+                    action="{{ $section ? route('section.about.put', $section->id) : route('section.about.store') }}"
                     method="POST" enctype="multipart/form-data">
                     @csrf
                     @if ($section)
@@ -38,7 +39,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="img" class="form-label">Upload Background Banner</label>
+                        <label for="img" class="form-label">Upload Gambar Banner</label>
                         <input type="file" name="img" class="form-control">
                     </div>
 
@@ -47,11 +48,11 @@
                         <input type="text" name="title" class="form-control"
                             value="{{ old('title', $section->title ?? '') }}" required>
                     </div>
-
                     <div class="mb-3">
-                        <label for="subtitle" class="form-label">Judul Banner 2</label>
-                        <input type="text" name="subtitle1" class="form-control"
-                            value="{{ old('subtitle1', $section->subtitle1 ?? '') }}" required>
+                        <label for="subtitle1" class="form-label">Subjudul Banner</label>
+                        <textarea type="text" name="subtitle1" class="form-control ckeditor" rows="3" value="">
+                        {{ old('subtitle1', $section->subtitle1 ?? '') }}
+                    </textarea>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100">

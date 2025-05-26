@@ -42,7 +42,7 @@ class CertificateController
     {
         try {
             $request->validate([
-                'img_certificate' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'img_certificate' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
             ]);
 
             $imgPath = null;

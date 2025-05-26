@@ -12,8 +12,7 @@
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
         <h3 class="mb-4">Section Program</h3>
-        <form
-            action="{{ $section ? route('program.update.content', $section->id) : route('program.store.content') }}"
+        <form action="{{ $section ? route('program.update.content', $section->id) : route('program.store.content') }}"
             method="POST">
             @csrf
             @if ($section)
@@ -26,12 +25,12 @@
                     value="{{ old('title', $section->title ?? '') }}" required>
 
                 <label for="subtitle1" class="form-label">Subtitle</label>
-                <input type="text" name="subtitle1" class="form-control mb-3"
-                    value="{{ old('subtitle1', $section->subtitle1 ?? '') }}">
+                <textarea name="subtitle1" id="subtitle1" class="form-control mb-3">{{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea>
 
-                    <label for="subtitle1" class="form-label">Subtitle 2</label>
-                <input type="text" name="subtitle2" class="form-control mb-3"
-                    value="{{ old('subtitle2', $section->subtitle2 ?? '') }}">
+
+                <label for="subtitle2" class="form-label">Subtitle 2</label>
+                <textarea name="subtitle2" id="subtitle2" class="form-control mb-3">{{ old('subtitle2', $section->subtitle2 ?? '') }}</textarea>
+
             </div>
 
             <button type="submit" class="btn btn-sm btn-primary mt-3 mb-3">
@@ -81,7 +80,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        @include('pages.home.testimoni.form-testimoni', ['prefix' => 'edit_'])
+                        @include('pages.home.program.form-program', ['prefix' => 'edit_'])
                         <div class="mb-3">
                             <label>Preview Gambar</label><br>
                             <img id="previewImg" src="" alt="Preview" width="150">
@@ -147,7 +146,15 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#subtitle1'))
+            .catch(error => console.error(error));
 
+        ClassicEditor
+            .create(document.querySelector('#subtitle2'))
+            .catch(error => console.error(error));
+    </script>
     <script>
         let editors = {};
 
@@ -186,7 +193,7 @@
                 editors['edit_program_subtitle_2'].setData(subtitle2);
                 $('#previewImg').attr('src', '/storage/' + image);
 
-                const actionUrl = `/dashboard/home/program/put/${id}`;
+                const actionUrl = `/dashboard/master/konten/program/put/${id}`;
                 $('#editForm').attr('action', actionUrl);
             });
         });

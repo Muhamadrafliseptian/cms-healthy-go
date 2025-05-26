@@ -144,7 +144,7 @@
                 $('#edit-id').val(id);
                 $('#previewImg').attr('src', '/storage/' + image);
 
-                const actionUrl = `/dashboard/home/certificate/put/${id}`;
+                const actionUrl = `/dashboard/master/konten/certificate/put/${id}`;
                 $('#editForm').attr('action', actionUrl);
             });
         });

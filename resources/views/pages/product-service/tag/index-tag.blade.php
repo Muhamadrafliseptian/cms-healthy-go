@@ -18,9 +18,8 @@
 
         <div class="card shadow-sm">
             <div class="card-body">
-                <h4 class="card-title mb-3">{{ $section ? 'Edit Collaborate' : 'Tambah Collaborate' }}</h4>
-                <form
-                    action="{{ $section ? route('section.partnership.collaborate.put', $section->id) : route('section.partnership.collaborate.store') }}"
+                <h4 class="card-title mb-3">{{ $section ? 'Edit Tag' : 'Tambah Tag' }}</h4>
+                <form action="{{ $section ? route('section.product.tag.put', $section->id) : route('section.product.tag.store') }}"
                     method="POST">
                     @csrf
                     @if ($section)
@@ -28,15 +27,10 @@
                     @endif
 
                     <div class="mb-3">
-                        <label for="title" class="form-label">Judul</label>
-                        <input type="text" name="title" class="form-control"
-                            value="{{ old('title', $section->title ?? '') }}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="subtitle" class="form-label">Content</label>
-                        <textarea name="subtitle1" id="subtitle1" class="form-control mb-3">
-                        {{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea>
+                        <label for="title" class="form-label">Content 1</label>
+                         <textarea name="title" id="title" class="form-control" rows="3">
+                        {{ old('title', $section->title ?? '') }}</textarea
+                        >
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100">
@@ -52,7 +46,7 @@
 @section('js')
     <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
     <script>
-        const editors = ['subtitle1', ];
+        const editors = ['title'];
         editors.forEach(id => {
             const el = document.querySelector(`#${id}`);
             if (el) {

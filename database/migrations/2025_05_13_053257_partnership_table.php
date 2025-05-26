@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('program_partnership')->nullable();
             $table->text('content_program_partnership')->nullable();
             $table->string('img_partnership')->nullable();
+            $table->string('btn_color')->nullable();
             $table->timestamps();
         });
     }

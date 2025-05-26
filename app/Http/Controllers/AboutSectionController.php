@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class AboutSectionController
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
             $categories = MasterSectionCategory::whereIn('slug', ['sabout'])
@@ -22,6 +22,15 @@ class AboutSectionController
                 ->get()
                 ->keyBy('section');
 
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'data' => [
+                        'section' => $sections->get('sabout'),
+                    ]
+                ], 200);
+            }
+
             return view('pages.about-us.banner.index-banner', [
                 'section' => $sections->get('sabout'),
             ]);
@@ -29,6 +38,7 @@ class AboutSectionController
             abort(500, 'Terjadi kesalahan saat memuat data.');
         }
     }
+
 
     public function storeSectionBanner(Request $request)
     {
@@ -39,8 +49,7 @@ class AboutSectionController
             $request->validate([
                 'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string|max:255',
-                'subtitle2' => 'nullable|string|max:255',
+                'subtitle1' => 'nullable|string',
             ]);
 
             $imgPath = null;
@@ -59,7 +68,7 @@ class AboutSectionController
 
             return redirect()->back()->with('success', 'Berhasil tambah benefit');
         } catch (\Exception $err) {
-            dd($err->getMessage());
+            return redirect()->back()->with('error', $err->getMessage());
         }
     }
 
@@ -75,7 +84,7 @@ class AboutSectionController
             $request->validate([
                 'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string|max:255',
+                'subtitle1' => 'nullable|string',
             ]);
 
             if ($request->hasFile('img')) {
@@ -87,7 +96,6 @@ class AboutSectionController
 
             $benefit->title = $request->title;
             $benefit->subtitle1 = $request->subtitle1;
-            $benefit->subtitle2 = $request->subtitle2;
 
             $benefit->save();
 
@@ -97,7 +105,7 @@ class AboutSectionController
         }
     }
 
-    public function indexContentDescription()
+    public function indexContentDescription(Request $request)
     {
         try {
             $categories = MasterSectionCategory::whereIn('slug', ['sabout1'])
@@ -108,6 +116,15 @@ class AboutSectionController
                 ->whereIn('menu_id', $categories->pluck('id'))
                 ->get()
                 ->keyBy('section');
+
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'data' => [
+                        'section' => $sections->get('sabout1'),
+                    ],
+                ], 200);
+            }
 
             return view('pages.about-us.description.index-description', [
                 'section' => $sections->get('sabout1'),
@@ -126,8 +143,7 @@ class AboutSectionController
             $request->validate([
                 'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string|max:255',
-                'subtitle2' => 'nullable|string|max:255',
+                'subtitle1' => 'nullable|string',
             ]);
 
             $imgPath = null;
@@ -146,7 +162,7 @@ class AboutSectionController
 
             return redirect()->back()->with('success', 'Berhasil tambah benefit');
         } catch (\Exception $err) {
-            dd($err->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $err->getMessage());
         }
     }
 
@@ -174,7 +190,6 @@ class AboutSectionController
 
             $benefit->title = $request->title;
             $benefit->subtitle1 = $request->subtitle1;
-            $benefit->subtitle2 = $request->subtitle2;
 
             $benefit->save();
 

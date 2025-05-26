@@ -16,19 +16,18 @@ class MealController
     {
         try {
             $data = Meal::all();
-
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'Data meal berhasil diambil',
-                    'data' => $data
-                ], 200);
-            }
-
             $category = MasterSectionCategory::where('slug', 'smeal')->first();
             $section = SectionContent::where('menu_id', $category->id)
                 ->where('section', 'smeal')
                 ->first();
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Data meal berhasil diambil',
+                    'data' => $data,
+                    'section' => $section
+                ], 200);
+            }
 
             return view('pages.product-service.meal.index-meal', compact('data', 'section'));
         } catch (\Exception $e) {

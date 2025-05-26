@@ -34,15 +34,14 @@
                     @endif
                     @if ($section && $section->img)
                         <div class="mb-3 text-center">
-                            <img src="{{ asset('storage/' . $section->img) }}" alt="Program Image" class="img-thumbnail"
-                                >
+                            <img src="{{ asset('storage/' . $section->img) }}" alt="Program Image" class="img-thumbnail">
                             <p class="text-muted mt-2">Gambar saat ini</p>
                         </div>
                     @endif
                     <div class="mb-3">
                         <label for="title" class="form-label">Judul</label>
-                        <input type="text" name="title" class="form-control"
-                            value="{{ old('title', $section->title ?? '') }}" required>
+                        <textarea name="title" id="title" class="form-control mb-3">{{ old('title', $section->title ?? '') }}</textarea>
+
                     </div>
 
                     <div class="mb-3">
@@ -68,7 +67,7 @@
                     @csrf
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addMealModalLabel">Add New Service</h5>
+                            <h5 class="modal-title" id="addMealModalLabel">Add Meal</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -98,7 +97,7 @@
                     @method('PUT')
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Edit Service</h5>
+                            <h5 class="modal-title">Edit Meal</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -190,6 +189,11 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
     <script>
         ClassicEditor
+            .create(document.querySelector('#title'))
+            .catch(error => {
+                console.error(error);
+            });
+        ClassicEditor
             .create(document.querySelector('#meal_content'))
             .catch(error => {
                 console.error(error);
@@ -213,7 +217,7 @@
             $('#edit_meal_title').val(title);
             window.editEditor.setData(content);
 
-            const formAction = `{{ url('dashboard/product-service/meal') }}/put/${id}`;
+            const formAction = `{{ url('dashboard/master/konten/meal') }}/put/${id}`;
             $('#editServiceForm').attr('action', formAction);
         });
     </script>

@@ -27,12 +27,12 @@
 
             <div>
                 <label for="title" class="form-label">Title</label>
-                <input type="text" name="title" class="form-control mb-3" value="{{ old('title', $section->title ?? '') }}"
-                    required>
+                <input type="text" name="title" class="form-control mb-3"
+                    value="{{ old('title', $section->title ?? '') }}" required>
 
                 <label for="subtitle1" class="form-label">Subtitle</label>
-                <input type="text" name="subtitle1" class="form-control"
-                    value="{{ old('subtitle1', $section->subtitle1 ?? '') }}">
+                <textarea name="subtitle1" id="subtitle1" class="form-control mb-3">{{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea>
+
             </div>
 
             <button type="submit" class="btn btn-sm btn-primary mt-3 mb-3">
@@ -148,6 +148,10 @@
     <script>
         let editors = {};
 
+        ClassicEditor
+            .create(document.querySelector('#subtitle1'))
+            .catch(error => console.error(error));
+
         function initCKEditor(id, key) {
             ClassicEditor
                 .create(document.querySelector(id))
@@ -179,7 +183,7 @@
 
                 $('#previewImg').attr('src', '/storage/' + image);
 
-                const actionUrl = `/dashboard/home/testimoni/put/${id}`;
+                const actionUrl = `/dashboard/master/konten/testimoni/put/${id}`;
                 $('#editForm').attr('action', actionUrl);
             });
         });

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\MasterBatch;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Http;
 
 class BatchController
 {
@@ -18,6 +20,36 @@ class BatchController
             return view('pages.food.master-batch.index-master-batch', compact('data'));
         } catch (\Exception $err) {
             return back()->with('error', 'Gagal mengambil data batch.');
+        }
+    }
+
+    public function syncBatch(Request $request)
+    {
+        try {
+            $url = 'https://api.dapursehatindonesia.com/api/getlistbatch';
+            $response = Http::withToken('Bearer 4|0pLuWSOnwJjX2MLS2xauoeidaIKleub4g4GsgZsz20df10e5')->post($url);
+            $batchs = json_decode($response->getBody()->getContents(), true);
+
+            foreach ($batchs['data'] as $batch) {
+                $cek = MasterBatch::where('code', $batch['name'])->first();
+                if ($cek == null) {
+                    $save = new MasterBatch();
+                    $save->name = $batch['alias'];
+                    $save->code = $batch['name'];
+                    $save->start_date = $batch['start'];
+                    $save->end_date = $batch['end'];
+                    $save->saveOrFail();
+                }
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Batch berhasil disinkronkan.',
+            ], 200);
+        } catch (Exception $e) {
+            // return $this->errorHandler($e);
+
+            dd($e->getMessage());
         }
     }
 

@@ -215,7 +215,7 @@
             $('#edit_title_statistic').val(title);
             window.editEditor.setData(content);
 
-            const formAction = `{{ url('dashboard/home/statistic') }}/put/${id}`;
+            const formAction = `{{ url('dashboard/master/konten/statistic') }}/put/${id}`;
             $('#editServiceForm').attr('action', formAction);
         });
     </script>

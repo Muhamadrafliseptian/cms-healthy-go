@@ -7,7 +7,6 @@
 
 @section('content')
     <div class="container my-4">
-        <h3 class="mb-4">Carousel Data</h3>
 
         @if (session('success'))
             <div class="alert alert-success">
@@ -20,6 +19,33 @@
                 {{ session('error') }}
             </div>
         @endif
+        <h3 class="mb-4">Section Carousel</h3>
+
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+                <form
+                    action="{{ $section ? route('section.carousel.put', $section->id) : route('section.carousel.store') }}"
+                    method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @if ($section)
+                        @method('PUT')
+                    @endif
+
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Content</label>
+                        <textarea type="text" name="title" class="form-control" id="title" rows="3">
+                            {{ old('title', $section->title ?? '') }}
+                        </textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">
+                        {{ $section ? 'Perbarui Data' : 'Simpan Data' }}
+                    </button>
+                </form>
+            </div>
+        </div>
+        <h3 class="mb-4">Carousel Data</h3>
+
         <button class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addCarouselModal">
             Tambah Gambar +
         </button>
@@ -126,16 +152,27 @@
 @endsection
 
 @section('js')
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#certificate').DataTable({
                 scrollX: true
             });
 
-            $('.btn-edit').on('click', function () {
+            const editors = ['title'];
+            editors.forEach(id => {
+                const el = document.querySelector(`#${id}`);
+                if (el) {
+                    ClassicEditor
+                        .create(el)
+                        .catch(error => console.error(`CKEditor init failed for ${id}:`, error));
+                }
+            });
+
+            $('.btn-edit').on('click', function() {
                 const id = $(this).data('id');
                 const image = $(this).data('image');
 
@@ -147,5 +184,4 @@
             });
         });
     </script>
-
 @endsection

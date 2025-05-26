@@ -25,7 +25,8 @@ class OperationalStatisticController
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Data Statistic berhasil diambil',
-                    'data' => $data
+                    'data' => $data,
+                    'section' => $section
                 ], 200);
             }
 

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carousel;
+use App\Models\MasterSectionCategory;
+use App\Models\SectionContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
@@ -13,16 +15,27 @@ class CarouselController
     {
         try {
             $data = Carousel::all();
+            $categories = MasterSectionCategory::whereIn('slug', ['scarousel'])
+                ->get()
+                ->keyBy('slug');
 
+            $sections = SectionContent::whereIn('section', ['scarousel'])
+                ->whereIn('menu_id', $categories->pluck('id'))
+                ->get()
+                ->keyBy('section');
             if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Data carousel berhasil diambil',
-                    'data' => $data
+                    'data' => $data,
+                    'section' => $sections
                 ], 200);
             }
 
-            return view('pages.food.carousel.index-carousel', compact('data'));
+            return view('pages.food.carousel.index-carousel', [
+                'section' => $sections->get('scarousel'),
+                'data' => $data
+            ]);
         } catch (\Exception $e) {
             Log::error('Carousel Index Error: ' . $e->getMessage());
 
@@ -138,7 +151,6 @@ class CarouselController
             }
 
             return redirect()->back()->with('success', 'Data berhasil ditambah');
-
         } catch (\Exception $e) {
             Log::error('Carousel Update Error: ' . $e->getMessage());
 
@@ -178,7 +190,6 @@ class CarouselController
             }
 
             return redirect()->back()->with('success', 'Data berhasil dihapus');
-
         } catch (\Exception $e) {
             Log::error('Carousel Delete Error: ' . $e->getMessage());
 
@@ -187,6 +198,51 @@ class CarouselController
                 'message' => 'Terjadi kesalahan saat menghapus carousel',
                 'data' => null
             ], 500);
+        }
+    }
+
+    public function storeSectionCarousel(Request $request)
+    {
+        try {
+
+            $category = MasterSectionCategory::where('slug', 'scarousel')->first();
+
+            $request->validate([
+                'title' => 'required|string|max:255',
+            ]);
+
+            SectionContent::create([
+                'title' => $request->title,
+                'section' => 'scarousel',
+                'menu_id' => $category->id,
+            ]);
+
+            return redirect()->back()->with('success', 'Berhasil tambah benefit');
+        } catch (\Exception $err) {
+            dd($err->getMessage());
+        }
+    }
+
+    public function updateSectionCarousel(Request $request, $id)
+    {
+        try {
+            $benefit = SectionContent::find($id);
+
+            if (!$benefit) {
+                return redirect()->back()->with('error', 'Data tidak ditemukan.');
+            }
+
+            $request->validate([
+                'title' => 'required|string|max:255',
+            ]);
+
+            $benefit->title = $request->title;
+
+            $benefit->save();
+
+            return redirect()->back()->with('success', 'Data berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 }

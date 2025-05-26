@@ -45,6 +45,7 @@ class FaqController
         try {
             $category = MasterSectionCategory::where('slug', 'sfaq')->first();
 
+
             SectionContent::create([
                 'menu_id'    => $category->id,
                 'section'    => 'sfaq',
@@ -63,7 +64,6 @@ class FaqController
     {
         try {
             $content = SectionContent::findOrFail($id);
-
             $content->update([
                 'title'     => $request->title,
                 'subtitle1' => $request->subtitle1,

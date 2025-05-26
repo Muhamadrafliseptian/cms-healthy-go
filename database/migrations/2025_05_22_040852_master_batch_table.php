@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('lptm_batch', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable(); // Contoh: "Batch 1"
+            $table->string('code')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->timestamps();

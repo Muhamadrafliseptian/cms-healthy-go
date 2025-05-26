@@ -55,7 +55,7 @@
                     @csrf
                     @method('PUT')
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editCertificateModalLabel">Edit Gambar Sertifikat</h5>
+                        <h5 class="modal-title" id="editCertificateModalLabel">Edit Gambar Partnership</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -143,7 +143,7 @@
                 $('#edit-id').val(id);
                 $('#previewImg').attr('src', '/storage/' + image);
 
-                const actionUrl = `/dashboard/home/partnership-home/put/${id}`;
+                const actionUrl = `/dashboard/master/konten/partnership/put/${id}`;
                 $('#editForm').attr('action', actionUrl);
             });
         });

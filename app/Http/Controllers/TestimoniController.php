@@ -15,18 +15,18 @@ class TestimoniController
     {
         try {
             $data = Testimoni::all();
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'Data testimoni berhasil diambil',
-                    'data' => $data
-                ], 200);
-            }
-
             $category = MasterSectionCategory::where('slug', 'stestimoni')->first();
             $section = SectionContent::where('menu_id', $category->id)
                 ->where('section', 'stestimoni')
                 ->first();
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Data testimoni berhasil diambil',
+                    'data' => $data,
+                    'section' => $section
+                ], 200);
+            }
 
             return view('pages.home.testimoni.index-testimoni', compact('data', 'section'));
         } catch (\Exception $e) {

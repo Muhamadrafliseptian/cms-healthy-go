@@ -19,9 +19,8 @@
 
         <div class="card shadow-sm">
             <div class="card-body">
-                <h4 class="card-title mb-4">{{ $section ? 'Edit Promo' : 'Tambah Promo' }}</h4>
-
-                <form action="{{ $section ? route('promoIklan.put', $section->id) : route('promoIklan.store') }}"
+                <h4 class="card-title mb-1">{{ $section ? 'Edit Banner' : 'Tambah Banner' }}</h4>
+                <form action="{{ $section ? route('section.product.banner.put', $section->id) : route('section.product.banner.store') }}"
                     method="POST" enctype="multipart/form-data">
                     @csrf
                     @if ($section)
@@ -29,42 +28,24 @@
                     @endif
 
                     <div class="row mb-4">
-                        {{-- Preview Gambar --}}
                         @if ($section && $section->img)
-                            <div class="col-md-6 text-center">
+                            <div class="col-md-12 text-center">
                                 <img src="{{ asset('storage/' . $section->img) }}" class="img-thumbnail"
                                     alt="Gambar Pertama">
-                                <p class="text-muted mt-1">Gambar Pertama</p>
-                            </div>
-                        @endif
-
-                        @if ($section && $section->img2)
-                            <div class="col-md-6 text-center">
-                                <img src="{{ asset('storage/' . $section->img2) }}" class="img-thumbnail"
-                                    alt="Gambar Kedua">
-                                <p class="text-muted mt-1">Gambar Kedua</p>
+                                <p class="text-muted mt-1">Image Banner</p>
                             </div>
                         @endif
                     </div>
 
                     <div class="mb-3">
-                        <label for="img" class="form-label">Upload Gambar Pertama</label>
+                        <label for="img" class="form-label">Upload Gambar Banner</label>
                         <input type="file" name="img" class="form-control">
                     </div>
 
                     <div class="mb-3">
-                        <label for="img2" class="form-label">Upload Gambar Kedua</label>
-                        <input type="file" name="img2" class="form-control">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Subjudul 1</label>
-                        <textarea name="title" id="title" class="form-control ckeditor" rows="3">{{ old('title', $section->title ?? '') }}</textarea>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="subtitle1" class="form-label">Subjudul 2</label>
-                        <textarea name="subtitle1" id="subtitle1" class="form-control ckeditor" rows="3">{{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea>
+                        <label for="title" class="form-label">Judul Banner</label>
+                        <input type="text" name="title" class="form-control"
+                            value="{{ old('title', $section->title ?? '') }}" required>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100">
@@ -73,6 +54,7 @@
                 </form>
             </div>
         </div>
+
     </div>
 @endsection
 

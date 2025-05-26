@@ -7,6 +7,7 @@ use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\FoodSectionController;
 use App\Http\Controllers\HomeSectionController;
 use App\Http\Controllers\IklanController;
 use App\Http\Controllers\MasterSectionCategoryController;
@@ -15,6 +16,8 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MilestoneController;
 use App\Http\Controllers\OperationalStatisticController;
 use App\Http\Controllers\PartnershipController;
+use App\Http\Controllers\PartnershipSectionController;
+use App\Http\Controllers\ProductSectionController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\PromoController;
 use App\Http\Controllers\SectionContentController;
@@ -28,17 +31,15 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('dashboard')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::prefix('home')->group(function () {
-        Route::prefix('section')->group(function () {
-            Route::prefix('banner')->group(function () {
-                Route::get('/', [HomeSectionController::class, 'index'])->name('section.home.index');
-                Route::post('store', [HomeSectionController::class, 'storeSectionBanner'])->name('section.home.store');
-                Route::put('put/{id}', [HomeSectionController::class, 'updateSectionBanner'])->name('section.home.put');
-            });
-            Route::prefix('description')->group(function () {
-                Route::get('/', [HomeSectionController::class, 'index'])->name('section.description.index');
-                Route::post('store', [HomeSectionController::class, 'storeSectionDescription'])->name('section.description.store');
-                Route::put('put/{id}', [HomeSectionController::class, 'updateSectionDescription'])->name('section.description.put');
-            });
+        Route::prefix('banner')->group(function () {
+            Route::get('/', [HomeSectionController::class, 'index'])->name('section.home.index');
+            Route::post('store', [HomeSectionController::class, 'storeSectionBanner'])->name('section.home.store');
+            Route::put('put/{id}', [HomeSectionController::class, 'updateSectionBanner'])->name('section.home.put');
+        });
+        Route::prefix('description')->group(function () {
+            Route::get('/', [HomeSectionController::class, 'index'])->name('section.description.index');
+            Route::post('store', [HomeSectionController::class, 'storeSectionDescription'])->name('section.description.store');
+            Route::put('put/{id}', [HomeSectionController::class, 'updateSectionDescription'])->name('section.description.put');
         });
         Route::prefix('video')->group(function () {
             Route::get('/', [VideoController::class, 'index'])->name('video.index');
@@ -49,6 +50,8 @@ Route::prefix('dashboard')->group(function () {
         Route::prefix('service')->group(function () {
             Route::get('/', [ServiceController::class, 'index'])->name('service.index');
             Route::post('store', [ServiceController::class, 'store'])->name('service.store');
+            Route::post('section/store', [ServiceController::class, 'storeSectionService'])->name('section.service.store');
+            Route::put('section/put/{id}', [ServiceController::class, 'updateSectionService'])->name('section.service.put');
             Route::put('put/{id}', [ServiceController::class, 'update'])->name('service.put');
             Route::delete('destroy/{id}', [ServiceController::class, 'destroy'])->name('service.destroy');
         });
@@ -59,20 +62,19 @@ Route::prefix('dashboard')->group(function () {
             Route::get('/', [MilestoneController::class, 'index'])->name('milestone.index');
             Route::post('store', [MilestoneController::class, 'store'])->name('milestone.store');
             Route::put('put/{id}', [MilestoneController::class, 'update'])->name('milestone.put');
+            Route::post('section/store', [MilestoneController::class, 'storeSection'])->name('section.milestone.store');
+            Route::put('section/put/{id}', [MilestoneController::class, 'updateSection'])->name('section.milestone.put');
             Route::delete('destroy/{id}', [MilestoneController::class, 'destroy'])->name('milestone.destroy');
         });
-
-        Route::prefix('section')->group(function () {
-            Route::prefix('banner')->group(function () {
-                Route::get('/', [AboutSectionController::class, 'index'])->name('section.about.index');
-                Route::post('store', [AboutSectionController::class, 'storeSectionBanner'])->name('section.about.store');
-                Route::put('put/{id}', [AboutSectionController::class, 'updateSectionBanner'])->name('section.about.put');
-            });
-            Route::prefix('description')->group(function () {
-                Route::get('/', [AboutSectionController::class, 'indexContentDescription'])->name('section.about.description.index');
-                Route::post('store', [AboutSectionController::class, 'storeSectionDescription'])->name('section.about.description.store');
-                Route::put('put/{id}', [AboutSectionController::class, 'updateSectionDescription'])->name('section.about.description.put');
-            });
+        Route::prefix('banner')->group(function () {
+            Route::get('/', [AboutSectionController::class, 'index'])->name('section.about.index');
+            Route::post('store', [AboutSectionController::class, 'storeSectionBanner'])->name('section.about.store');
+            Route::put('put/{id}', [AboutSectionController::class, 'updateSectionBanner'])->name('section.about.put');
+        });
+        Route::prefix('description')->group(function () {
+            Route::get('/', [AboutSectionController::class, 'indexContentDescription'])->name('section.about.description.index');
+            Route::post('store', [AboutSectionController::class, 'storeSectionDescription'])->name('section.about.description.store');
+            Route::put('put/{id}', [AboutSectionController::class, 'updateSectionDescription'])->name('section.about.description.put');
         });
     });
 
@@ -81,15 +83,39 @@ Route::prefix('dashboard')->group(function () {
             Route::get('/', [PromoController::class, 'index'])->name('promo.index');
             Route::post('store', [PromoController::class, 'store'])->name('promo.store');
             Route::put('put/{id}', [PromoController::class, 'update'])->name('promo.put');
+            Route::post('section/store', [PromoController::class, 'storeContentPromo'])->name('section.promo.store');
+            Route::put('section/put/{id}', [PromoController::class, 'updateContentPromo'])->name('section.promo.put');
             Route::delete('destroy/{id}', [PromoController::class, 'destroy'])->name('promo.destroy');
+        });
+        Route::prefix('banner')->group(function () {
+            Route::get('/', [ProductSectionController::class, 'indexBanner'])->name('section.product.banner.index');
+            Route::post('store', [ProductSectionController::class, 'storeSectionBanner'])->name('section.product.banner.store');
+            Route::put('put/{id}', [ProductSectionController::class, 'updateSectionBanner'])->name('section.product.banner.put');
+        });
+        Route::prefix('tag')->group(function () {
+            Route::get('/', [ProductSectionController::class, 'indexContentTag'])->name('section.product.tag.index');
+            Route::post('store', [ProductSectionController::class, 'storeSectionContentTag'])->name('section.product.tag.store');
+            Route::put('put/{id}', [ProductSectionController::class, 'updateSectionContentTag'])->name('section.product.tag.put');
+        });
+        Route::prefix('solution')->group(function () {
+            Route::get('/', [ProductSectionController::class, 'indexContentSolution'])->name('section.product.solution.index');
+            Route::post('store', [ProductSectionController::class, 'storeSectionContentSolution'])->name('section.product.solution.store');
+            Route::put('put/{id}', [ProductSectionController::class, 'updateSectionContentSolution'])->name('section.product.solution.put');
         });
     });
 
     Route::prefix('food')->group(function () {
+        Route::prefix('banner')->group(function () {
+            Route::get('/', [FoodSectionController::class, 'indexBanner'])->name('section.food.banner.index');
+            Route::post('store', [FoodSectionController::class, 'storeSectionBanner'])->name('section.food.banner.store');
+            Route::put('put/{id}', [FoodSectionController::class, 'updateSectionBanner'])->name('section.food.banner.put');
+        });
         Route::prefix('carousel')->group(function () {
             Route::get('/', [CarouselController::class, 'index'])->name('carousel.index');
             Route::post('store', [CarouselController::class, 'store'])->name('carousel.store');
             Route::put('put/{id}', [CarouselController::class, 'update'])->name('carousel.put');
+            Route::post('section/store', [CarouselController::class, 'storeSectionCarousel'])->name('section.carousel.store');
+            Route::put('section/put/{id}', [CarouselController::class, 'updateSectionCarousel'])->name('section.carousel.put');
             Route::delete('destroy/{id}', [CarouselController::class, 'destroy'])->name('carousel.destroy');
         });
     });
@@ -156,8 +182,8 @@ Route::prefix('dashboard')->group(function () {
         });
         Route::prefix('faq')->group(function () {
             Route::get('/', [FaqController::class, 'index'])->name('faq.index');
-            Route::post('content/store', [FaqController::class, 'storeContentFaq'])->name('faq.storeContent');
-            Route::put('content/put/{id}', [FaqController::class, 'updateContentFaq'])->name('faq.updateContent');
+            Route::post('content/store', [FaqController::class, 'storeContentFaq'])->name('faq.storeContentFaq');
+            Route::put('content/put/{id}', [FaqController::class, 'updateContentFaq'])->name('faq.updateContentFaq');
             Route::post('store', [FaqController::class, 'store'])->name('faq.store');
             Route::put('put/{id}', [FaqController::class, 'update'])->name('faq.put');
             Route::delete('destroy/{id}', [FaqController::class, 'destroy'])->name('faq.destroy');
@@ -170,19 +196,29 @@ Route::prefix('dashboard')->group(function () {
             Route::post('store', [PartnershipController::class, 'store'])->name('partnership.store');
             Route::put('put/{id}', [PartnershipController::class, 'update'])->name('partnership.put');
             Route::delete('destroy/{id}', [PartnershipController::class, 'destroy'])->name('partnership.destroy');
+            Route::post('section/store', [PartnershipSectionController::class, 'storeSectionPartnership'])->name('partnership.section.store');
+            Route::put('section/put/{id}', [PartnershipSectionController::class, 'updateSectionPartnership'])->name('partnership.section.put');
         });
-        // Route::prefix('section')->group(function () {
-        //     Route::prefix('banner')->group(function () {
-        //         Route::get('/', [AboutSectionController::class, 'index'])->name('section.about.index');
-        //         Route::post('store', [AboutSectionController::class, 'storeSectionBanner'])->name('section.about.store');
-        //         Route::put('put/{id}', [AboutSectionController::class, 'updateSectionBanner'])->name('section.about.put');
-        //     });
-        //     Route::prefix('description')->group(function () {
-        //         Route::get('/', [AboutSectionController::class, 'indexContentDescription'])->name('section.about.description.index');
-        //         Route::post('store', [AboutSectionController::class, 'storeSectionDescription'])->name('section.about.description.store');
-        //         Route::put('put/{id}', [AboutSectionController::class, 'updateSectionDescription'])->name('section.about.description.put');
-        //     });
-        // });
+        Route::prefix('banner')->group(function () {
+            Route::get('/', [PartnershipSectionController::class, 'indexBanner'])->name('section.partnership.banner.index');
+            Route::post('store', [PartnershipSectionController::class, 'storeSectionBanner'])->name('section.partnership.banner.store');
+            Route::put('put/{id}', [PartnershipSectionController::class, 'updateSectionBanner'])->name('section.partnership.banner.put');
+        });
+        Route::prefix('tag')->group(function () {
+            Route::get('/', [PartnershipSectionController::class, 'indexContentTag'])->name('section.partnership.tag.index');
+            Route::post('store', [PartnershipSectionController::class, 'storeSectionTag'])->name('section.partnership.tag.store');
+            Route::put('put/{id}', [PartnershipSectionController::class, 'updateSectionTag'])->name('section.partnership.tag.put');
+        });
+        Route::prefix('collaborate')->group(function () {
+            Route::get('/', [PartnershipSectionController::class, 'indexContentCollaborate'])->name('section.partnership.collaborate.index');
+            Route::post('store', [PartnershipSectionController::class, 'storeSectionCollaborate'])->name('section.partnership.collaborate.store');
+            Route::put('put/{id}', [PartnershipSectionController::class, 'updateSectionCollaborate'])->name('section.partnership.collaborate.put');
+        });
+        Route::prefix('hero')->group(function () {
+            Route::get('/', [PartnershipSectionController::class, 'indexContentHero'])->name('section.partnership.hero.index');
+            Route::post('store', [PartnershipSectionController::class, 'storeSectionHero'])->name('section.partnership.hero.store');
+            Route::put('put/{id}', [PartnershipSectionController::class, 'updateSectionHero'])->name('section.partnership.hero.put');
+        });
     });
 
     Route::prefix('master')->group(function () {
@@ -245,6 +281,7 @@ Route::prefix('dashboard')->group(function () {
             });
             Route::prefix('batch')->group(function () {
                 Route::get('/', [BatchController::class, 'index'])->name('batch.index');
+                Route::get('sync', [BatchController::class, 'syncBatch'])->name('sync.index');
                 Route::post('store', [BatchController::class, 'store'])->name('batch.store');
                 Route::put('put/{id}', [BatchController::class, 'update'])->name('batch.put');
                 Route::delete('destroy/{id}', [BatchController::class, 'destroy'])->name('batch.destroy');
