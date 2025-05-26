@@ -8,6 +8,7 @@ use App\Models\MasterSectionCategory;
 use App\Models\SectionContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class FaqController
 {
@@ -40,21 +41,64 @@ class FaqController
         }
     }
 
+    public function indexBanner(Request $request)
+    {
+        try {
+            $category = MasterSectionCategory::where('slug', 'bfaq')->first();
+            $section = SectionContent::where('menu_id', $category->id)
+                ->where('section', 'bfaq')
+                ->first();
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Data FAQ berhasil diambil',
+                    'section' => $section
+                ], 200);
+            }
+
+
+            return view('pages.faq.index-banner', compact('section'));
+        } catch (\Exception $e) {
+            Log::error('FAQ Index Error: ' . $e->getMessage());
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan saat mengambil data FAQ',
+                'data' => null
+            ], 500);
+        }
+    }
+
     public function storeBannerFaq(Request $request)
     {
         try {
-            $category = MasterSectionCategory::where('slug', 'sfaq')->first();
+            $category = MasterSectionCategory::where('slug', 'bfaq')->first();
 
-
-            SectionContent::create([
-                'menu_id'    => $category->id,
-                'section'    => 'sfaq',
-                'title'      => $request->title,
-                'subtitle1'  => $request->subtitle1,
-                'subtitle2'  => $request->subtitle2,
+            $request->validate([
+                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'title' => 'required|string|max:255',
+                'subtitle1' => 'nullable|string',
+                'subtitle2' => 'nullable|string',
+                'subtitle3' => 'nullable|string',
             ]);
 
-            return back()->with('success', 'Data berhasil disimpan.');
+            $imgPath = null;
+
+            if ($request->hasFile('img')) {
+                $imgPath = $request->file('img')->store('faq', 'public');
+            }
+
+            SectionContent::create([
+                'img' => $imgPath,
+                'title' => $request->title,
+                'subtitle1' => $request->subtitle1,
+                'subtitle2' => $request->subtitle2,
+                'subtitle3' => $request->subtitle3,
+                'menu_id' => $category->id,
+                'section' => 'bfaq',
+            ]);
+
+            return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $e) {
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
@@ -63,14 +107,33 @@ class FaqController
     public function updateBannerFaq(Request $request, $id)
     {
         try {
-            $content = SectionContent::findOrFail($id);
-            $content->update([
-                'title'     => $request->title,
-                'subtitle1' => $request->subtitle1,
-                'subtitle2' => $request->subtitle2,
+            $benefit = SectionContent::find($id);
+
+            if (!$benefit) {
+                return redirect()->back()->with('error', 'Data tidak ditemukan.');
+            }
+
+            $request->validate([
+                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'title' => 'required|string|max:255',
+                'subtitle1' => 'nullable|string',
             ]);
 
-            return back()->with('success', 'Data berhasil diperbarui.');
+            if ($request->hasFile('img')) {
+                if ($benefit->img && Storage::disk('public')->exists($benefit->img)) {
+                    Storage::disk('public')->delete($benefit->img);
+                }
+                $benefit->img = $request->file('img')->store('about', 'public');
+            }
+
+            $benefit->title = $request->title;
+            $benefit->subtitle1 = $request->subtitle1;
+            $benefit->subtitle2 = $request->subtitle2;
+            $benefit->subtitle3 = $request->subtitle3;
+
+            $benefit->save();
+
+            return redirect()->back()->with('success', 'Data berhasil diperbarui.');
         } catch (\Exception $e) {
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
@@ -87,7 +150,6 @@ class FaqController
                 'section'    => 'sfaq',
                 'title'      => $request->title,
                 'subtitle1'  => $request->subtitle1,
-                'subtitle2'  => $request->subtitle2,
             ]);
 
             return back()->with('success', 'Data berhasil disimpan.');

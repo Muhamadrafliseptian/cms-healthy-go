@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\MasterSectionCategory;
 use App\Models\SectionContent;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class AboutSectionController
@@ -66,7 +65,7 @@ class AboutSectionController
                 'section' => 'sabout',
             ]);
 
-            return redirect()->back()->with('success', 'Berhasil tambah benefit');
+            return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
             return redirect()->back()->with('error', $err->getMessage());
         }
@@ -160,7 +159,7 @@ class AboutSectionController
                 'section' => 'sabout1',
             ]);
 
-            return redirect()->back()->with('success', 'Berhasil tambah benefit');
+            return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $err->getMessage());
         }

@@ -14,7 +14,8 @@
                         Request::is('dashboard/partnership*') ||
                         Request::is('dashboard/product-service*') ||
                         Request::is('dashboard/food*') ||
-                        Request::is('dashboard/etc*') ||
+                        Request::is('dashboard/etc/faq*') ||
+                        Request::is('dashboard/etc/tnc*') ||
                         Request::is('dashboard/iklan*') ||
                         Request::is('dashboard/master*');
                 @endphp
@@ -35,7 +36,8 @@
                             $aboutActive = Request::is('dashboard/about-us*');
                             $productActive = Request::is('dashboard/product-service*');
                             $foodActive = Request::is('dashboard/food*');
-                            $sosmedActive = Request::is('dashboard/etc*');
+                            $faqActive = Request::is('dashboard/etc/faq*');
+                            $tncActive = Request::is('dashboard/etc/tnc*');
                             $masterActive = Request::is('dashboard/master/konten*');
                             $iklanActive = Request::is('dashboard/iklan*');
                             $partnershipActive = Request::is('dashboard/partnership*');
@@ -197,23 +199,48 @@
                             </nav>
                         </div>
 
-                        {{-- <a class="nav-link {{ Request::is('dashboard/etc/sosmed*') ? 'active' : '' }}"
-                            href="{{ route('sosmed.index') }}">
-                            Social Media
-                        </a> --}}
-
-                        {{-- <a class="nav-link {{ Request::is('dashboard/etc/contact*') ? 'active' : '' }}"
-                            href="{{ route('contact.index') }}">
-                            Contact
-                        </a> --}}
-                        <a class="nav-link {{ Request::is('dashboard/etc/faq*') ? 'active' : '' }}"
-                            href="{{ route('faq.index') }}">
+                        <a class="nav-link {{ $faqActive ? '' : 'collapsed' }}" href="#"
+                            data-bs-toggle="collapse" data-bs-target="#FAQ"
+                            aria-expanded="{{ $faqActive ? 'true' : 'false' }}" aria-controls="FAQ">
                             FAQ
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        {{-- <a class="nav-link {{ Request::is('dashboard/etc/tnc*') ? 'active' : '' }}"
-                            href="{{ route('tnc.index') }}">
-                            Terms & Conditions
-                        </a> --}}
+
+                        <div class="collapse {{ $faqActive ? 'show' : '' }}" id="FAQ"
+                            data-bs-parent="#sidenavAccordionMenu">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link {{ Request::is('dashboard/etc/faq/section/banner*') ? 'active' : '' }}"
+                                    href="{{ route('section.faq.banner.index') }}">Banner</a>
+                                <a class="nav-link {{ Request::is('dashboard/etc/faq/section/main*') ? 'active' : '' }}"
+                                    href="{{ route('faq.index') }}">Main</a>
+                            </nav>
+                        </div>
+                        <a class="nav-link {{ $tncActive ? '' : 'collapsed' }}" href="#"
+                            data-bs-toggle="collapse" data-bs-target="#tncCollapse"
+                            aria-expanded="{{ $tncActive ? 'true' : 'false' }}" aria-controls="tncCollapse">
+                            TNC
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+
+                        <div class="collapse {{ $tncActive ? 'show' : '' }}" id="tncCollapse"
+                            data-bs-parent="#sidenavAccordionMenu">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link {{ Request::is('dashboard/etc/tnc/section/banner*') ? 'active' : '' }}"
+                                    href="{{ route('tnc.indexBanner') }}">Banner</a>
+                                <a class="nav-link {{ Request::is('dashboard/etc/tnc/section/reschedule*') ? 'active' : '' }}"
+                                    href="{{ route('section.tnc.reschedule.index') }}">Reschedule</a>
+                                <a class="nav-link {{ Request::is('dashboard/etc/tnc/section/how-to-eat*') ? 'active' : '' }}"
+                                    href="{{ route('section.tnc.hte.index') }}">How To Eat</a>
+                                <a class="nav-link {{ Request::is('dashboard/etc/tnc/section/garansi*') ? 'active' : '' }}"
+                                    href="{{ route('section.tnc.garansi.index') }}">Klaim Garansi</a>
+                                <a class="nav-link {{ Request::is('dashboard/etc/tnc/section/skfm*') ? 'active' : '' }}"
+                                    href="{{ route('section.tnc.sk.index') }}">Syarat Ketentuan</a>
+                                <a class="nav-link {{ Request::is('dashboard/etc/tnc/section/main*') ? 'active' : '' }}"
+                                    href="{{ route('faq.index') }}">Jadwal Pengiriman</a>
+                                <a class="nav-link {{ Request::is('dashboard/etc/tnc/section/notes-delivery*') ? 'active' : '' }}"
+                                    href="{{ route('tnc.index') }}">Notes Pengantaran</a>
+                            </nav>
+                        </div>
                     </nav>
                 </div>
             </div>

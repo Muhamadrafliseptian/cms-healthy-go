@@ -60,7 +60,7 @@ class ProductSectionController
                 'section' => 'sproduct',
             ]);
 
-            return redirect()->back()->with('success', 'Berhasil tambah benefit');
+            return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
             dd($err->getMessage());
         }
@@ -139,7 +139,7 @@ class ProductSectionController
                 'section' => 'sproduc1',
             ]);
 
-            return redirect()->back()->with('success', 'Berhasil tambah benefit');
+            return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
             dd($err->getMessage());
         }
@@ -213,7 +213,7 @@ class ProductSectionController
                 'section' => 'sproduct2',
             ]);
 
-            return redirect()->back()->with('success', 'Berhasil tambah benefit');
+            return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
             dd($err->getMessage());
         }

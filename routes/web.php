@@ -162,31 +162,69 @@ Route::prefix('dashboard')->group(function () {
     });
 
     Route::prefix('etc')->group(function () {
-        Route::prefix('sosmed')->group(function () {
-            Route::get('/', [SocialMediaController::class, 'index'])->name('sosmed.index');
-            Route::post('store', [SocialMediaController::class, 'store'])->name('sosmed.store');
-            Route::put('put/{id}', [SocialMediaController::class, 'update'])->name('sosmed.put');
-            Route::delete('destroy/{id}', [SocialMediaController::class, 'destroy'])->name('sosmed.destroy');
+        // Route::prefix('sosmed')->group(function () {
+        //     Route::get('/', [SocialMediaController::class, 'index'])->name('sosmed.index');
+        //     Route::post('store', [SocialMediaController::class, 'store'])->name('sosmed.store');
+        //     Route::put('put/{id}', [SocialMediaController::class, 'update'])->name('sosmed.put');
+        //     Route::delete('destroy/{id}', [SocialMediaController::class, 'destroy'])->name('sosmed.destroy');
+        // });
+        // Route::prefix('contact')->group(function () {
+        //     Route::get('/', [ContactController::class, 'index'])->name('contact.index');
+        //     Route::post('store', [ContactController::class, 'store'])->name('contact.store');
+        //     Route::put('put/{id}', [ContactController::class, 'update'])->name('contact.put');
+        //     Route::delete('destroy/{id}', [ContactController::class, 'destroy'])->name('contact.destroy');
+        // });
+        Route::prefix('faq')->group(function () {
+            Route::prefix('section')->group(function () {
+                Route::prefix('banner')->group(function () {
+                    Route::get('/', [FaqController::class, 'indexBanner'])->name('section.faq.banner.index');
+                    Route::post('store', [FaqController::class, 'storeBannerFaq'])->name('section.faq.banner.store');
+                    Route::put('put/{id}', [FaqController::class, 'updateBannerFaq'])->name('section.faq.banner.put');
+                });
+                Route::prefix('main')->group(function () {
+                    Route::get('/', [FaqController::class, 'index'])->name('faq.index');
+                    Route::post('content/store', [FaqController::class, 'storeContentFaq'])->name('faq.storeContentFaq');
+                    Route::put('content/put/{id}', [FaqController::class, 'updateContentFaq'])->name('faq.updateContentFaq');
+                    Route::post('store', [FaqController::class, 'store'])->name('faq.store');
+                    Route::put('put/{id}', [FaqController::class, 'update'])->name('faq.put');
+                    Route::delete('destroy/{id}', [FaqController::class, 'destroy'])->name('faq.destroy');
+                });
+            });
         });
         Route::prefix('tnc')->group(function () {
-            Route::get('/', [TnCController::class, 'index'])->name('tnc.index');
-            Route::post('store', [TnCController::class, 'store'])->name('tnc.store');
-            Route::put('put/{id}', [TnCController::class, 'update'])->name('tnc.put');
-            Route::delete('destroy/{id}', [TnCController::class, 'destroy'])->name('tnc.destroy');
-        });
-        Route::prefix('contact')->group(function () {
-            Route::get('/', [ContactController::class, 'index'])->name('contact.index');
-            Route::post('store', [ContactController::class, 'store'])->name('contact.store');
-            Route::put('put/{id}', [ContactController::class, 'update'])->name('contact.put');
-            Route::delete('destroy/{id}', [ContactController::class, 'destroy'])->name('contact.destroy');
-        });
-        Route::prefix('faq')->group(function () {
-            Route::get('/', [FaqController::class, 'index'])->name('faq.index');
-            Route::post('content/store', [FaqController::class, 'storeContentFaq'])->name('faq.storeContentFaq');
-            Route::put('content/put/{id}', [FaqController::class, 'updateContentFaq'])->name('faq.updateContentFaq');
-            Route::post('store', [FaqController::class, 'store'])->name('faq.store');
-            Route::put('put/{id}', [FaqController::class, 'update'])->name('faq.put');
-            Route::delete('destroy/{id}', [FaqController::class, 'destroy'])->name('faq.destroy');
+            Route::prefix('section')->group(function () {
+                Route::prefix('banner')->group(function () {
+                    Route::get('/', [TnCController::class, 'indexBanner'])->name('tnc.indexBanner');
+                    Route::post('content/store', [TnCController::class, 'storeBannerTnc'])->name('section.tnc.banner.store');
+                    Route::put('content/put/{id}', [TnCController::class, 'updateBannerTnc'])->name('section.tnc.banner.put');
+                });
+                Route::prefix('notes-delivery')->group(function () {
+                    Route::get('/', [TnCController::class, 'index'])->name('tnc.index');
+                    Route::post('store', [TnCController::class, 'store'])->name('tnc.store');
+                    Route::put('put/{id}', [TnCController::class, 'update'])->name('tnc.put');
+                    Route::delete('destroy/{id}', [TnCController::class, 'destroy'])->name('tnc.destroy');
+                });
+                Route::prefix('skfm')->group(function () {
+                    Route::get('/', [TnCController::class, 'indexSkFm'])->name('section.tnc.sk.index');
+                    Route::post('store', [TnCController::class, 'storeSkFm'])->name('section.tnc.sk.store');
+                    Route::put('put/{id}', [TnCController::class, 'updateSkFm'])->name('section.tnc.sk.put');
+                });
+                Route::prefix('garansi')->group(function () {
+                    Route::get('/', [TnCController::class, 'indexGaransi'])->name('section.tnc.garansi.index');
+                    Route::post('store', [TnCController::class, 'storeGaransi'])->name('section.tnc.garansi.store');
+                    Route::put('put/{id}', [TnCController::class, 'updateGaransi'])->name('section.tnc.garansi.put');
+                });
+                Route::prefix('how-to-eat')->group(function () {
+                    Route::get('/', [TnCController::class, 'indexHte'])->name('section.tnc.hte.index');
+                    Route::post('store', [TnCController::class, 'storeHte'])->name('section.tnc.hte.store');
+                    Route::put('put/{id}', [TnCController::class, 'updateHte'])->name('section.tnc.hte.put');
+                });
+                Route::prefix('reschedule')->group(function () {
+                    Route::get('/', [TnCController::class, 'indexReschedule'])->name('section.tnc.reschedule.index');
+                    Route::post('store', [TnCController::class, 'storeReschedule'])->name('section.tnc.reschedule.store');
+                    Route::put('put/{id}', [TnCController::class, 'updateReschedule'])->name('section.tnc.reschedule.put');
+                });
+            });
         });
     });
 

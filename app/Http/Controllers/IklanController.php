@@ -57,7 +57,7 @@ class IklanController
                 'section' => 'isbanner',
             ]);
 
-            return redirect()->back()->with('success', 'Berhasil tambah benefit');
+            return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
             dd($err->getMessage());
         }
@@ -185,7 +185,7 @@ class IklanController
                 'img_mealb' => $imgPath,
             ]);
 
-            return redirect()->back()->with('success', 'berhasil tambah benefit');
+            return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $e) {
         }
     }
@@ -280,7 +280,7 @@ class IklanController
             'img_testimoni' => $imgPath,
         ]);
 
-        return redirect()->back()->with('success', 'berhasil tambah benefit');
+        return redirect()->back()->with('success', 'Berhasil');
     }
 
     public function updateGaleri(Request $request, $id)
@@ -363,7 +363,7 @@ class IklanController
                 'content' => $request->content,
             ]);
 
-            return redirect()->back()->with('success', 'berhasil tambah benefit');
+            return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $e) {
         }
     }
@@ -462,7 +462,7 @@ class IklanController
                 'section' => 'isigoals',
             ]);
 
-            return redirect()->back()->with('success', 'Berhasil tambah benefit');
+            return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
             dd($err->getMessage());
         }
@@ -551,7 +551,7 @@ class IklanController
                 'section' => 'ispromo',
             ]);
 
-            return redirect()->back()->with('success', 'Berhasil tambah benefit');
+            return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
             dd($err->getMessage());
         }

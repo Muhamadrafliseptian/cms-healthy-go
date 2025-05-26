@@ -206,7 +206,7 @@
             $('#edit_ask_title').val(title);
             window.editEditor.setData(content);
 
-            const formAction = `{{ url('dashboard/etc/faq') }}/put/${id}`;
+            const formAction = `{{ url('dashboard/etc/faq/section/main') }}/put/${id}`;
             $('#editPromoForm').attr('action', formAction);
         });
     </script>

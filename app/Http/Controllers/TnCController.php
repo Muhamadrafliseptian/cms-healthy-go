@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\MasterSectionCategory;
+use App\Models\SectionContent;
 use App\Models\TNC;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class TnCController
 {
@@ -13,7 +15,7 @@ class TnCController
     {
         try {
             $data = TNC::all();
-            if($request->wantsJson()){
+            if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Data Terms and Conditions berhasil diambil',
@@ -21,7 +23,7 @@ class TnCController
                 ], 200);
             }
 
-            return view ('pages.tnc.index-tnc', compact('data'));
+            return view('pages.tnc.index-tnc', compact('data'));
         } catch (\Exception $e) {
             Log::error('TnC Index Error: ' . $e->getMessage());
             return response()->json([
@@ -43,7 +45,7 @@ class TnCController
 
             $tnc = TNC::create($request->only('title_tnc', 'subtitle_tnc', 'content_tnc'));
 
-            if($request->wantsJson()){
+            if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Terms and Conditions berhasil ditambahkan',
@@ -89,6 +91,104 @@ class TnCController
         }
     }
 
+    public function indexBanner(Request $request)
+    {
+        try {
+            $category = MasterSectionCategory::where('slug', 'btnc')->first();
+            $section = SectionContent::where('menu_id', $category->id)
+                ->where('section', 'btnc')
+                ->first();
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Data FAQ berhasil diambil',
+                    'section' => $section
+                ], 200);
+            }
+
+
+            return view('pages.tnc.index-banner', compact('section'));
+        } catch (\Exception $e) {
+            Log::error('FAQ Index Error: ' . $e->getMessage());
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan saat mengambil data FAQ',
+                'data' => null
+            ], 500);
+        }
+    }
+
+    public function storeBannerTnc(Request $request)
+    {
+        try {
+            $category = MasterSectionCategory::where('slug', 'btnc')->first();
+
+            $request->validate([
+                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'title' => 'required|string|max:255',
+                'subtitle1' => 'nullable|string',
+                'subtitle2' => 'nullable|string',
+                'subtitle3' => 'nullable|string',
+            ]);
+
+            $imgPath = null;
+
+            if ($request->hasFile('img')) {
+                $imgPath = $request->file('img')->store('tnc', 'public');
+            }
+
+            SectionContent::create([
+                'img' => $imgPath,
+                'title' => $request->title,
+                'subtitle1' => $request->subtitle1,
+                'subtitle2' => $request->subtitle2,
+                'subtitle3' => $request->subtitle3,
+                'menu_id' => $category->id,
+                'section' => 'btnc',
+            ]);
+
+            return redirect()->back()->with('success', 'Berhasil');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function updateBannerTnc(Request $request, $id)
+    {
+        try {
+            $benefit = SectionContent::find($id);
+
+            if (!$benefit) {
+                return redirect()->back()->with('error', 'Data tidak ditemukan.');
+            }
+
+            $request->validate([
+                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'title' => 'required|string|max:255',
+                'subtitle1' => 'nullable|string',
+            ]);
+
+            if ($request->hasFile('img')) {
+                if ($benefit->img && Storage::disk('public')->exists($benefit->img)) {
+                    Storage::disk('public')->delete($benefit->img);
+                }
+                $benefit->img = $request->file('img')->store('about', 'public');
+            }
+
+            $benefit->title = $request->title;
+            $benefit->subtitle1 = $request->subtitle1;
+            $benefit->subtitle2 = $request->subtitle2;
+            $benefit->subtitle3 = $request->subtitle3;
+
+            $benefit->save();
+
+            return redirect()->back()->with('success', 'Data berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
     public function update(Request $request, $id)
     {
         try {
@@ -110,7 +210,7 @@ class TnCController
 
             $tnc->update($request->only('title_tnc', 'subtitle_tnc', 'content_tnc'));
 
-            if($request->wantsJson()){
+            if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Terms and Conditions berhasil diperbarui',
@@ -143,7 +243,7 @@ class TnCController
 
             $tnc->delete();
 
-            if($request->wantsJson()){
+            if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Terms and Conditions berhasil dihapus',
@@ -159,6 +259,338 @@ class TnCController
                 'message' => 'Terjadi kesalahan saat menghapus Terms and Conditions',
                 'data' => null
             ], 500);
+        }
+    }
+
+    public function indexSkFm(Request $request)
+    {
+        try {
+            $categoryIds = MasterSectionCategory::whereIn('slug', ['sk', 'sfm'])->pluck('id');
+
+            $sections = SectionContent::whereIn('menu_id', $categoryIds)
+                ->whereIn('section', ['sk', 'sfm'])
+                ->get();
+
+            $section = $sections->first();
+
+            return view('pages.tnc.index-sk', compact('sections', 'section'));
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function storeSkFm(Request $request)
+    {
+        try {
+            $category = MasterSectionCategory::where('slug', 'sk')->first();
+
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'subtitle1' => 'nullable|string',
+                'subtitle2' => 'nullable|string',
+                'subtitle3' => 'nullable|string',
+                'subtitle4' => 'nullable|string',
+            ]);
+
+            SectionContent::create([
+                'title' => $request->title,
+                'subtitle1' => $request->subtitle1,
+                'subtitle2' => $request->subtitle2,
+                'subtitle3' => $request->subtitle3,
+                'subtitle4' => $request->subtitle4,
+                'menu_id' => $category->id,
+                'section' => 'sk',
+            ]);
+
+            return redirect()->back()->with('success', 'Berhasil');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function updateSkFm(Request $request, $id)
+    {
+        try {
+            $benefit = SectionContent::find($id);
+
+            if (!$benefit) {
+                return redirect()->back()->with('error', 'Data tidak ditemukan.');
+            }
+
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'subtitle1' => 'nullable|string',
+                'subtitle2' => 'nullable|string',
+                'subtitle3' => 'nullable|string',
+                'subtitle4' => 'nullable|string',
+            ]);
+
+            $benefit->title = $request->title;
+            $benefit->subtitle1 = $request->subtitle1;
+            $benefit->subtitle2 = $request->subtitle2;
+            $benefit->subtitle3 = $request->subtitle3;
+            $benefit->subtitle4 = $request->subtitle4;
+
+            $benefit->save();
+
+            return redirect()->back()->with('success', 'Data berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function indexGaransi(Request $request)
+    {
+        try {
+            $categoryIds = MasterSectionCategory::whereIn('slug', ['sgaransi'])->pluck('id');
+
+            $sections = SectionContent::whereIn('menu_id', $categoryIds)
+                ->whereIn('section', ['sgaransi'])
+                ->get();
+
+            $section = $sections->first();
+
+            return view('pages.tnc.index-garansi', compact('sections', 'section'));
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function storeGaransi(Request $request)
+    {
+        try {
+            $category = MasterSectionCategory::where('slug', 'sgaransi')->first();
+
+            $request->validate([
+                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'title' => 'required|string|max:255',
+                'subtitle1' => 'nullable|string',
+            ]);
+
+            $imgPath = null;
+
+            if ($request->hasFile('img')) {
+                $imgPath = $request->file('img')->store('tnc', 'public');
+            }
+
+            SectionContent::create([
+                'img' => $imgPath,
+                'title' => $request->title,
+                'subtitle1' => $request->subtitle1,
+                'menu_id' => $category->id,
+                'section' => 'sgaransi',
+            ]);
+
+            return redirect()->back()->with('success', 'Berhasil');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function updateGaransi(Request $request, $id)
+    {
+        try {
+            $benefit = SectionContent::find($id);
+
+            if (!$benefit) {
+                return redirect()->back()->with('error', 'Data tidak ditemukan.');
+            }
+
+            $request->validate([
+                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'title' => 'required|string|max:255',
+                'subtitle1' => 'nullable|string',
+            ]);
+
+            if ($request->hasFile('img')) {
+                if ($benefit->img && Storage::disk('public')->exists($benefit->img)) {
+                    Storage::disk('public')->delete($benefit->img);
+                }
+                $benefit->img = $request->file('img')->store('tnc', 'public');
+            }
+
+            $benefit->title = $request->title;
+            $benefit->subtitle1 = $request->subtitle1;
+
+            $benefit->save();
+
+            return redirect()->back()->with('success', 'Data berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function indexReschedule(Request $request)
+    {
+        try {
+            $categoryIds = MasterSectionCategory::whereIn('slug', ['sreschedule'])->pluck('id');
+
+            $sections = SectionContent::whereIn('menu_id', $categoryIds)
+                ->whereIn('section', ['sreschedule'])
+                ->get();
+
+            $section = $sections->first();
+
+            return view('pages.tnc.index-reschedule', compact('sections', 'section'));
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function storeReschedule(Request $request)
+    {
+        try {
+            $category = MasterSectionCategory::where('slug', 'sreschedule')->first();
+
+            $request->validate([
+                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'title' => 'required|string|max:255',
+                'subtitle1' => 'nullable|string',
+            ]);
+
+            $imgPath = null;
+
+            if ($request->hasFile('img')) {
+                $imgPath = $request->file('img')->store('tnc', 'public');
+            }
+
+            SectionContent::create([
+                'img' => $imgPath,
+                'title' => $request->title,
+                'subtitle1' => $request->subtitle1,
+                'menu_id' => $category->id,
+                'section' => 'sreschedule',
+            ]);
+
+            return redirect()->back()->with('success', 'Berhasil');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function updateReschedule(Request $request, $id)
+    {
+        try {
+            $benefit = SectionContent::find($id);
+
+            if (!$benefit) {
+                return redirect()->back()->with('error', 'Data tidak ditemukan.');
+            }
+
+            $request->validate([
+                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'title' => 'required|string|max:255',
+                'subtitle1' => 'nullable|string',
+            ]);
+
+            if ($request->hasFile('img')) {
+                if ($benefit->img && Storage::disk('public')->exists($benefit->img)) {
+                    Storage::disk('public')->delete($benefit->img);
+                }
+                $benefit->img = $request->file('img')->store('tnc', 'public');
+            }
+
+            $benefit->title = $request->title;
+            $benefit->subtitle1 = $request->subtitle1;
+
+            $benefit->save();
+
+            return redirect()->back()->with('success', 'Data berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function indexHte(Request $request)
+    {
+        try {
+            $categoryIds = MasterSectionCategory::whereIn('slug', ['shte'])->pluck('id');
+
+            $sections = SectionContent::whereIn('menu_id', $categoryIds)
+                ->whereIn('section', ['shte'])
+                ->get();
+
+            $section = $sections->first();
+
+            return view('pages.tnc.index-how-to-eat', compact('sections', 'section'));
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function storeHte(Request $request)
+    {
+        try {
+            $category = MasterSectionCategory::where('slug', 'shte')->first();
+
+            $request->validate([
+                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'title' => 'required|string|max:255',
+                'subtitle1' => 'nullable|string',
+            ]);
+
+            $imgPath = null;
+
+            if ($request->hasFile('img')) {
+                $imgPath = $request->file('img')->store('tnc', 'public');
+            }
+
+            SectionContent::create([
+                'img' => $imgPath,
+                'title' => $request->title,
+                'subtitle1' => $request->subtitle1,
+                'menu_id' => $category->id,
+                'section' => 'shte',
+            ]);
+
+            return redirect()->back()->with('success', 'Berhasil');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function updateHte(Request $request, $id)
+    {
+        try {
+            $benefit = SectionContent::find($id);
+
+            if (!$benefit) {
+                return redirect()->back()->with('error', 'Data tidak ditemukan.');
+            }
+
+            $request->validate([
+                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'title' => 'required|string|max:255',
+                'subtitle1' => 'nullable|string',
+            ]);
+
+            if ($request->hasFile('img')) {
+                if ($benefit->img && Storage::disk('public')->exists($benefit->img)) {
+                    Storage::disk('public')->delete($benefit->img);
+                }
+                $benefit->img = $request->file('img')->store('tnc', 'public');
+            }
+
+            $benefit->title = $request->title;
+            $benefit->subtitle1 = $request->subtitle1;
+
+            $benefit->save();
+
+            return redirect()->back()->with('success', 'Data berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 }

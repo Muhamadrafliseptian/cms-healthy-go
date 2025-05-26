@@ -43,7 +43,7 @@ class PartnershipSectionController
                 'section' => 'bpartnership',
             ]);
 
-            return redirect()->back()->with('success', 'Berhasil tambah benefit');
+            return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
             dd($err->getMessage());
         }
@@ -108,7 +108,7 @@ class PartnershipSectionController
                 'section' => 'spartnership1',
             ]);
 
-            return redirect()->back()->with('success', 'Berhasil tambah benefit');
+            return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
             dd($err->getMessage());
         }
@@ -167,7 +167,7 @@ class PartnershipSectionController
                 'section' => 'spartnership2',
             ]);
 
-            return redirect()->back()->with('success', 'Berhasil tambah benefit');
+            return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
             dd($err->getMessage());
         }
@@ -236,7 +236,7 @@ class PartnershipSectionController
                 'section' => 'spartnership3',
             ]);
 
-            return redirect()->back()->with('success', 'Berhasil tambah benefit');
+            return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
             dd($err->getMessage());
         }
@@ -293,7 +293,7 @@ class PartnershipSectionController
                 'section' => 'spartnership4',
             ]);
 
-            return redirect()->back()->with('success', 'Berhasil tambah benefit');
+            return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
             dd($err->getMessage());
         }

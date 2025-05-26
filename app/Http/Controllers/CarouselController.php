@@ -217,7 +217,7 @@ class CarouselController
                 'menu_id' => $category->id,
             ]);
 
-            return redirect()->back()->with('success', 'Berhasil tambah benefit');
+            return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
             dd($err->getMessage());
         }

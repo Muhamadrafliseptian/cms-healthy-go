@@ -71,7 +71,7 @@ class HomeSectionController
                 'section' => 'sbhome',
             ]);
 
-            return redirect()->back()->with('success', 'Berhasil tambah benefit');
+            return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
             dd($err->getMessage());
         }
@@ -146,7 +146,7 @@ class HomeSectionController
                 'section' => 'shome1',
             ]);
 
-            return redirect()->back()->with('success', 'Berhasil tambah benefit');
+            return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
             dd($err->getMessage());
         }
