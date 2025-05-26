@@ -593,4 +593,29 @@ class TnCController
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
+
+    public function mainTestimoni(Request $request)
+    {
+        try {
+            $slugs = ['sk', 'sfm', 'sgaransi', 'sreschedule', 'shte'];
+
+            $categoryIds = MasterSectionCategory::whereIn('slug', $slugs)->pluck('id');
+
+            $sections = SectionContent::whereIn('menu_id', $categoryIds)->get();
+
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Data Testimoni berhasil diambil',
+                    'sections' => $sections
+                ], 200);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan saat mengambil data testimoni',
+                'data' => null
+            ], 500);
+        }
+    }
 }

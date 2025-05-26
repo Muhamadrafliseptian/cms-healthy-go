@@ -19,6 +19,7 @@ use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\PromoController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TestimoniController;
+use App\Http\Controllers\TnCController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 
@@ -74,6 +75,9 @@ Route::prefix('lp')->group(function () {
     Route::prefix('etc')->group(function () {
         Route::prefix('section')->group(function () {
             Route::post('faq', [FaqController::class, 'index']);
+            Route::prefix('tnc')->group(function () {
+                Route::post('main', [TnCController::class, 'mainTestimoni']);
+            });
         });
     });
     Route::prefix('master')->group(function () {
