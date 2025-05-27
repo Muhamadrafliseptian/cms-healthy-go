@@ -49,11 +49,6 @@
                         </textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="subtitle1" class="form-label">Subjudul Banner</label>
-                        <textarea type="text" name="subtitle1" class="form-control ckeditor">{{ old('subtitle1', $section->subtitle1 ?? '') }}
-                        </textarea>
-                    </div>
-                    <div class="mb-3">
                         <label for="subtitle2" class="form-label">Judul Banner 2</label>
                         <textarea type="text" name="subtitle2" class="form-control ckeditor">{{ old('subtitle2', $section->subtitle2 ?? '') }}
                         </textarea>
