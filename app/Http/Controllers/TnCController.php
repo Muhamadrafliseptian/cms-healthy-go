@@ -597,7 +597,7 @@ class TnCController
     public function mainTestimoni(Request $request)
     {
         try {
-            $slugs = ['sk', 'sfm', 'sgaransi', 'sreschedule', 'shte'];
+            $slugs = ['sk', 'sfm', 'sgaransi', 'sreschedule', 'shte','btnc'];
 
             $categoryIds = MasterSectionCategory::whereIn('slug', $slugs)->pluck('id');
 
