@@ -142,6 +142,7 @@ class IklanController
                 'menu_id'    => $category->id,
                 'section'    => 'isachievement',
                 'title'      => $request->title,
+                'subtitle1'      => $request->subtitle1,
                 'img'        => $imgPath,
             ]);
 
@@ -165,6 +166,7 @@ class IklanController
             }
 
             $testimoni->title = $request->title;
+            $testimoni->subtitle1 = $request->subtitle1;
             $testimoni->save();
 
             return back()->with('success', 'Data testimonial berhasil disimpan.');

@@ -42,6 +42,7 @@
                     </div>
 
                     <textarea name="title" class="form-control ckeditor">{{ old('title', $section->title ?? '') }}</textarea>
+                    <textarea name="subtitle1" class="form-control ckeditor">{{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea>
 
                     <button type="submit" class="btn btn-primary mt-3">
                         {{ $section ? 'Perbarui Data' : 'Simpan Data' }}
