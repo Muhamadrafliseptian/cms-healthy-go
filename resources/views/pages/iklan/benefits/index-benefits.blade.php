@@ -165,7 +165,7 @@
                 .catch(error => {
                     console.error(error);
                 });
-            $('.btn-edit').on('click', function() {
+                $(document).on('click', '.btn-edit', function () {
                 const id = $(this).data('id');
                 const image = $(this).data('image');
                 const content = $(this).data('content');

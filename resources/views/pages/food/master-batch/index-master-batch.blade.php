@@ -153,7 +153,7 @@
                 responsive: true
             });
 
-            $('.btn-edit').on('click', function() {
+                $(document).on('click', '.btn-edit', function () {
                 const id = $(this).data('id');
                 const name = $(this).data('name');
                 const start = $(this).data('start');

@@ -257,7 +257,7 @@
 
             initCKEditor('#edit_content_program_partnership', 'edit_content_program_partnership');
 
-            $('.btn-edit').on('click', function() {
+                $(document).on('click', '.btn-edit', function () {
                 const id = $(this).data('id');
                 const image = $(this).data('image');
                 const title1 = $(this).data('title1');

@@ -153,7 +153,7 @@
     </script>
     <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
     <script>
-        $('.btn-edit').on('click', function () {
+            $(document).on('click', '.btn-edit', function () {
             const id = $(this).data('id');
             const title = $(this).data('title');
             const content = $(this).data('content');

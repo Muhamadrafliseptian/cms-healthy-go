@@ -233,7 +233,7 @@ class PartnershipController
                     Storage::disk('public')->delete($partnership->img_partnership);
                 }
 
-                $partnership->img_partnership = $request->file('img_partnership')->store('partnership', 'public');
+                $partnership->img_partnership = $request->file('img_partnership')->store('home_partnership', 'public');
             }
 
             $partnership->save();

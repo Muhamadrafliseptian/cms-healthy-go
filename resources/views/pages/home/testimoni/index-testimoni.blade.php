@@ -170,7 +170,7 @@
             initCKEditor('#content', 'content');
             initCKEditor('#edit_content', 'edit_content');
 
-            $('.btn-edit').on('click', function() {
+                $(document).on('click', '.btn-edit', function () {
                 const id = $(this).data('id');
                 const name = $(this).data('name');
                 const programName = $(this).data('program-name');

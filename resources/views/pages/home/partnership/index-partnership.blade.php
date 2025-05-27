@@ -85,6 +85,9 @@
                         No
                     </th>
                     <th>
+                        ada
+                    </th>
+                    <th>
                         Image
                     </th>
                     <th>
@@ -96,6 +99,9 @@
                     <tr class="alignMiddle">
                         <td>
                             1
+                        </td>
+                        <td>
+                            {{ $item->img_partnership }}
                         </td>
                         <td>
                             <img src="{{ asset('storage/' . $item->img_partnership) }}" alt="Certificate Image"
@@ -130,13 +136,13 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#certificate').DataTable({
                 scrollX: true,
                 responsive: true
             });
 
-            $('.btn-edit').on('click', function () {
+            $(document).on('click', '.btn-edit', function() {
                 const id = $(this).data('id');
                 const image = $(this).data('image');
 
@@ -148,5 +154,4 @@
             });
         });
     </script>
-
 @endsection

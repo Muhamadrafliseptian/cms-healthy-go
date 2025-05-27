@@ -239,7 +239,7 @@
                 console.error(error);
             });
 
-        $('.btn-edit').on('click', function() {
+            $(document).on('click', '.btn-edit', function () {
             const id = $(this).data('id');
             const year = $(this).data('year');
             const title = $(this).data('title');

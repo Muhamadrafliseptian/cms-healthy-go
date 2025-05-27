@@ -181,7 +181,7 @@
             initCKEditor('#edit_program_subtitle', 'edit_program_subtitle');
             initCKEditor('#edit_program_subtitle_2', 'edit_program_subtitle_2');
 
-            $('.btn-edit').on('click', function() {
+                $(document).on('click', '.btn-edit', function () {
                 const id = $(this).data('id');
                 const title = $(this).data('title');
                 const subtitle = $(this).data('subtitle');
