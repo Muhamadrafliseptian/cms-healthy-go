@@ -80,7 +80,7 @@ Route::prefix('lp')->group(function () {
             });
             Route::prefix('tnc')->group(function () {
                 Route::post('main', [TnCController::class, 'mainTestimoni']);
-                Route::post('skfm', [TnCController::class, 'indexSkFm']);
+                Route::post('notes-delivery', [TnCController::class, 'index']);
             });
         });
     });
