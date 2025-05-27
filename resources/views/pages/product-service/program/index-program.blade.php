@@ -89,7 +89,8 @@
                             {!! $item->program_subtitle !!}
                         </td>
                         <td>{!! $item->program_subtitle_2 !!}</td>
-                        <td><img src="{{ asset('storage/' . $item->content_program) }}" alt="Program Image" width="150"></td>
+                        <td><img src="{{ asset('storage/' . $item->content_program) }}" alt="Program Image" width="150">
+                        </td>
                         <td>
                             <button class="btn btn-sm btn-primary btn-edit" data-id="{{ $item->id }}"
                                 data-title="{{ $item->program_title }}" data-subtitle="{{ $item->program_subtitle }}"
@@ -130,7 +131,7 @@
                 .catch(error => console.error(error));
         }
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#program').DataTable({
                 scrollX: true,
                 responsive: true
@@ -144,7 +145,7 @@
             initCKEditor('#edit_program_subtitle', 'edit_program_subtitle');
             initCKEditor('#edit_program_subtitle_2', 'edit_program_subtitle_2');
 
-                $(document).on('click', '.btn-edit', function () {
+            $(document).on('click', '.btn-edit', function() {
                 const id = $(this).data('id');
                 const title = $(this).data('title');
                 const subtitle = $(this).data('subtitle');
