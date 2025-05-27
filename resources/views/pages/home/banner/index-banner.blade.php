@@ -27,18 +27,35 @@
                     @endif
 
                     <div class="row mb-4">
-                        @if ($section && $section->img)
-                            <div class="col-md-12 text-center">
-                                <img src="{{ asset('storage/' . $section->img) }}" class="img-thumbnail"
-                                    alt="Gambar Pertama">
-                                <p class="text-muted mt-1">Image Banner</p>
-                            </div>
-                        @endif
+                        <div class="col-6">
+                            @if ($section && $section->img)
+                                <div class="col-md-12 text-center">
+                                    <img src="{{ asset('storage/' . $section->img) }}" class="img-thumbnail"
+                                        alt="Gambar Pertama">
+                                    <p class="text-muted mt-1">Image Banner</p>
+                                </div>
+                            @endif
+
+                        </div>
+                        <div class="col-6">
+                            @if ($section && $section->img)
+                                <div class="col-md-12 text-center">
+                                    <img src="{{ asset('storage/' . $section->img2) }}" class="img-thumbnail"
+                                        alt="Gambar Pertama">
+                                    <p class="text-muted mt-1">Image 2</p>
+                                </div>
+                            @endif
+                        </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="img" class="form-label">Upload Background Banner</label>
                         <input type="file" name="img" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="img2" class="form-label">Upload Image</label>
+                        <input type="file" name="img2" class="form-control">
                     </div>
 
                     <div class="mb-3">
@@ -120,7 +137,8 @@
 @section('js')
     <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
     <script>
-        const editors = ['title', 'subtitle1', 'subtitle2', 'subtitle3', 'subtitle4', 'subtitle5', 'subtitlee', 'subtitlee1'];
+        const editors = ['title', 'subtitle1', 'subtitle2', 'subtitle3', 'subtitle4', 'subtitle5', 'subtitlee',
+            'subtitlee1'];
         editors.forEach(id => {
             const el = document.querySelector(`#${id}`);
             if (el) {

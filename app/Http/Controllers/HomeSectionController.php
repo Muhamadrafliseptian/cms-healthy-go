@@ -46,24 +46,30 @@ class HomeSectionController
     public function storeSectionBanner(Request $request)
     {
         try {
-
             $category = MasterSectionCategory::where('slug', 'sbhome')->first();
 
             $request->validate([
                 'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img2' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
                 'subtitle1' => 'nullable|string|max:255',
                 'subtitle2' => 'nullable|string|max:255',
             ]);
 
             $imgPath = null;
+            $img2Path = null;
 
             if ($request->hasFile('img')) {
                 $imgPath = $request->file('img')->store('home', 'public');
             }
 
+            if ($request->hasFile('img2')) {
+                $img2Path = $request->file('img2')->store('home', 'public');
+            }
+
             SectionContent::create([
                 'img' => $imgPath,
+                'img2' => $img2Path, // Pastikan kolom ini ada di database
                 'title' => $request->title,
                 'subtitle1' => $request->subtitle1,
                 'subtitle2' => $request->subtitle2,
@@ -88,6 +94,7 @@ class HomeSectionController
 
             $request->validate([
                 'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img2' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
                 'subtitle1' => 'nullable|string|max:255',
                 'subtitle2' => 'nullable|string|max:255',
@@ -98,6 +105,13 @@ class HomeSectionController
                     Storage::disk('public')->delete($benefit->img);
                 }
                 $benefit->img = $request->file('img')->store('home', 'public');
+            }
+
+            if ($request->hasFile('img2')) {
+                if ($benefit->img2 && Storage::disk('public')->exists($benefit->img2)) {
+                    Storage::disk('public')->delete($benefit->img2);
+                }
+                $benefit->img2 = $request->file('img2')->store('home', 'public');
             }
 
             $benefit->title = $request->title;
@@ -111,6 +125,7 @@ class HomeSectionController
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
+
 
     public function storeSectionDescription(Request $request)
     {
