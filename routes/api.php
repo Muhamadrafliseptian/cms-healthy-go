@@ -74,7 +74,10 @@ Route::prefix('lp')->group(function () {
     });
     Route::prefix('etc')->group(function () {
         Route::prefix('section')->group(function () {
-            Route::post('faq', [FaqController::class, 'index']);
+            Route::prefix('faq')->group(function () {
+                Route::post('main', [FaqController::class, 'index']);
+                Route::post('banner', [FaqController::class, 'indexBanner']);
+            });
             Route::prefix('tnc')->group(function () {
                 Route::post('main', [TnCController::class, 'mainTestimoni']);
             });
