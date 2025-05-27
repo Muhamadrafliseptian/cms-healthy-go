@@ -99,7 +99,8 @@ class PartnershipController
         }
     }
 
-    public function test(Request $request, $id){
+    public function test(Request $request, $id)
+    {
         dd("ada");
     }
 
@@ -173,25 +174,32 @@ class PartnershipController
     {
         try {
             $data = ImgPartnership::all();
+            // $categories = MasterSectionCategory::whereIn('slug', ['simgpartnership'])
+            //     ->get()
+            //     ->keyBy('slug');
+
+            // $sections = SectionContent::whereIn('section', ['simgpartnership'])
+            //     ->whereIn('menu_id', $categories->pluck('id'))
+            //     ->get()
+            //     ->keyBy('section');
 
             if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Data partnership berhasil diambil',
-                    'data' => $data
+                    'data' => $data,
+                    // 'section' => $sections
                 ], 200);
             }
 
-            if ($request->is('dashboard/home/partnership-home*')) {
-                return view('pages.home.partnership.index-partnership', compact('data'));
-            } elseif ($request->is('dashboard/about-us/partnership*')) {
-                return view('pages.about-us.partnership.index-partnership', compact('data'));
-            } else {
-                return view('pages.home.partnership.index-partnership', compact('data'));
-            }
+
+            return view('pages.home.partnership.index-partnership', compact('data'));
         } catch (Exception $err) {
+            // log error atau tampilkan pesan
+            return response()->view('errors.500', [], 500);
         }
     }
+
 
     public function storeHomePartnership(Request $request)
     {
@@ -276,6 +284,51 @@ class PartnershipController
                 'message' => 'Terjadi kesalahan saat menghapus partnership',
                 'data' => null
             ], 500);
+        }
+    }
+
+    public function storeSectionPartnership(Request $request)
+    {
+        try {
+
+            $category = MasterSectionCategory::where('slug', 'simgpartnership')->first();
+
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'subtitle1' => 'nullable|string',
+            ]);
+
+            SectionContent::create([
+                'title' => $request->title,
+                'subtitle1' => $request->subtitle1,
+                'menu_id' => $category->id,
+                'section' => 'simgpartnership',
+            ]);
+
+            return redirect()->back()->with('success', 'Berhasil');
+        } catch (\Exception $err) {
+            return redirect()->back()->with('error', $err->getMessage());
+        }
+    }
+
+    public function updateSectionPartnership(Request $request, $id)
+    {
+        try {
+            $benefit = SectionContent::find($id);
+
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'subtitle1' => 'nullable|string',
+            ]);
+
+            $benefit->title = $request->title;
+            $benefit->subtitle1 = $request->subtitle1;
+
+            $benefit->save();
+
+            return redirect()->back()->with('success', 'Data berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 }

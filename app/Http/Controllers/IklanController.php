@@ -13,12 +13,19 @@ use Illuminate\Support\Facades\Storage;
 
 class IklanController
 {
-    public function indexBanner()
+    public function indexBanner(Request $request)
     {
         $category = MasterSectionCategory::where('slug', 'isbanner')->first();
         $section = SectionContent::where('menu_id', $category->id)
             ->where('section', 'isbanner')
             ->first();
+        if ($request->wantsJson()) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data banner berhasil diambil',
+                'section' => $section,
+            ]);
+        }
         return view('pages.iklan.banner.index-banner', compact('section'));
     }
 
@@ -110,6 +117,13 @@ class IklanController
         $section = SectionContent::where('menu_id', $category->id)
             ->where('section', 'isachievement')
             ->first();
+        if (request()->wantsJson()) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data achievement berhasil diambil',
+                'section' => $section,
+            ]);
+        }
         return view('pages.iklan.achievement.index-achievement', compact('section'));
     }
 
@@ -162,6 +176,13 @@ class IklanController
     public function indexBenefit(Request $request)
     {
         $data = MealBenefits::all();
+        if ($request->wantsJson()) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data benefits berhasil diambil',
+                'data' => $data,
+            ]);
+        }
 
         return view('pages.iklan.benefits.index-benefits', compact('data'));
     }
@@ -259,6 +280,11 @@ class IklanController
         $data = ImgTestimoniIklan::all();
 
         if ($request->wantsJson()) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data galeri berhasil diambil',
+                'data' => $data,
+            ]);
         }
 
         return view('pages.iklan.galeri.index-gallery', compact('data'));
@@ -348,7 +374,12 @@ class IklanController
     public function indexPains(Request $request)
     {
         $data = MealPains::all();
-        if ($request->wantsJson()) {
+        if( $request->wantsJson()) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data pains berhasil diambil',
+                'data' => $data,
+            ]);
         }
         return view('pages.iklan.pains.index-pains', compact('data'));
     }
@@ -425,6 +456,13 @@ class IklanController
         $section = SectionContent::where('menu_id', $category->id)
             ->where('section', 'isigoals')
             ->first();
+        if (request()->wantsJson()) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data goals berhasil diambil',
+                'section' => $section,
+            ]);
+        }
         return view('pages.iklan.goals.index-goals', compact('section'));
     }
 
@@ -515,6 +553,13 @@ class IklanController
         $section = SectionContent::where('menu_id', $category->id)
             ->where('section', 'ispromo')
             ->first();
+        if( request()->wantsJson()) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data promo berhasil diambil',
+                'section' => $section,
+            ]);
+        }
 
         return view('pages.iklan.promo.index-promo', compact('section'));
     }

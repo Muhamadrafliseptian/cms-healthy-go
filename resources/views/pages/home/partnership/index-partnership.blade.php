@@ -20,6 +20,32 @@
                 {{ session('error') }}
             </div>
         @endif
+            {{-- <div class="card shadow-sm">
+                <div class="card-body">
+                    <form action="{{ $section ? route('section.partnershipHome.put', $section->id) : route('section.partnershipHome.store') }}"
+                        method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @if ($section)
+                            @method('PUT')
+                        @endif
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Judul Banner</label>
+                            <input type="text" name="title" class="form-control"
+                                value="{{ old('title', $section->title ?? '') }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="subtitle1" class="form-label">Subjudul Banner</label>
+                            <textarea type="text" name="subtitle1" class="form-control ckeditor" rows="3" value="">
+                            {{ old('subtitle1', $section->subtitle1 ?? '') }}
+                        </textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            {{ $section ? 'Perbarui Data' : 'Simpan Data' }}
+                        </button>
+                    </form>
+                </div>
+            </div> --}}
         <button class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addCertificateModal">
             Tambah Gambar Partnership +
         </button>
@@ -85,9 +111,6 @@
                         No
                     </th>
                     <th>
-                        ada
-                    </th>
-                    <th>
                         Image
                     </th>
                     <th>
@@ -99,9 +122,6 @@
                     <tr class="alignMiddle">
                         <td>
                             1
-                        </td>
-                        <td>
-                            {{ $item->img_partnership }}
                         </td>
                         <td>
                             <img src="{{ asset('storage/' . $item->img_partnership) }}" alt="Certificate Image"

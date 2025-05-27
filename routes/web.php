@@ -299,6 +299,8 @@ Route::prefix('dashboard')->group(function () {
             });
             Route::prefix('partnership')->group(function () {
                 Route::get('/', [PartnershipController::class, 'indexHomePartnership'])->name('partnershipHome.index');
+                Route::post('section/store', [PartnershipController::class, 'storeSectionPartnership'])->name('section.partnershipHome.store');
+                Route::put('section/put/{id}', [PartnershipController::class, 'updateSectionPartnership'])->name('section.partnershipHome.put');
                 Route::post('store', [PartnershipController::class, 'storeHomePartnership'])->name('partnershipHome.store');
                 Route::put('put/{id}', [PartnershipController::class, 'updateHomePartnership'])->name('partnershipHome.put');
                 Route::delete('destroy/{id}', [PartnershipController::class, 'destroyHomePartnership'])->name('partnershipHome.destroy');
