@@ -273,6 +273,15 @@ class TnCController
 
             $section = $sections->first();
 
+            if($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Data SK dan FM berhasil diambil',
+                    'sections' => $sections,
+                    'section' => $section
+                ], 200);
+            }
+
             return view('pages.tnc.index-sk', compact('sections', 'section'));
         } catch (\Exception $e) {
             return response()->json([
