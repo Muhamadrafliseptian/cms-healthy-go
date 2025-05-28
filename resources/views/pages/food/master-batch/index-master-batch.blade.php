@@ -84,7 +84,7 @@
         </div>
 
 
-        <table id="batch" class="table table-striped table-bordered w-100">
+        <table id="batch" class="table table-striped table-bordered text-center w-100">
             <thead>
                 <tr>
                     <th>

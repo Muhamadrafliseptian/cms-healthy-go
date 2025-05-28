@@ -94,7 +94,7 @@
             </div>
         </div>
 
-        <table id="program" class="table table-striped table-bordered w-100">
+        <table id="program" class="table table-striped table-bordered text-center w-100">
             <thead>
                 <tr>
                     <th>No</th>

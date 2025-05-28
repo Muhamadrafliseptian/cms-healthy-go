@@ -140,7 +140,7 @@
     </div>
 
 
-    <table id="milestone" class="table table-striped table-bordered w-100">
+    <table id="milestone" class="table table-striped table-bordered text-center w-100">
         <thead class="text-center">
             <tr>
                 <th>

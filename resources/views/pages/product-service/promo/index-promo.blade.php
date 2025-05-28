@@ -123,7 +123,7 @@
     </div>
 
 
-    <table id="certificate" class="table table-striped table-bordered w-100">
+    <table id="certificate" class="table table-striped table-bordered text-center w-100">
         <thead class="text-center">
             <tr>
                 <th>
