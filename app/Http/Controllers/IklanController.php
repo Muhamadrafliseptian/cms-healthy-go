@@ -81,7 +81,7 @@ class IklanController
 
             $request->validate([
                 'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-                'title' => 'required|string|max:255',
+                'title' => 'nullable|string|max:255',
                 'subtitle1' => 'nullable|string|max:255',
                 'subtitle2' => 'nullable|string|max:255',
                 'subtitle3' => 'nullable|string|max:255',
