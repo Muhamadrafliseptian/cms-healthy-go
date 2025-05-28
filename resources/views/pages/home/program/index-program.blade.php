@@ -101,6 +101,7 @@
                     <th>Nama Program</th>
                     <th>Kalori</th>
                     <th>Protein</th>
+                    <th>Konten</th>
                     <th>Image</th>
                     <th>Aksi</th>
                 </tr>
@@ -116,6 +117,9 @@
                             {!! $item->program_subtitle !!}
                         </td>
                         <td>{!! $item->program_subtitle_2 !!}</td>
+                        <td>
+                            {!! $item->content_program_2 !!}
+                        </td>
                         <td><img src="{{ asset('storage/' . $item->content_program) }}" alt="Program Image" width="150">
                         </td>
                         <td>
