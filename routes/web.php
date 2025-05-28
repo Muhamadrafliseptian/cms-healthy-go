@@ -13,6 +13,7 @@ use App\Http\Controllers\IklanController;
 use App\Http\Controllers\MasterSectionCategoryController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\MetaTagController;
 use App\Http\Controllers\MilestoneController;
 use App\Http\Controllers\OperationalStatisticController;
 use App\Http\Controllers\PartnershipController;
@@ -159,6 +160,13 @@ Route::prefix('dashboard')->group(function () {
             Route::post('store', [IklanController::class, 'storePromo'])->name('promoIklan.store');
             Route::put('put/{id}', [IklanController::class, 'updatePromo'])->name('promoIklan.put');
         });
+    });
+
+    Route::prefix('meta')->group(function(){
+        Route::get('/', [MetaTagController::class, 'index'])->name('meta.index');
+        Route::post('store', [MetaTagController::class, 'store'])->name('meta.store');
+        Route::put('put/{id}', [MetaTagController::class, 'update'])->name('meta.put');
+        Route::delete('destroy/{id}', [MetaTagController::class, 'destroy'])->name('meta.destroy');
     });
 
     Route::prefix('etc')->group(function () {

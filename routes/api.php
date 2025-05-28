@@ -10,6 +10,7 @@ use App\Http\Controllers\HomeSectionController;
 use App\Http\Controllers\IklanController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\MetaTagController;
 use App\Http\Controllers\MilestoneController;
 use App\Http\Controllers\OperationalStatisticController;
 use App\Http\Controllers\PartnershipController;
@@ -94,6 +95,7 @@ Route::prefix('lp')->group(function () {
             Route::post('menu', [MenuController::class, 'index']);
             Route::post('statistic', [OperationalStatisticController::class, 'index']);
             Route::post('batch', [BatchController::class, 'index']);
+            Route::post('meta', [MetaTagController::class, 'index']);
         });
     });
 });

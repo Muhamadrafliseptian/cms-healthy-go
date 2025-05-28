@@ -17,7 +17,8 @@
                         Request::is('dashboard/etc/faq*') ||
                         Request::is('dashboard/etc/tnc*') ||
                         Request::is('dashboard/iklan*') ||
-                        Request::is('dashboard/master*');
+                        Request::is('dashboard/master*') ||
+                        Request::is('dashboard/meta*');
                 @endphp
 
                 <a class="nav-link {{ $pagesActive ? '' : 'collapsed' }}" href="#" data-bs-toggle="collapse"
@@ -46,6 +47,10 @@
                         <a class="nav-link {{ Request::is('dashboard/master*') ? 'active' : '' }}"
                             href="{{ route('scategory.index') }}">
                             Master Category
+                        </a>
+                         <a class="nav-link {{ Request::is('dashboard/meta*') ? 'active' : '' }}"
+                            href="{{ route('meta.index') }}">
+                            Meta
                         </a>
 
                         <a class="nav-link {{ $masterActive ? '' : 'collapsed' }}" href="#"
