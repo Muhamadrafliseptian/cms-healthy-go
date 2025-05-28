@@ -179,10 +179,10 @@
                     </th>
                 </tr>
             <tbody>
-                @foreach ($data as $item)
+                @foreach ($data as $index => $item)
                     <tr class="alignMiddle">
                         <td>
-                            1
+                            {{ $index + 1 }}
                         </td>
                         <td>
                             <div

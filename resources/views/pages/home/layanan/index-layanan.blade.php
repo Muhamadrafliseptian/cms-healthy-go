@@ -144,7 +144,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($data as $item)
+                @foreach ($data as $index => $item)
                     <tr class="alignMiddle">
                         <td class="text-center">
                             1
