@@ -106,8 +106,8 @@
             <tbody>
                 @foreach ($data as $index => $item)
                     <tr class="alignMiddle">
-                        <td class="text-center">
-                            1
+                        <td>
+                            {{ $index + 1 }}
                         </td>
                         <td class="text-center">
                             {{$item->name}}
