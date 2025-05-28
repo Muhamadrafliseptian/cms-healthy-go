@@ -74,6 +74,7 @@
                     <th>Nama Program</th>
                     <th>Kalori</th>
                     <th>Protein</th>
+                    <th>Konten</th>
                     <th>Image</th>
                     <th>Aksi</th>
                 </tr>
