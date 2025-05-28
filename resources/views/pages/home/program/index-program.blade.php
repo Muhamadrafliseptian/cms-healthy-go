@@ -122,7 +122,8 @@
                             <button class="btn btn-sm btn-primary btn-edit" data-id="{{ $item->id }}"
                                 data-title="{{ $item->program_title }}" data-subtitle="{{ $item->program_subtitle }}"
                                 data-subtitle2="{{ $item->program_subtitle_2 }}" data-image="{{ $item->content_program }}"
-                                data-bs-toggle="modal" data-bs-target="#editProgramModal">
+                                data-content-program2="{{ $item->content_program_2 }}" data-bs-toggle="modal"
+                                data-bs-target="#editProgramModal">
                                 Edit
                             </button>
 
@@ -176,18 +177,20 @@
             initCKEditor('#program_title', 'program_title');
             initCKEditor('#program_subtitle', 'program_subtitle');
             initCKEditor('#program_subtitle_2', 'program_subtitle_2');
+            initCKEditor('#content_program_2', 'content_program_2');
 
             initCKEditor('#edit_program_title', 'edit_program_title');
             initCKEditor('#edit_program_subtitle', 'edit_program_subtitle');
             initCKEditor('#edit_program_subtitle_2', 'edit_program_subtitle_2');
-
-                $(document).on('click', '.btn-edit', function () {
+            initCKEditor('#edit_content_program_2', 'edit_content_program_2');
+            $(document).on('click', '.btn-edit', function() {
                 const id = $(this).data('id');
                 const title = $(this).data('title');
                 const subtitle = $(this).data('subtitle');
                 const subtitle2 = $(this).data('subtitle2');
                 const image = $(this).data('image');
-
+                const content2 = $(this).data('content-program2');
+                editors['edit_content_program_2'].setData(content2);
                 editors['edit_program_title'].setData(title);
                 editors['edit_program_subtitle'].setData(subtitle);
                 editors['edit_program_subtitle_2'].setData(subtitle2);

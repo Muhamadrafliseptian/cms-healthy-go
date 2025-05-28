@@ -11,6 +11,10 @@
     <textarea name="program_subtitle_2" id="{{ $prefix }}program_subtitle_2" rows="5" class="form-control"></textarea>
 </div>
 <div class="mb-3">
+    <label for="{{ $prefix }}content_program_2" class="form-label">Konten</label>
+    <textarea name="content_program_2" id="{{ $prefix }}content_program_2" rows="5" class="form-control"></textarea>
+</div>
+<div class="mb-3">
     <label for="content_program" class="form-label">Pilih Gambar</label>
     <input type="file" class="form-control" name="content_program" accept="image/*">
 </div>

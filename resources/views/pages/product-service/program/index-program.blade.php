@@ -89,12 +89,14 @@
                             {!! $item->program_subtitle !!}
                         </td>
                         <td>{!! $item->program_subtitle_2 !!}</td>
+                        <td>{!! $item->content_program_2 !!}</td>
                         <td><img src="{{ asset('storage/' . $item->content_program) }}" alt="Program Image" width="150">
                         </td>
                         <td>
                             <button class="btn btn-sm btn-primary btn-edit" data-id="{{ $item->id }}"
                                 data-title="{{ $item->program_title }}" data-subtitle="{{ $item->program_subtitle }}"
                                 data-subtitle2="{{ $item->program_subtitle_2 }}" data-image="{{ $item->content_program }}"
+                                data-content-program2="{{ $item->content_program_2 }}"
                                 data-bs-toggle="modal" data-bs-target="#editProgramModal">
                                 Edit
                             </button>
@@ -144,17 +146,20 @@
             initCKEditor('#edit_program_title', 'edit_program_title');
             initCKEditor('#edit_program_subtitle', 'edit_program_subtitle');
             initCKEditor('#edit_program_subtitle_2', 'edit_program_subtitle_2');
+            initCKEditor('#edit_content_program_2', 'edit_content_program_2');
 
             $(document).on('click', '.btn-edit', function() {
                 const id = $(this).data('id');
                 const title = $(this).data('title');
                 const subtitle = $(this).data('subtitle');
                 const subtitle2 = $(this).data('subtitle2');
+                const content2 = $(this).data('content-program2');
                 const image = $(this).data('image');
 
                 editors['edit_program_title'].setData(title);
                 editors['edit_program_subtitle'].setData(subtitle);
                 editors['edit_program_subtitle_2'].setData(subtitle2);
+                editors['edit_content_program_2'].setData(content2);
                 $('#previewImg').attr('src', '/storage/' + image);
 
                 const actionUrl = `/dashboard/home/program/put/${id}`;

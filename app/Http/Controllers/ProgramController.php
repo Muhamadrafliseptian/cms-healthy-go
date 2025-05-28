@@ -50,6 +50,7 @@ class ProgramController
                 'program_title' => 'nullable|string',
                 'program_subtitle' => 'nullable|string',
                 'program_subtitle_2' => 'nullable|string',
+                'content_program_2' => 'nullable|string',
                 'content_program' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
@@ -63,6 +64,7 @@ class ProgramController
                 'program_title' => $request->program_title,
                 'program_subtitle' => $request->program_subtitle,
                 'program_subtitle_2' => $request->program_subtitle_2,
+                'content_program_2' => $request->content_program_2,
                 'content_program' => $imgPath
             ]);
 
@@ -166,6 +168,8 @@ class ProgramController
                 'program_title' => 'nullable|string',
                 'program_subtitle' => 'nullable|string',
                 'program_subtitle_2' => 'nullable|string',
+                'program_content_2' => 'nullable|string',
+
                 'content_program' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
@@ -180,6 +184,7 @@ class ProgramController
             $program->program_title = $request->program_title;
             $program->program_subtitle = $request->program_subtitle;
             $program->program_subtitle_2 = $request->program_subtitle_2;
+            $program->content_program_2 = $request->content_program_2;
 
             $program->save();
 
