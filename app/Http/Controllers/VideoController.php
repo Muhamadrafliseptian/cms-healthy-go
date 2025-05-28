@@ -4,62 +4,69 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\VideoHome;
-use Illuminate\Support\Facades\Storage;
-
+use Exception;
 
 class VideoController
 {
     public function index()
     {
-        $video = VideoHome::first(); // hanya ambil 1 video pertama
+        $video = VideoHome::first();
+        if (request()->wantsJson()) {
+            return response()->json([
+                'status' => "success",
+                "section" => $video
+            ]);
+        }
         return view('pages.home.video.index-video', compact('video'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'video_home' => 'required|file|mimetypes:video/mp4,video/x-msvideo,video/quicktime|max:51200', // max 50MB
-        ]);
+        try {
+            $request->validate([
+                'video_home' => [
+                    'required',
+                    'url',
+                    'regex:/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/'
+                ],
+            ]);
 
-        if (VideoHome::exists()) {
-            return redirect()->back()->with('error', 'Video sudah ada. Anda hanya bisa mengupdate.');
+            $embedUrl = $this->convertToEmbedUrl($request->video_home);
+
+            if (VideoHome::exists()) {
+                return redirect()->back()->with('error', 'Video sudah ada. Anda hanya bisa mengupdate.');
+            }
+
+            VideoHome::create([
+                'video_home' => $embedUrl,
+            ]);
+
+            return redirect()->back()->with('success', 'Link video berhasil ditambahkan.');
+        } catch (Exception $err) {
+            return redirect()->back()->with('error', $err->getMessage());
         }
-
-        $file = $request->file('video_home');
-        $filename = time() . '_' . $file->getClientOriginalName();
-        $path = $file->storeAs('video_home', $filename, 'public');
-
-        VideoHome::create([
-            'video_home' => $path,
-        ]);
-
-        return redirect()->back()->with('success', 'Video berhasil ditambahkan.');
     }
+
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'video_home' => 'nullable|file|mimetypes:video/mp4,video/x-msvideo,video/quicktime|max:51200',
-        ]);
+        try {
+            $request->validate([
+                'video_home' => [
+                    'required',
+                    'url',
+                    'regex:/^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|embed\/|shorts\/)|youtu\.be\/)[\w-]{11}($|[&?])/'
+                ],
+            ]);
+            $embedUrl = $this->convertToEmbedUrl($request->video_home);
+            $video = VideoHome::findOrFail($id);
+            $video->video_home = $embedUrl;
+            $video->save();
 
-        $video = VideoHome::findOrFail($id);
-
-        if ($request->hasFile('video_home')) {
-            $file = $request->file('video_home');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $path = $file->storeAs('video_home', $filename, 'public');
-
-            // Hapus file lama jika ada
-            if ($video->video_home && Storage::disk('public')->exists($video->video_home)) {
-                Storage::disk('public')->delete($video->video_home);
-            }
-
-            $video->video_home = $path;
+            return redirect()->back()->with('success', 'Link video berhasil diupdate.');
+        } catch (Exception $err) {
+            return redirect()->back()->with('error', $err->getMessage());
         }
-
-        $video->save();
-
-        return redirect()->back()->with('success', 'Video berhasil diupdate.');
     }
 
 
@@ -69,5 +76,10 @@ class VideoController
         $video->delete();
 
         return redirect()->back()->with('success', 'Video berhasil dihapus.');
+    }
+    private function convertToEmbedUrl($url)
+    {
+        preg_match('/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([a-zA-Z0-9_-]{11})/', $url, $matches);
+        return isset($matches[1]) ? "https://www.youtube.com/embed/" . $matches[1] : $url;
     }
 }
