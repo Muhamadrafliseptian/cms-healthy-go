@@ -4,6 +4,7 @@ use App\Http\Controllers\AboutSectionController;
 use App\Http\Controllers\BatchController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FoodSectionController;
 use App\Http\Controllers\HomeSectionController;
@@ -97,6 +98,10 @@ Route::prefix('lp')->group(function () {
             Route::post('batch', [BatchController::class, 'index']);
             Route::post('meta', [MetaTagController::class, 'index']);
         });
+    });
+
+    Route::prefix('visitor')->group(function(){
+        Route::post('store', [DashboardController::class, 'store']);
     });
 });
 
