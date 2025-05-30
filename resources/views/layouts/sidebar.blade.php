@@ -241,8 +241,8 @@
                                     href="{{ route('section.tnc.garansi.index') }}">Klaim Garansi</a>
                                 <a class="nav-link {{ Request::is('dashboard/etc/tnc/section/skfm*') ? 'active' : '' }}"
                                     href="{{ route('section.tnc.sk.index') }}">Syarat Ketentuan</a>
-                                <a class="nav-link {{ Request::is('dashboard/etc/tnc/section/main*') ? 'active' : '' }}"
-                                    href="{{ route('faq.index') }}">Jadwal Pengiriman</a>
+                                <a class="nav-link {{ Request::is('dashboard/etc/tnc/section/jadwal-pengiriman*') ? 'active' : '' }}"
+                                    href="{{ route('section.tnc.jadwal.index') }}">Jadwal Pengiriman</a>
                                 <a class="nav-link {{ Request::is('dashboard/etc/tnc/section/notes-delivery*') ? 'active' : '' }}"
                                     href="{{ route('tnc.index') }}">Notes Pengantaran</a>
                             </nav>

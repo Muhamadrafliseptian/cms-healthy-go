@@ -273,7 +273,7 @@ class TnCController
 
             $section = $sections->first();
 
-            if($request->wantsJson()) {
+            if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Data SK dan FM berhasil diambil',
@@ -606,7 +606,7 @@ class TnCController
     public function mainTestimoni(Request $request)
     {
         try {
-            $slugs = ['sk', 'sfm', 'sgaransi', 'sreschedule', 'shte','btnc'];
+            $slugs = ['sk', 'sfm', 'sgaransi', 'sreschedule', 'shte', 'btnc', 'sjadwal'];
 
             $categoryIds = MasterSectionCategory::whereIn('slug', $slugs)->pluck('id');
 
@@ -625,6 +625,85 @@ class TnCController
                 'message' => 'Terjadi kesalahan saat mengambil data testimoni',
                 'data' => null
             ], 500);
+        }
+    }
+
+    public function indexJadwal()
+    {
+        $category = MasterSectionCategory::where('slug', 'sjadwal')->first();
+
+        $section = null;
+        if ($category) {
+            $section = SectionContent::where('section', 'sjadwal')
+                ->where('menu_id', $category->id)
+                ->first();
+        }
+        if (request()->wantsJson()) {
+            return response()->json([
+                "status" => "success",
+                "section" => $section
+            ]);
+        }
+        return view('pages.tnc.index-jadwal-pengiriman', compact('section'));
+    }
+
+    public function storeJadwal(Request $request)
+    {
+        try {
+            $category = MasterSectionCategory::where('slug', 'sjadwal')->first();
+
+            $request->validate([
+                'subtitle1' => 'nullable|string',
+                'subtitle2' => 'nullable|string',
+                'subtitle3' => 'nullable|string',
+                'subtitle4' => 'nullable|string',
+                'subtitle5' => 'nullable|string',
+            ]);
+
+            SectionContent::create([
+                'subtitle1' => $request->subtitle1,
+                'subtitle2' => $request->subtitle2,
+                'subtitle3' => $request->subtitle3,
+                'subtitle4' => $request->subtitle4,
+                'subtitle5' => $request->subtitle5,
+                'menu_id' => $category->id,
+                'section' => 'sjadwal',
+            ]);
+
+            return redirect()->back()->with('success', 'Berhasil');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function updateJadwal(Request $request, $id)
+    {
+        try {
+            $benefit = SectionContent::find($id);
+
+            if (!$benefit) {
+                return redirect()->back()->with('error', 'Data tidak ditemukan.');
+            }
+
+            $request->validate([
+                'subtitle1' => 'nullable|string',
+                'subtitle2' => 'nullable|string',
+                'subtitle3' => 'nullable|string',
+                'subtitle4' => 'nullable|string',
+                'subtitle5' => 'nullable|string',
+            ]);
+
+            $benefit->subtitle1 = $request->subtitle1;
+            $benefit->subtitle2 = $request->subtitle2;
+            $benefit->subtitle3 = $request->subtitle3;
+            $benefit->subtitle4 = $request->subtitle4;
+            $benefit->subtitle5 = $request->subtitle5;
+
+            $benefit->save();
+
+            return redirect()->back()->with('success', 'Data berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 }

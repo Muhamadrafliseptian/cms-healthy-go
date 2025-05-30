@@ -4,7 +4,6 @@ use App\Http\Controllers\AboutSectionController;
 use App\Http\Controllers\BatchController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\CertificateController;
-use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FoodSectionController;
@@ -23,7 +22,6 @@ use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\PromoController;
 use App\Http\Controllers\SectionContentController;
 use App\Http\Controllers\ServiceController;
-use App\Http\Controllers\SocialMediaController;
 use App\Http\Controllers\TestimoniController;
 use App\Http\Controllers\TnCController;
 use App\Http\Controllers\VideoController;
@@ -170,18 +168,6 @@ Route::prefix('dashboard')->group(function () {
     });
 
     Route::prefix('etc')->group(function () {
-        // Route::prefix('sosmed')->group(function () {
-        //     Route::get('/', [SocialMediaController::class, 'index'])->name('sosmed.index');
-        //     Route::post('store', [SocialMediaController::class, 'store'])->name('sosmed.store');
-        //     Route::put('put/{id}', [SocialMediaController::class, 'update'])->name('sosmed.put');
-        //     Route::delete('destroy/{id}', [SocialMediaController::class, 'destroy'])->name('sosmed.destroy');
-        // });
-        // Route::prefix('contact')->group(function () {
-        //     Route::get('/', [ContactController::class, 'index'])->name('contact.index');
-        //     Route::post('store', [ContactController::class, 'store'])->name('contact.store');
-        //     Route::put('put/{id}', [ContactController::class, 'update'])->name('contact.put');
-        //     Route::delete('destroy/{id}', [ContactController::class, 'destroy'])->name('contact.destroy');
-        // });
         Route::prefix('faq')->group(function () {
             Route::prefix('section')->group(function () {
                 Route::prefix('banner')->group(function () {
@@ -211,6 +197,11 @@ Route::prefix('dashboard')->group(function () {
                     Route::post('store', [TnCController::class, 'store'])->name('tnc.store');
                     Route::put('put/{id}', [TnCController::class, 'update'])->name('tnc.put');
                     Route::delete('destroy/{id}', [TnCController::class, 'destroy'])->name('tnc.destroy');
+                });
+                Route::prefix('jadwal-pengiriman')->group(function () {
+                    Route::get('/', [TnCController::class, 'indexJadwal'])->name('section.tnc.jadwal.index');
+                    Route::post('store', [TnCController::class, 'storeJadwal'])->name('section.tnc.jadwal.store');
+                    Route::put('put/{id}', [TnCController::class, 'updateJadwal'])->name('section.tnc.jadwal.put');
                 });
                 Route::prefix('skfm')->group(function () {
                     Route::get('/', [TnCController::class, 'indexSkFm'])->name('section.tnc.sk.index');
