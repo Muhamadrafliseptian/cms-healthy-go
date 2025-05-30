@@ -35,6 +35,41 @@ class MenuController
         }
     }
 
+    // public function store(Request $request)
+    // {
+    //     try {
+    //         $request->validate([
+    //             'menus' => 'required|array|min:1',
+    //             'menus.*.day' => 'required|string',
+    //             'menus.*.lunch_menu' => 'nullable|string',
+    //             'menus.*.dinner_menu' => 'nullable|string',
+    //             'menus.*.img_menu' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+    //             'batch_id' => 'required|exists:lptm_batch,id',
+    //         ]);
+
+    //         foreach ($request->menus as $menuData) {
+    //             $imgPath = null;
+
+    //             if (isset($menuData['img_menu']) && $menuData['img_menu']) {
+    //                 $imgPath = $menuData['img_menu']->store('menu', 'public');
+    //             }
+
+    //             Menu::create([
+    //                 'batch_id' => $request->batch_id,
+    //                 'day' => $menuData['day'],
+    //                 'lunch_menu' => $menuData['lunch_menu'],
+    //                 'dinner_menu' => $menuData['dinner_menu'],
+    //                 'img_menu' => $imgPath,
+    //             ]);
+    //         }
+
+    //         return redirect()->back()->with('success', 'Menu mingguan berhasil ditambahkan.');
+    //     } catch (\Exception $e) {
+    //         Log::error('Batch Menu Store Error: ' . $e->getMessage());
+    //         return back()->with('error', 'Terjadi kesalahan saat menyimpan data.');
+    //     }
+    // }
+
     public function store(Request $request)
     {
         try {
@@ -46,6 +81,11 @@ class MenuController
                 'menus.*.img_menu' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
                 'batch_id' => 'required|exists:lptm_batch,id',
             ]);
+
+            $existing = Menu::where('batch_id', $request->batch_id)->exists();
+            if ($existing) {
+                return redirect()->back()->with('error', 'Menu untuk batch ini sudah ada.');
+            }
 
             foreach ($request->menus as $menuData) {
                 $imgPath = null;
@@ -69,6 +109,7 @@ class MenuController
             return back()->with('error', 'Terjadi kesalahan saat menyimpan data.');
         }
     }
+
 
     public function update(Request $request)
     {
