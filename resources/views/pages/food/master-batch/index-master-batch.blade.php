@@ -20,9 +20,9 @@
                 {{ session('error') }}
             </div>
         @endif
-        <button class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addBatchModal">
+        {{-- <button class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addBatchModal">
             Tambah +
-        </button>
+        </button> --}}
 
         <div class="modal fade" id="addBatchModal" tabindex="-1" aria-labelledby="addBatchModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -99,9 +99,9 @@
                     <th>
                         End Date
                     </th>
-                    <th>
+                    {{-- <th>
                         Aksi
-                    </th>
+                    </th> --}}
                 </tr>
             <tbody>
                 @foreach ($data as $index => $item)
@@ -118,7 +118,7 @@
                         <td>
                             {{ $item->end_date }}
                         </td>
-                        <td>
+                        {{-- <td>
                             <button class="btn btn-sm btn-primary btn-edit" data-id="{{ $item->id }}"
                                 data-name="{{ $item->name }}" data-start="{{ $item->start_date }}"
                                 data-bs-toggle="modal" data-bs-target="#editBatchModal">
@@ -132,7 +132,7 @@
                                 <button type="submit" class="btn btn-sm btn-danger"
                                     onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
                             </form>
-                        </td>
+                        </td> --}}
 
                     </tr>
                 @endforeach
