@@ -169,37 +169,34 @@ class PartnershipController
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-
     public function indexHomePartnership(Request $request)
     {
         try {
             $data = ImgPartnership::all();
-            // $categories = MasterSectionCategory::whereIn('slug', ['simgpartnership'])
-            //     ->get()
-            //     ->keyBy('slug');
 
-            // $sections = SectionContent::whereIn('section', ['simgpartnership'])
-            //     ->whereIn('menu_id', $categories->pluck('id'))
-            //     ->get()
-            //     ->keyBy('section');
+            $category = MasterSectionCategory::where('slug', 'simgpartnership')->first();
+
+            $section = null;
+            if ($category) {
+                $section = SectionContent::where('section', 'simgpartnership')
+                    ->where('menu_id', $category->id)
+                    ->first();
+            }
 
             if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Data partnership berhasil diambil',
                     'data' => $data,
-                    // 'section' => $sections
+                    'section' => $section
                 ], 200);
             }
 
-
-            return view('pages.home.partnership.index-partnership', compact('data'));
+            return view('pages.home.partnership.index-partnership', compact('data', 'section'));
         } catch (Exception $err) {
-            // log error atau tampilkan pesan
             return response()->view('errors.500', [], 500);
         }
     }
-
 
     public function storeHomePartnership(Request $request)
     {

@@ -20,33 +20,35 @@
                 {{ session('error') }}
             </div>
         @endif
-            {{-- <div class="card shadow-sm">
-                <div class="card-body">
-                    <form action="{{ $section ? route('section.partnershipHome.put', $section->id) : route('section.partnershipHome.store') }}"
-                        method="POST" enctype="multipart/form-data">
-                        @csrf
-                        @if ($section)
-                            @method('PUT')
-                        @endif
-                        <div class="mb-3">
-                            <label for="title" class="form-label">Judul Banner</label>
-                            <input type="text" name="title" class="form-control"
-                                value="{{ old('title', $section->title ?? '') }}" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="subtitle1" class="form-label">Subjudul Banner</label>
-                            <textarea type="text" name="subtitle1" class="form-control ckeditor" rows="3" value="">
-                            {{ old('subtitle1', $section->subtitle1 ?? '') }}
-                        </textarea>
-                        </div>
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form
+                    action="{{ $section ? route('section.partnershipHome.put', $section->id) : route('section.partnershipHome.store') }}"
+                    method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @if ($section)
+                        @method('PUT')
+                    @endif
 
-                        <button type="submit" class="btn btn-primary w-100">
-                            {{ $section ? 'Perbarui Data' : 'Simpan Data' }}
-                        </button>
-                    </form>
-                </div>
-            </div> --}}
-        <button class="btn btn-sm btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addCertificateModal">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Judul Banner</label>
+                        <input type="text" name="title" class="form-control"
+                            value="{{ old('title', $section->title ?? '') }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="subtitle1" class="form-label">Subjudul Banner</label>
+                        <textarea name="subtitle1" class="form-control ckeditor" rows="3">{{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">
+                        {{ $section ? 'Perbarui Data' : 'Simpan Data' }}
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <button class="btn btn-sm btn-primary mb-3 mt-5" data-bs-toggle="modal" data-bs-target="#addCertificateModal">
             Tambah Gambar Partnership +
         </button>
 
@@ -155,6 +157,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
     <script>
         $(document).ready(function() {
             $('#certificate').DataTable({
@@ -171,6 +174,17 @@
 
                 const actionUrl = `/dashboard/master/konten/partnership/put/${id}`;
                 $('#editForm').attr('action', actionUrl);
+            });
+        });
+    </script>
+     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('.ckeditor').forEach(function(el) {
+                ClassicEditor
+                    .create(el)
+                    .catch(error => {
+                        console.error(error);
+                    });
             });
         });
     </script>

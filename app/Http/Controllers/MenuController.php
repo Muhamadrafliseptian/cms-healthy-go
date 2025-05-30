@@ -33,7 +33,8 @@ class MenuController
                     'status' => 'success',
                     'message' => 'Data menu batch terbaru berhasil diambil',
                     'batch' => $latestBatch,
-                    'menus' => $menus
+                    'menus' => $menus,
+                    "latest_batch" => $latestBatch->get
                 ], 200);
             }
 
