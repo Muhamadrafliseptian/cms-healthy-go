@@ -186,7 +186,7 @@ class PartnershipController
             if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
-                    'message' => 'Data partnership berhasil diambil',
+                    'message' => 'Data partnership berhasil diambiaaal',
                     'data' => $data,
                     'section' => $section
                 ], 200);
