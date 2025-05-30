@@ -24,22 +24,18 @@ class DashboardController
 
     public function store(Request $request)
     {
-        $alreadyVisited = Visitor::where('ip_address', $request->ip())
+        $validated = $request->validate([
+            'ip_address' => 'required|ip',
+            'user_agent' => 'nullable|string',
+            'visited_at' => 'nullable|date',
+        ]);
+
+        $alreadyVisited = Visitor::where('ip_address', $validated['ip_address'])
             ->whereDate('visited_at', now()->toDateString())
             ->exists();
 
         if (! $alreadyVisited) {
-            Visitor::create([
-                'ip_address' => $request->ip(),
-                'user_agent' => $request->userAgent(),
-                'visited_at' => now(),
-            ]);
+            Visitor::create($validated + ['visited_at' => $validated['visited_at'] ?? now()]);
         }
-
-        // return response()->json([
-        //     'status' => 'success',
-        //     'message' => 'Visitor counted',
-        // ]);
     }
-
 }
