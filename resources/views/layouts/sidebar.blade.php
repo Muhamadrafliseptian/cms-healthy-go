@@ -17,7 +17,8 @@
                         Request::is('dashboard/etc/faq*') ||
                         Request::is('dashboard/etc/tnc*') ||
                         Request::is('dashboard/iklan*') ||
-                        Request::is('dashboard/master*') ||
+                        Request::is('dashboard/master/konten*') ||
+                        Request::is('dashboard/master/section-category*') ||
                         Request::is('dashboard/meta*');
                 @endphp
 
