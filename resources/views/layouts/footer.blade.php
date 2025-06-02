@@ -1,4 +1,4 @@
-<footer class="py-4 bg-dark mt-auto">
+<footer class="py-4 mt-auto" style="background-color: black;">
     <div class="container-fluid px-4">
         <div class="d-flex align-items-center justify-content-between small">
             <div class="text-muted">Copyright &copy; Your Website 2023</div>

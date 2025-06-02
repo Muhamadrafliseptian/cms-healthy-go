@@ -1,8 +1,9 @@
 <div id="layoutSidenav_nav">
-    <nav class="sb-sidenav accordion sb-sidenav-dark bg-dark" id="sidenavAccordion">
+    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion" style="background-color: black;">
         <div class="sb-sidenav-menu">
             <div class="nav">
-                <a class="nav-link" href="{{ url('/dashboard') }}">
+                <a class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}"
+                    href="{{ route('dashboard') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Dashboard
                 </a>
@@ -49,14 +50,15 @@
                             href="{{ route('scategory.index') }}">
                             Master Category
                         </a>
-                         <a class="nav-link {{ Request::is('dashboard/meta*') ? 'active' : '' }}"
+                        <a class="nav-link {{ Request::is('dashboard/meta*') ? 'active' : '' }}"
                             href="{{ route('meta.index') }}">
                             Meta
                         </a>
 
                         <a class="nav-link {{ $masterActive ? '' : 'collapsed' }}" href="#"
                             data-bs-toggle="collapse" data-bs-target="#masterKontenCollapse"
-                            aria-expanded="{{ $masterActive ? 'true' : 'false' }}" aria-controls="masterKontenCollapse">
+                            aria-expanded="{{ $masterActive ? 'true' : 'false' }}"
+                            aria-controls="masterKontenCollapse">
                             Master
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>

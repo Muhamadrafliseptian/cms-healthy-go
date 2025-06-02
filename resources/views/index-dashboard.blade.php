@@ -1,6 +1,25 @@
 @extends('layouts.main')
 @section('content')
-<p>
-    Lorem ipsum dolor sit, amet consectetur adipisicing elit. A molestias doloremque voluptatibus officiis iusto esse, ex asperiores dolorum numquam odit fugit, assumenda eum incidunt fugiat nihil illum dolores et quia.
-</p>
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-chart-area me-1"></i>
+                        Area Chart Example
+                    </div>
+                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-chart-bar me-1"></i>
+                        Bar Chart Example
+                    </div>
+                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
