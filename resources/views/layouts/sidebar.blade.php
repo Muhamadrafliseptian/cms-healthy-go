@@ -45,7 +45,7 @@
                             $partnershipActive = Request::is('dashboard/partnership*');
                         @endphp
 
-                        <a class="nav-link {{ Request::is('dashboard/master*') ? 'active' : '' }}"
+                        <a class="nav-link {{ Request::is('dashboard/master/section-category*') ? 'active' : '' }}"
                             href="{{ route('scategory.index') }}">
                             Master Category
                         </a>

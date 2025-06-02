@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AboutSectionController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BatchController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\CertificateController;
@@ -26,8 +27,18 @@ use App\Http\Controllers\TestimoniController;
 use App\Http\Controllers\TnCController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
-Route::prefix('dashboard')->group(function () {
+Route::get('/', function () {
+    if (Auth::check()) {
+        return redirect()->route('dashboard');
+    }
+    return redirect()->route('login');
+});
+Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('login', [AuthController::class, 'login']);
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::prefix('home')->group(function () {
         Route::prefix('banner')->group(function () {
@@ -160,7 +171,7 @@ Route::prefix('dashboard')->group(function () {
         });
     });
 
-    Route::prefix('meta')->group(function(){
+    Route::prefix('meta')->group(function () {
         Route::get('/', [MetaTagController::class, 'index'])->name('meta.index');
         Route::post('store', [MetaTagController::class, 'store'])->name('meta.store');
         Route::put('put/{id}', [MetaTagController::class, 'update'])->name('meta.put');

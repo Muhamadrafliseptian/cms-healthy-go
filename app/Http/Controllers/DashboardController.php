@@ -11,13 +11,7 @@ class DashboardController
     public function index()
     {
         try {
-            $dataVisitor = Visitor::all()->desc();
-            $totalVisitor = Visitor::count();
-
-            return view('index-dashboard', compact([
-                "data-visitor" => $dataVisitor,
-                "total-visitor" => $totalVisitor
-            ]));
+            return view('index-dashboard');
         } catch (Exception $err) {
         }
     }
