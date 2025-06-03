@@ -9,23 +9,23 @@ use Illuminate\Http\Request;
 
 class DashboardController
 {
-    public function index(ServicesAnalyticsService $analytics)
+    public function index()
     {
         try {
-            $response = $analytics->getAllVisitors();
+            // $response = $analytics->getAllVisitors();
 
-            $rows = $response->getRows();
+            // $rows = $response->getRows();
 
-            $pages = [];
+            // $pages = [];
 
-            foreach ($rows as $row) {
-                $pagePath = $row->getDimensionValues()[0]->getValue(); // ambil pagePath
-                $pageViews = (int) $row->getMetricValues()[0]->getValue(); // ambil views
+            // foreach ($rows as $row) {
+            //     $pagePath = $row->getDimensionValues()[0]->getValue(); // ambil pagePath
+            //     $pageViews = (int) $row->getMetricValues()[0]->getValue(); // ambil views
 
-                $pages[$pagePath] = $pageViews;
-            }
+            //     $pages[$pagePath] = $pageViews;
+            // }
 
-            return view('index-dashboard', compact('pages'));
+            return view('index-dashboard');
 
         } catch (\Exception $err) {
             dd($err->getMessage());
