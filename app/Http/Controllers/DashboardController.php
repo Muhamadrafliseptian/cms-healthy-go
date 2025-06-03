@@ -2,19 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\AnalyticsService as ServicesAnalyticsService;
 use App\Models\Visitor;
 use Exception;
 use Illuminate\Http\Request;
 
 class DashboardController
 {
-    public function index()
+    public function index(ServicesAnalyticsService $analytics)
     {
         try {
-            return view('index-dashboard');
-        } catch (Exception $err) {
+            $response = $analytics->getAllVisitors();
+
+            $rows = $response->getRows();
+
+            $pages = [];
+
+            foreach ($rows as $row) {
+                $pagePath = $row->getDimensionValues()[0]->getValue(); // ambil pagePath
+                $pageViews = (int) $row->getMetricValues()[0]->getValue(); // ambil views
+
+                $pages[$pagePath] = $pageViews;
+            }
+
+            return view('index-dashboard', compact('pages'));
+
+        } catch (\Exception $err) {
+            dd($err->getMessage());
         }
     }
+
 
     public function store(Request $request)
     {
