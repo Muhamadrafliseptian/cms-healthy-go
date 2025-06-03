@@ -15,6 +15,7 @@ class AnalyticsService
 
     public function __construct()
     {
+
         $this->client = new ClientBetaAnalyticsDataClient([
             'credentials' => base_path(env('GOOGLE_APPLICATION_CREDENTIALS')),
         ]);
