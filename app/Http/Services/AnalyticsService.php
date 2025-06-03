@@ -17,7 +17,7 @@ class AnalyticsService
     {
 
         $this->client = new ClientBetaAnalyticsDataClient([
-            'credentials' => base_path(env('GOOGLE_APPLICATION_CREDENTIALS')),
+            'credentials' => storage_path('app/keys/google-services.json'),
         ]);
 
         $this->propertyId = '430838609';
