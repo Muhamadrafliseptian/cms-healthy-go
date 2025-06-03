@@ -16,7 +16,7 @@ class AnalyticsService
     public function __construct()
     {
         $this->client = new ClientBetaAnalyticsDataClient([
-            'credentials' => storage_path('app/analytics/google-services.json'),
+            'credentials' => base_path(env('GOOGLE_APPLICATION_CREDENTIALS')),
         ]);
 
         $this->propertyId = '430838609';
@@ -25,24 +25,24 @@ class AnalyticsService
     public function getAllVisitors()
     {
         $request = new RunReportRequest([
-        'property' => "properties/{$this->propertyId}",
-        'date_ranges' => [
-            new DateRange([
-                'start_date' => '2025-05-01',
-                'end_date' => 'today',
-            ]),
-        ],
-        'metrics' => [
-            new Metric(['name' => 'screenPageViews']), // metrik untuk jumlah views halaman
-        ],
-        'dimensions' => [
-            new Dimension(['name' => 'pageTitle']),  // halaman URL yang diakses
-            // atau bisa juga pakai 'pageTitle' kalau mau judul halaman
-        ],
-    ]);
+            'property' => "properties/{$this->propertyId}",
+            'date_ranges' => [
+                new DateRange([
+                    'start_date' => '2025-05-01',
+                    'end_date' => 'today',
+                ]),
+            ],
+            'metrics' => [
+                new Metric(['name' => 'screenPageViews']), // metrik untuk jumlah views halaman
+            ],
+            'dimensions' => [
+                new Dimension(['name' => 'pageTitle']),  // halaman URL yang diakses
+                // atau bisa juga pakai 'pageTitle' kalau mau judul halaman
+            ],
+        ]);
 
-    $response = $this->client->runReport($request);
+        $response = $this->client->runReport($request);
 
-    return $response;
+        return $response;
     }
 }
