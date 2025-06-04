@@ -52,8 +52,6 @@ class HomeSectionController
                 'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'img2' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'required|string|max:255',
-                'subtitle2' => 'required|string|max:255',
             ]);
 
             $imgPath = null;
@@ -71,8 +69,6 @@ class HomeSectionController
                 'img' => $imgPath,
                 'img2' => $img2Path, // Pastikan kolom ini ada di database
                 'title' => $request->title,
-                'subtitle1' => $request->subtitle1,
-                'subtitle2' => $request->subtitle2,
                 'menu_id' => $category->id,
                 'section' => 'sbhome',
             ]);
@@ -96,8 +92,6 @@ class HomeSectionController
                 'img' => 'image|mimes:jpg,jpeg,png|max:2048',
                 'img2' => 'image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'required|string|max:255',
-                'subtitle2' => 'required|string|max:255',
             ]);
 
             if ($request->hasFile('img')) {
@@ -115,8 +109,6 @@ class HomeSectionController
             }
 
             $benefit->title = $request->title;
-            $benefit->subtitle1 = $request->subtitle1;
-            $benefit->subtitle2 = $request->subtitle2;
 
             $benefit->save();
 

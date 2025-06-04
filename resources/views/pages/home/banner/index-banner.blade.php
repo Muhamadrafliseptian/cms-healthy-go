@@ -60,18 +60,7 @@
 
                     <div class="mb-3">
                         <label for="title" class="form-label">Judul Banner</label>
-                        <input type="text" name="title" class="form-control"
-                            value="{{ old('title', $section->title ?? '') }}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="subtitle1" class="form-label">Judul Banner 2</label>
-                        <textarea name="subtitle1" id="subtitlee" class="form-control" rows="3">{{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="subtitle2" class="form-label">Judul Banner 3</label>
-                        <textarea name="subtitle2" id="subtitlee1" class="form-control" rows="3">{{ old('subtitle2', $section->subtitle2 ?? '') }}</textarea>
+                        <textarea name="title" id="subtitlee" class="form-control" rows="3">{{ old('title', $section->title ?? '') }}</textarea>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100">
