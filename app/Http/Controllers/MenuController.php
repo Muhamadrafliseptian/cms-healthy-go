@@ -14,8 +14,9 @@ class MenuController
     public function index(Request $request)
     {
         try {
-            $latestBatch = MasterBatch::orderByDesc('start_date')->first();
-
+            $latestBatch = MasterBatch::whereDate('start_date', '<=', now())
+                ->whereDate('end_date', '>=', now())
+                ->first();
             if (!$latestBatch) {
                 return response()->json([
                     'status' => 'error',
@@ -50,7 +51,6 @@ class MenuController
             ], 500);
         }
     }
-
 
     public function store(Request $request)
     {
@@ -88,7 +88,7 @@ class MenuController
             return redirect()->back()->with('success', 'Menu mingguan berhasil ditambahkan.');
         } catch (\Exception $e) {
             Log::error('Batch Menu Store Error: ' . $e->getMessage());
-            return back()->with('error', 'Terjadi kesalahan saat menyimpan data.');
+            return back()->with('error', $e->getMessage());
         }
     }
 
