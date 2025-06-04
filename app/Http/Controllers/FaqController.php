@@ -245,12 +245,12 @@ class FaqController
             if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
-                    'message' => 'FAQ berhasil diperbarui',
+                    'message' => 'Data berhasil diperbarui',
                     'data' => $faq
                 ], 200);
             }
 
-            return redirect()->back()->with('success', 'FAQ berhasil diperbarui');
+            return redirect()->back()->with('success', 'Data berhasil diperbarui');
         } catch (\Exception $e) {
             Log::error('FAQ Update Error: ' . $e->getMessage());
 

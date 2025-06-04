@@ -14,7 +14,7 @@ class MetaTagController
         $data = MasterMenu::all();
         $datas = MasterMeta::all();
 
-        if(request()->wantsJson()){
+        if (request()->wantsJson()) {
             return response()->json([
                 'data' => $datas,
                 'status' => "success"
@@ -26,53 +26,65 @@ class MetaTagController
 
     public function store(Request $request)
     {
-        $request->validate([
-            'menu_id' => 'required|exists:lptm_menu,id',
-            'title' => 'required|string|max:255',
-            'keywords' => 'required|string',
-            'description' => 'required|string',
-        ]);
+        try {
+            $request->validate([
+                'menu_id' => 'required|exists:lptm_menu,id',
+                'title' => 'required|string|max:255',
+                'keywords' => 'required|string',
+                'description' => 'required|string',
+            ]);
 
-        $existing = MasterMeta::where('menu_id', $request->menu_id)->first();
+            $existing = MasterMeta::where('menu_id', $request->menu_id)->first();
 
-        if ($existing) {
-            return redirect()->back()->with('error', 'Meta tag untuk menu ini sudah ada.');
+            if ($existing) {
+                return redirect()->back()->with('error', 'Meta tag untuk menu ini sudah ada.');
+            }
+
+            MasterMeta::create([
+                'menu_id' => $request->menu_id,
+                'title' => $request->title,
+                'keywords' => $request->keywords,
+                'description' => $request->description,
+            ]);
+
+            return redirect()->back()->with('success', 'Meta tag berhasil disimpan.');
+        } catch (\Exception $err) {
+            return redirect()->back()->with('error', $err->getMessage());
         }
-
-        MasterMeta::create([
-            'menu_id' => $request->menu_id,
-            'title' => $request->title,
-            'keywords' => $request->keywords,
-            'description' => $request->description,
-        ]);
-
-        return redirect()->back()->with('success', 'Meta tag berhasil disimpan.');
     }
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'keywords' => 'required|string',
-            'description' => 'required|string',
-        ]);
+        try {
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'keywords' => 'required|string',
+                'description' => 'required|string',
+            ]);
 
-        $meta = MasterMeta::findOrFail($id);
+            $meta = MasterMeta::findOrFail($id);
 
-        $meta->update([
-            'title' => $request->title,
-            'keywords' => $request->keywords,
-            'description' => $request->description,
-        ]);
+            $meta->update([
+                'title' => $request->title,
+                'keywords' => $request->keywords,
+                'description' => $request->description,
+            ]);
 
-        return redirect()->back()->with('success', 'Meta tag berhasil diperbarui.');
+            return redirect()->back()->with('success', 'Meta tag berhasil diperbarui.');
+        } catch (\Exception $err) {
+            return redirect()->back()->with('error', $err->getMessage());
+        }
     }
 
     public function destroy($id)
     {
-        $meta = MasterMeta::findOrFail($id);
-        $meta->delete();
+        try {
+            $meta = MasterMeta::findOrFail($id);
+            $meta->delete();
 
-        return redirect()->back()->with('success', 'Meta tag berhasil dihapus.');
+            return redirect()->back()->with('success', 'Meta tag berhasil dihapus.');
+        } catch (\Exception $err) {
+            return redirect()->back()->with('error', $err->getMessage());
+        }
     }
 }

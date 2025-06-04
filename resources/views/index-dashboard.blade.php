@@ -61,9 +61,8 @@
 @endsection
 
 @section('js')
-    {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {{-- <script>
         const pages = @json($pages);
         const labels = Object.keys(pages);
         const data = Object.values(pages);

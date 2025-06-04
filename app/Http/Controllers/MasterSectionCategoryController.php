@@ -46,7 +46,7 @@ class MasterSectionCategoryController
 
             $faq->update($request->only('name', 'slug'));
 
-            return redirect()->back()->with('success', 'FAQ berhasil diperbarui');
+            return redirect()->back()->with('success', 'Data berhasil diperbarui');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
