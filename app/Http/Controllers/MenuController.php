@@ -35,9 +35,10 @@ class MenuController
                     'message' => 'Data menu batch terbaru berhasil diambil',
                     'batch' => $latestBatch,
                     'menus' => $menus,
-                    "latest_batch" => $latestBatch->get
+                    "latest_batch" => $latestBatch->name
                 ], 200);
             }
+
 
             $data = Menu::all();
             $batches = MasterBatch::orderByDesc('start_date')->get();
