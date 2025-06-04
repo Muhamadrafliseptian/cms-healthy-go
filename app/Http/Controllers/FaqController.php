@@ -75,11 +75,11 @@ class FaqController
             $category = MasterSectionCategory::where('slug', 'bfaq')->first();
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string',
-                'subtitle2' => 'nullable|string',
-                'subtitle3' => 'nullable|string',
+                'subtitle1' => 'required|string',
+                'subtitle2' => 'required|string',
+                'subtitle3' => 'required|string',
             ]);
 
             $imgPath = null;
@@ -114,9 +114,9 @@ class FaqController
             }
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string',
+                'subtitle1' => 'required|string',
             ]);
 
             if ($request->hasFile('img')) {
@@ -178,8 +178,8 @@ class FaqController
     {
         try {
             $request->validate([
-                'ask_title' => 'nullable|string',
-                'answer_content' => 'nullable|string',
+                'ask_title' => 'required|string',
+                'answer_content' => 'required|string',
             ]);
 
             $faq = Faq::create($request->only('ask_title', 'answer_content'));
@@ -194,13 +194,7 @@ class FaqController
 
             return redirect()->back()->with('success', 'FAQ berhasil ditambahkan');
         } catch (\Exception $e) {
-            Log::error('FAQ Store Error: ' . $e->getMessage());
-
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat menambahkan FAQ',
-                'data' => null
-            ], 500);
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 

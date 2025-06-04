@@ -25,7 +25,7 @@
                 <div class="mb-3">
                     <label for="video_home" class="form-label">Link YouTube Baru</label>
                     <input type="url" name="video_home" id="video_home" class="form-control"
-                        value="{{ $video->video_home }}" required>
+                        value="{{ $video->video_home }}">
                 </div>
                 <button type="submit" class="btn btn-primary">Update Video</button>
             </form>
@@ -41,7 +41,7 @@
                 @csrf
                 <div class="mb-3">
                     <label for="video_home" class="form-label">Link YouTube</label>
-                    <input type="url" name="video_home" id="video_home" class="form-control" required>
+                    <input type="url" name="video_home" id="video_home" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-success">Simpan Video</button>
             </form>

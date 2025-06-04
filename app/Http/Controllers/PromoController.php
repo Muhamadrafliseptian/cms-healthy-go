@@ -43,8 +43,8 @@ class PromoController
     {
         try {
             $request->validate([
-                'title_promo' => 'nullable|string',
-                'content_promo' => 'nullable|string',
+                'title_promo' => 'required|string',
+                'content_promo' => 'required|string',
             ]);
 
             $promo = Promo::create($request->only('title_promo', 'content_promo'));

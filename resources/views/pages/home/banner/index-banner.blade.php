@@ -61,7 +61,7 @@
                     <div class="mb-3">
                         <label for="title" class="form-label">Judul Banner</label>
                         <input type="text" name="title" class="form-control"
-                            value="{{ old('title', $section->title ?? '') }}" required>
+                            value="{{ old('title', $section->title ?? '') }}">
                     </div>
 
                     <div class="mb-3">
@@ -95,7 +95,7 @@
                     <div class="mb-3">
                         <label for="title" class="form-label">Judul Banner</label>
                         <input type="text" name="title" class="form-control"
-                            value="{{ old('title', $section2->title ?? '') }}" required>
+                            value="{{ old('title', $section2->title ?? '') }}">
                     </div>
 
                     <div class="mb-3">

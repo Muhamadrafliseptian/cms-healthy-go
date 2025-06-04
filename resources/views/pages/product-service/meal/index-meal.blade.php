@@ -73,7 +73,7 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="meal_title" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="meal_title" name="meal_title" required>
+                                <input type="text" class="form-control" id="meal_title" name="meal_title">
                             </div>
                             <div class="mb-3">
                                 <label for="meal_content" class="form-label">Content</label>
@@ -104,7 +104,7 @@
                             <div class="mb-3">
                                 <label for="edit_meal_title" class="form-label">Title</label>
                                 <input type="text" class="form-control" id="edit_meal_title" name="meal_title"
-                                    required>
+                                >
                             </div>
                             <div class="mb-3">
                                 <label for="edit_meal_content" class="form-label">Content</label>

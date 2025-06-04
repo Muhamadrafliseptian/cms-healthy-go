@@ -7,7 +7,7 @@
 
 @section('content')
     <div class="container my-4">
-        <h3 class="mb-4">Certificate Data</h3>
+        <h3 class="mb-4">Data Sertifikat</h3>
 
         @if (session('success'))
             <div class="alert alert-success">
@@ -37,7 +37,7 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="img_certificate" class="form-label">Pilih Gambar</label>
-                            <input type="file" class="form-control" name="img_certificate" accept="image/*" required>
+                            <input type="file" class="form-control" name="img_certificate" accept="image/*">
                         </div>
                     </div>
                     <div class="modal-footer">

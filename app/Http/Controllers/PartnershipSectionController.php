@@ -26,7 +26,7 @@ class PartnershipSectionController
             $category = MasterSectionCategory::where('slug', 'bpartnership')->first();
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
             ]);
 
@@ -45,7 +45,7 @@ class PartnershipSectionController
 
             return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
-            dd($err->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $err->getMessage());
         }
     }
 
@@ -59,7 +59,7 @@ class PartnershipSectionController
             }
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
             ]);
 
@@ -110,7 +110,7 @@ class PartnershipSectionController
 
             return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
-            dd($err->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $err->getMessage());
         }
     }
 
@@ -169,7 +169,7 @@ class PartnershipSectionController
 
             return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
-            dd($err->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $err->getMessage());
         }
     }
 
@@ -217,7 +217,7 @@ class PartnershipSectionController
             $category = MasterSectionCategory::where('slug', 'spartnership3')->first();
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
                 'subtitle1' => 'required|string',
             ]);
@@ -238,7 +238,7 @@ class PartnershipSectionController
 
             return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
-            dd($err->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $err->getMessage());
         }
     }
 
@@ -252,7 +252,7 @@ class PartnershipSectionController
             }
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
                 'subtitle1' => 'required|string',
             ]);
@@ -295,7 +295,7 @@ class PartnershipSectionController
 
             return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
-            dd($err->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $err->getMessage());
         }
     }
 

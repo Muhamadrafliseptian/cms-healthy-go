@@ -27,7 +27,7 @@ class FoodSectionController
             $category = MasterSectionCategory::where('slug', 'sfood')->first();
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
             ]);
 
@@ -46,7 +46,7 @@ class FoodSectionController
 
             return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
-            dd($err->getMessage());
+            return redirect()->back()->with('error', $err->getMessage());
         }
     }
 
@@ -60,7 +60,7 @@ class FoodSectionController
             }
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
             ]);
 

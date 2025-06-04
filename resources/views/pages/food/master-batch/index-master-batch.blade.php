@@ -36,12 +36,12 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="name" class="form-label">Batch</label>
-                            <input type="text" class="form-control" name="name" required>
+                            <input type="text" class="form-control" name="name">
                         </div>
                         <div class="mb-3">
                             <label for="start_date" class="form-label">Start Date</label>
                             <input type="date" class="form-control" name="start_date" min="{{ date('Y-m-d') }}"
-                                max="{{ date('Y-m-d', strtotime('+14 days')) }}" required>
+                                max="{{ date('Y-m-d', strtotime('+14 days')) }}">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -66,11 +66,11 @@
                         <input type="hidden" id="edit-id">
                         <div class="mb-3">
                             <label for="edit-name" class="form-label">Batch</label>
-                            <input type="text" class="form-control" id="edit-name" name="name" required>
+                            <input type="text" class="form-control" id="edit-name" name="name">
                         </div>
                         <div class="mb-3">
                             <label for="edit-start-date" class="form-label">Start Date</label>
-                            <input type="date" class="form-control" id="edit-start-date" name="start_date" required
+                            <input type="date" class="form-control" id="edit-start-date" name="start_date"
                                 min="{{ date('Y-m-d') }}" max="{{ date('Y-m-d', strtotime('+14 days')) }}">
                         </div>
                     </div>

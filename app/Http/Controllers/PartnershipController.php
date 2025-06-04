@@ -46,11 +46,11 @@ class PartnershipController
     {
         try {
             $request->validate([
-                'title_partnership' => 'nullable|string',
-                'program_partnership' => 'nullable|string',
-                'content_program_partnership' => 'nullable|string',
-                'btn_color' => 'nullable|string',
-                'img_partnership' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'title_partnership' => 'required|string',
+                'program_partnership' => 'required|string',
+                'content_program_partnership' => 'required|string',
+                'btn_color' => 'required|string',
+                'img_partnership' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             $imgPath = null;
@@ -118,11 +118,11 @@ class PartnershipController
             }
 
             $request->validate([
-                'title_partnership' => 'nullable|string',
-                'btn_color' => 'nullable|string',
-                'program_partnership' => 'nullable|string',
-                'content_program_partnership' => 'nullable|string',
-                'img_partnership' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'title_partnership' => 'required|string',
+                'btn_color' => 'required|string',
+                'program_partnership' => 'required|string',
+                'content_program_partnership' => 'required|string',
+                'img_partnership' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             if ($request->hasFile('img_partnership')) {
@@ -201,7 +201,7 @@ class PartnershipController
     public function storeHomePartnership(Request $request)
     {
         $request->validate([
-            'img_partnership' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'img_partnership' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $imgPath = null;
@@ -230,7 +230,7 @@ class PartnershipController
             }
 
             $request->validate([
-                'img_partnership' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img_partnership' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             if ($request->hasFile('img_partnership')) {
@@ -292,7 +292,7 @@ class PartnershipController
 
             $request->validate([
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string',
+                'subtitle1' => 'required|string',
             ]);
 
             SectionContent::create([
@@ -315,7 +315,7 @@ class PartnershipController
 
             $request->validate([
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string',
+                'subtitle1' => 'required|string',
             ]);
 
             $benefit->title = $request->title;

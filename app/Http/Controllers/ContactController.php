@@ -36,9 +36,9 @@ class ContactController
     {
         try {
             $request->validate([
-                'name' => 'nullable|string',
-                'icon' => 'nullable|string',
-                'content' => 'nullable|string',
+                'name' => 'required|string',
+                'icon' => 'required|string',
+                'content' => 'required|string',
             ]);
 
             $contact = Contact::create($request->only('name', 'icon', 'content'));

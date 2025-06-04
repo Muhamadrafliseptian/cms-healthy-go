@@ -23,8 +23,8 @@ class MasterSectionCategoryController
     {
         try {
             $request->validate([
-                'name' => 'nullable|string',
-                'slug' => 'nullable|string',
+                'name' => 'required|string',
+                'slug' => 'required|string',
             ]);
 
             $faq = MasterSectionCategory::create($request->only('name', 'slug'));

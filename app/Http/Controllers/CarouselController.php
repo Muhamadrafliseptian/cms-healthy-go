@@ -51,7 +51,7 @@ class CarouselController
     {
         try {
             $request->validate([
-                'img_carousel' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img_carousel' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             $imgPath = null;
@@ -74,15 +74,7 @@ class CarouselController
 
             return redirect()->back()->with('success', 'Data berhasil ditambah');
         } catch (\Exception $e) {
-            Log::error('Carousel Store Error: ' . $e->getMessage());
-
-            dd($e->getMessage());
-
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat menyimpan carousel',
-                'data' => null
-            ], 500);
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -129,7 +121,7 @@ class CarouselController
             }
 
             $request->validate([
-                'img_carousel' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img_carousel' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             if ($request->hasFile('img_carousel')) {
@@ -152,13 +144,7 @@ class CarouselController
 
             return redirect()->back()->with('success', 'Data berhasil ditambah');
         } catch (\Exception $e) {
-            Log::error('Carousel Update Error: ' . $e->getMessage());
-
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat memperbarui carousel',
-                'data' => null
-            ], 500);
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -219,7 +205,7 @@ class CarouselController
 
             return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
-            dd($err->getMessage());
+            return redirect()->back()->with('error', $err->getMessage());
         }
     }
 

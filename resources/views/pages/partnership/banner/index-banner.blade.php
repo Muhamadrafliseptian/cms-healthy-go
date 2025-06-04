@@ -44,7 +44,7 @@
                     <div class="mb-3">
                         <label for="title" class="form-label">Judul Banner</label>
                         <input type="text" name="title" class="form-control"
-                            value="{{ old('title', $section->title ?? '') }}" required>
+                            value="{{ old('title', $section->title ?? '') }}">
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100">

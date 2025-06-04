@@ -47,6 +47,11 @@ class TestimoniController
         try {
             $category = MasterSectionCategory::where('slug', 'stestimoni')->first();
 
+            $request->validate([
+                "title" => "required|string",
+                "subtitle1" => "required|string"
+            ]);
+
             SectionContent::create([
                 'menu_id'    => $category->id,
                 'section'    => 'stestimoni',
@@ -65,6 +70,11 @@ class TestimoniController
         try {
             $content = SectionContent::findOrFail($id);
 
+            $request->validate([
+                "title" => "required|string",
+                "subtitle1" => "required|string"
+            ]);
+
             $content->update([
                 'title'     => $request->title,
                 'subtitle1' => $request->subtitle1,
@@ -81,10 +91,10 @@ class TestimoniController
     {
         try {
             $request->validate([
-                'name' => 'nullable|string',
-                'program_name' => 'nullable|string',
-                'content' => 'nullable|string',
-                'ava_testimoni' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'name' => 'required|nullable|string',
+                'program_name' => 'required|nullable|string',
+                'content' => 'required|nullable|string',
+                'ava_testimoni' => 'required|nullable|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             $imgPath = null;
@@ -100,52 +110,13 @@ class TestimoniController
                 'ava_testimoni' => $imgPath,
             ]);
 
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'Testimoni berhasil ditambahkan',
-                    'data' => $testimoni
-                ], 201);
-            }
-
             return redirect()->back()->with('success', 'berhasil tambah testimoni');
         } catch (\Exception $e) {
-            Log::error('Testimoni Store Error: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat menambahkan testimoni',
-                'data' => null
-            ], 500);
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
-    public function show($id)
-    {
-        try {
-            $testimoni = Testimoni::find($id);
-
-            if (!$testimoni) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Testimoni tidak ditemukan',
-                    'data' => null
-                ], 404);
-            }
-
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Detail testimoni berhasil diambil',
-                'data' => $testimoni
-            ], 200);
-        } catch (\Exception $e) {
-            Log::error('Testimoni Show Error: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat mengambil detail testimoni',
-                'data' => null
-            ], 500);
-        }
-    }
+    public function show($id) {}
 
     public function update(Request $request, $id)
     {
@@ -161,10 +132,10 @@ class TestimoniController
             }
 
             $request->validate([
-                'name' => 'nullable|string',
-                'program_name' => 'nullable|string',
-                'content' => 'nullable|string',
-                'ava_testimoni' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'name' => 'required|nullable|string',
+                'program_name' => 'required|nullable|string',
+                'content' => 'required|nullable|string',
+                'ava_testimoni' => 'required|nullable|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             if ($request->hasFile('ava_testimoni')) {
@@ -180,25 +151,13 @@ class TestimoniController
             $testimoni->content = $request->content;
             $testimoni->save();
 
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'Testimoni berhasil diperbarui',
-                    'data' => $testimoni
-                ], 200);
-            }
             return redirect()->back()->with('success', 'berhasil tambah diperbarui');
         } catch (\Exception $e) {
-            Log::error('Testimoni Update Error: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat memperbarui testimoni',
-                'data' => null
-            ], 500);
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
         try {
             $testimoni = Testimoni::find($id);
@@ -217,22 +176,9 @@ class TestimoniController
 
             $testimoni->delete();
 
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'Testimoni berhasil dihapus',
-                    'data' => null
-                ], 200);
-            }
-
             return redirect()->back()->with('success', 'berhasil hapus testimoni');
         } catch (\Exception $e) {
-            Log::error('Testimoni Delete Error: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat menghapus testimoni',
-                'data' => null
-            ], 500);
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 }

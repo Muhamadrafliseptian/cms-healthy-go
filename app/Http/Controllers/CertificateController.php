@@ -43,6 +43,11 @@ class CertificateController
         try {
             $request->validate([
                 'img_certificate' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+            ], [
+                'img_certificate.required' => 'Gambar wajib diunggah.',
+                'img_certificate.image' => 'File harus berupa gambar.',
+                'img_certificate.mimes' => 'Format gambar harus jpg, jpeg, png, atau webp.',
+                'img_certificate.max' => 'Ukuran gambar maksimal 2MB.',
             ]);
 
             $imgPath = null;
@@ -54,52 +59,13 @@ class CertificateController
                 'img_certificate' => $imgPath,
             ]);
 
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'Certificate berhasil ditambahkan',
-                    'data' => $certificate
-                ], 201);
-            }
-
             return redirect()->back()->with('success', 'Data berhasil ditambah');
         } catch (\Exception $e) {
-            Log::error('Certificate Store Error: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat menyimpan Certificate',
-                'data' => null
-            ], 500);
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
-    public function show($id)
-    {
-        try {
-            $certificate = Certificate::find($id);
-
-            if (!$certificate) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Certificate tidak ditemukan',
-                    'data' => null
-                ], 404);
-            }
-
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Detail Certificate berhasil diambil',
-                'data' => $certificate
-            ], 200);
-        } catch (\Exception $e) {
-            Log::error('Certificate Show Error: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat mengambil detail Certificate',
-                'data' => null
-            ], 500);
-        }
-    }
+    public function show($id) {}
 
     public function update(Request $request, $id)
     {
@@ -115,7 +81,12 @@ class CertificateController
             }
 
             $request->validate([
-                'img_certificate' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img_certificate' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+            ], [
+                'img_certificate.required' => 'Gambar wajib diunggah.',
+                'img_certificate.image' => 'File harus berupa gambar.',
+                'img_certificate.mimes' => 'Format gambar harus jpg, jpeg, png, atau webp.',
+                'img_certificate.max' => 'Ukuran gambar maksimal 2MB.',
             ]);
 
             if ($request->hasFile('img_certificate')) {
@@ -123,42 +94,21 @@ class CertificateController
                     Storage::disk('public')->delete($certificate->img_certificate);
                 }
 
-                $certificate->img_certificate = $request->file('img_certificate')->store('Certificate', 'public');
+                $certificate->img_certificate = $request->file('img_certificate')->store('certificate', 'public');
             }
 
             $certificate->save();
 
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'Certificate berhasil diperbarui',
-                    'data' => $certificate
-                ], 200);
-            }
-
             return redirect()->back()->with('success', 'Data berhasil diperbarui');
         } catch (\Exception $e) {
-            Log::error('Certificate Update Error: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat memperbarui Certificate',
-                'data' => null
-            ], 500);
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
         try {
             $certificate = Certificate::find($id);
-
-            if (!$certificate) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Certificate tidak ditemukan',
-                    'data' => null
-                ], 404);
-            }
 
             if ($certificate->img_certificate && Storage::disk('public')->exists($certificate->img_certificate)) {
                 Storage::disk('public')->delete($certificate->img_certificate);
@@ -166,23 +116,9 @@ class CertificateController
 
             $certificate->delete();
 
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'Certificate berhasil dihapus',
-                    'data' => null
-                ], 200);
-            }
-
             return redirect()->back()->with('success', 'Data berhasil dihapus');
-
         } catch (\Exception $e) {
-            Log::error('Certificate Delete Error: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat menghapus Certificate',
-                'data' => null
-            ], 500);
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 }

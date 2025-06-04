@@ -45,8 +45,8 @@ class MealController
     {
         try {
             $request->validate([
-                'meal_title' => 'nullable|string',
-                'meal_content' => 'nullable|string',
+                'meal_title' => 'required|string',
+                'meal_content' => 'required|string',
             ]);
 
             $meal = Meal::create($request->only('meal_title', 'meal_content'));

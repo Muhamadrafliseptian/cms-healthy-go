@@ -37,11 +37,11 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Nama Kategori</label>
-                                <input type="text" class="form-control" id="name" name="name" required>
+                                <input type="text" class="form-control" id="name" name="name">
                             </div>
                             <div class="mb-3">
                                 <label for="slug" class="form-label">Slug</label>
-                                <input type="text" class="form-control" id="slug" name="slug" required>
+                                <input type="text" class="form-control" id="slug" name="slug">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -67,13 +67,13 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="edit_name" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="edit_name" name="name"
-                                    required>
+                                <input type="text" class="form-control" id="edit_name" name="name">
+
                             </div>
                             <div class="mb-3">
                                 <label for="edit_slug" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="edit_slug" name="slug"
-                                    required>
+                                <input type="text" class="form-control" id="edit_slug" name="slug">
+
                             </div>
                         </div>
                         <div class="modal-footer">

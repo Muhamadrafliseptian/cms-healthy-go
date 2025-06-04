@@ -51,9 +51,9 @@ class OperationalStatisticController
             $category = MasterSectionCategory::where('slug', 'sstatistic')->first();
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string|max:255',
+                'subtitle1' => 'required|string|max:255',
             ]);
 
             $imgPath = null;
@@ -86,9 +86,9 @@ class OperationalStatisticController
             }
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string|max:255',
+                'subtitle1' => 'required|string|max:255',
             ]);
 
             if ($request->hasFile('img')) {
@@ -113,8 +113,8 @@ class OperationalStatisticController
     {
         try {
             $request->validate([
-                'title_statistic' => 'nullable|string',
-                'content_statistic' => 'nullable|string',
+                'title_statistic' => 'required|string',
+                'content_statistic' => 'required|string',
             ]);
 
             $service = OperationalStatistic::create($request->only('title_statistic', 'content_statistic'));

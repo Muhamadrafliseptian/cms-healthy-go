@@ -24,8 +24,7 @@
         <div class="card shadow-sm mb-3">
             <div class="card-body">
                 <h4 class="card-title mb-3">{{ $section ? 'Edit' : 'Tambah' }}</h4>
-                <form
-                    action="{{ $section ? route('section.promo.put', $section->id) : route('section.promo.store') }}"
+                <form action="{{ $section ? route('section.promo.put', $section->id) : route('section.promo.store') }}"
                     method="POST">
                     @csrf
                     @if ($section)
@@ -34,7 +33,8 @@
 
                     <div class="mb-3">
                         <label for="title" class="form-label">Judul</label>
-                        <input type="text" name="title" id="title" class="form-control" value="{{ old('title', $section->title ?? '') }}"/>
+                        <input type="text" name="title" id="title" class="form-control"
+                            value="{{ old('title', $section->title ?? '') }}" />
                     </div>
 
                     <div class="mb-3">
@@ -76,7 +76,7 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="title_promo" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="title_promo" name="title_promo" required>
+                                <input type="text" class="form-control" id="title_promo" name="title_promo">
                             </div>
                             <div class="mb-3">
                                 <label for="content_promo" class="form-label">Content</label>
@@ -106,7 +106,7 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="edit_title_promo" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="edit_title_promo" name="title_promo" required>
+                            <input type="text" class="form-control" id="edit_title_promo" name="title_promo">
                         </div>
                         <div class="mb-3">
                             <label for="edit_content_promo" class="form-label">Content</label>
@@ -217,7 +217,7 @@
                 console.error(error);
             });
 
-            $(document).on('click', '.btn-edit', function () {
+        $(document).on('click', '.btn-edit', function() {
             const id = $(this).data('id');
             const title = $(this).data('title');
             const content = $(this).data('content');

@@ -46,9 +46,9 @@ class AboutSectionController
             $category = MasterSectionCategory::where('slug', 'sabout')->first();
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string',
+                'subtitle1' => 'required|string',
             ]);
 
             $imgPath = null;
@@ -81,9 +81,9 @@ class AboutSectionController
             }
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string',
+                'subtitle1' => 'required|string',
             ]);
 
             if ($request->hasFile('img')) {
@@ -140,9 +140,9 @@ class AboutSectionController
             $category = MasterSectionCategory::where('slug', 'sabout1')->first();
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string',
+                'subtitle1' => 'required|string',
             ]);
 
             $imgPath = null;
@@ -175,9 +175,9 @@ class AboutSectionController
             }
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string',
+                'subtitle1' => 'required|string',
             ]);
 
             if ($request->hasFile('img')) {
@@ -235,9 +235,9 @@ class AboutSectionController
             $category = MasterSectionCategory::where('slug', 'sabout1')->first();
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string',
+                'subtitle1' => 'required|string',
             ]);
 
             $imgPath = null;
@@ -270,9 +270,9 @@ class AboutSectionController
             }
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string',
+                'subtitle1' => 'required|string',
             ]);
 
             if ($request->hasFile('img')) {

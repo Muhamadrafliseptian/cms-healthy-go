@@ -20,16 +20,21 @@
             @endif
 
             <div>
-                <label for="title" class="form-label">Title</label>
-                <input type="text" name="title" class="form-control mb-3"
-                    value="{{ old('title', $section->title ?? '') }}" required>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" name="title" class="form-control"
+                        value="{{ old('title', $section->title ?? '') }}">
+                </div>
 
-                <label for="subtitle1" class="form-label">Subtitle</label>
-                <textarea name="subtitle1" id="subtitle1" class="form-control mb-3">{{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea>
+                <div class="mb-3">
+                    <label for="subtitle1" class="form-label">Subtitle</label>
+                    <textarea name="subtitle1" id="subtitle1" class="form-control">{{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea>
+                </div>
 
-
-                <label for="subtitle2" class="form-label">Subtitle 2</label>
-                <textarea name="subtitle2" id="subtitle2" class="form-control mb-3">{{ old('subtitle2', $section->subtitle2 ?? '') }}</textarea>
+                <div class="mb-3">
+                    <label for="subtitle2" class="form-label">Subtitle 2</label>
+                    <textarea name="subtitle2" id="subtitle2" class="form-control">{{ old('subtitle2', $section->subtitle2 ?? '') }}</textarea>
+                </div>
 
             </div>
 

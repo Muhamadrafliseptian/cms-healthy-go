@@ -30,7 +30,7 @@
             <div>
                 <label for="title" class="form-label">Title</label>
                 <input type="text" name="title" class="form-control mb-3"
-                    value="{{ old('title', $section->title ?? '') }}" required>
+                    value="{{ old('title', $section->title ?? '') }}">
 
                 <div class="mb-3">
                     <label for="subtitle1" class="form-label">Subtitle</label>
@@ -69,7 +69,7 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="ask_title" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="ask_title" name="ask_title" required>
+                                <input type="text" class="form-control" id="ask_title" name="ask_title">
                             </div>
                             <div class="mb-3">
                                 <label for="answer_content" class="form-label">Content</label>
@@ -98,7 +98,7 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="edit_ask_title" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="edit_ask_title" name="ask_title" required>
+                                <input type="text" class="form-control" id="edit_ask_title" name="ask_title">
                             </div>
                             <div class="mb-3">
                                 <label for="edit_answer_content" class="form-label">Content</label>

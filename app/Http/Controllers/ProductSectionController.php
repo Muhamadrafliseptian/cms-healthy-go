@@ -43,7 +43,7 @@ class ProductSectionController
             $category = MasterSectionCategory::where('slug', 'sproduct')->first();
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
             ]);
 
@@ -62,7 +62,7 @@ class ProductSectionController
 
             return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
-            dd($err->getMessage());
+            return redirect()->back()->with('error', $err->getMessage());
         }
     }
 
@@ -76,7 +76,7 @@ class ProductSectionController
             }
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
             ]);
 
@@ -141,7 +141,7 @@ class ProductSectionController
 
             return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
-            dd($err->getMessage());
+            return redirect()->back()->with('error', $err->getMessage());
         }
     }
 
@@ -181,12 +181,12 @@ class ProductSectionController
                 ->get()
                 ->keyBy('section');
 
-                if($request->wantsJson()) {
-                    return response()->json([
-                        'status' => 'success',
-                        'section' => $sections
-                    ]);
-                }
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'section' => $sections
+                ]);
+            }
 
             return view('pages.product-service.solution.index-solution', [
                 'section' => $sections->get('sproduct2'),
@@ -215,7 +215,7 @@ class ProductSectionController
 
             return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
-            dd($err->getMessage());
+            return redirect()->back()->with('error', $err->getMessage());
         }
     }
 

@@ -19,7 +19,8 @@
         <div class="card shadow-sm">
             <div class="card-body">
                 <h4 class="card-title mb-3">{{ $section ? 'Edit Tag' : 'Tambah Tag' }}</h4>
-                <form action="{{ $section ? route('section.product.solution.put', $section->id) : route('section.product.solution.store') }}"
+                <form
+                    action="{{ $section ? route('section.product.solution.put', $section->id) : route('section.product.solution.store') }}"
                     method="POST">
                     @csrf
                     @if ($section)
@@ -28,16 +29,14 @@
 
                     <div class="mb-3">
                         <label for="title" class="form-label">Content 1</label>
-                         <textarea name="title" id="title" class="form-control" rows="3">
-                        {{ old('title', $section->title ?? '') }}</textarea
-                        >
+                        <textarea name="title" id="title" class="form-control" rows="3">
+                            {{ old('title', $section->title ?? '') }}</textarea>
                     </div>
 
-                     <div class="mb-3">
+                    <div class="mb-3">
                         <label for="subtitle1" class="form-label">Content 2</label>
-                         <textarea name="subtitle1" id="subtitle1" class="form-control" rows="3">
-                        {{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea
-                        >
+                        <textarea name="subtitle1" id="subtitle1" class="form-control" rows="3">
+                            {{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100">

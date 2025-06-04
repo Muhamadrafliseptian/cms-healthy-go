@@ -41,7 +41,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="img_mealb" class="form-label">Pilih Gambar</label>
-                            <input type="file" class="form-control" name="img_mealb" accept="image/*" required>
+                            <input type="file" class="form-control" name="img_mealb" accept="image/*">
                         </div>
                     </div>
                     <div class="modal-footer">

@@ -38,9 +38,9 @@ class TnCController
     {
         try {
             $request->validate([
-                'title_tnc' => 'nullable|string',
-                'subtitle_tnc' => 'nullable|string',
-                'content_tnc' => 'nullable|string',
+                'title_tnc' => 'required|string',
+                'subtitle_tnc' => 'required|string',
+                'content_tnc' => 'required|string',
             ]);
 
             $tnc = TNC::create($request->only('title_tnc', 'subtitle_tnc', 'content_tnc'));
@@ -54,12 +54,7 @@ class TnCController
             }
             return redirect()->back()->with('success', 'Terms and Conditions berhasil ditambahkan');
         } catch (\Exception $e) {
-            Log::error('TnC Store Error: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat menambahkan Terms and Conditions',
-                'data' => null
-            ], 500);
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -125,11 +120,11 @@ class TnCController
             $category = MasterSectionCategory::where('slug', 'btnc')->first();
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string',
-                'subtitle2' => 'nullable|string',
-                'subtitle3' => 'nullable|string',
+                'subtitle1' => 'required|string',
+                'subtitle2' => 'required|string',
+                'subtitle3' => 'required|string',
             ]);
 
             $imgPath = null;
@@ -164,9 +159,9 @@ class TnCController
             }
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string',
+                'subtitle1' => 'required|string',
             ]);
 
             if ($request->hasFile('img')) {
@@ -203,9 +198,9 @@ class TnCController
             }
 
             $request->validate([
-                'title_tnc' => 'nullable|string',
-                'subtitle_tnc' => 'nullable|string',
-                'content_tnc' => 'nullable|string',
+                'title_tnc' => 'required|string',
+                'subtitle_tnc' => 'required|string',
+                'content_tnc' => 'required|string',
             ]);
 
             $tnc->update($request->only('title_tnc', 'subtitle_tnc', 'content_tnc'));
@@ -298,10 +293,10 @@ class TnCController
 
             $request->validate([
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string',
-                'subtitle2' => 'nullable|string',
-                'subtitle3' => 'nullable|string',
-                'subtitle4' => 'nullable|string',
+                'subtitle1' => 'required|string',
+                'subtitle2' => 'required|string',
+                'subtitle3' => 'required|string',
+                'subtitle4' => 'required|string',
             ]);
 
             SectionContent::create([
@@ -331,10 +326,10 @@ class TnCController
 
             $request->validate([
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string',
-                'subtitle2' => 'nullable|string',
-                'subtitle3' => 'nullable|string',
-                'subtitle4' => 'nullable|string',
+                'subtitle1' => 'required|string',
+                'subtitle2' => 'required|string',
+                'subtitle3' => 'required|string',
+                'subtitle4' => 'required|string',
             ]);
 
             $benefit->title = $request->title;
@@ -377,9 +372,9 @@ class TnCController
             $category = MasterSectionCategory::where('slug', 'sgaransi')->first();
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string',
+                'subtitle1' => 'required|string',
             ]);
 
             $imgPath = null;
@@ -412,9 +407,9 @@ class TnCController
             }
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string',
+                'subtitle1' => 'required|string',
             ]);
 
             if ($request->hasFile('img')) {
@@ -461,9 +456,9 @@ class TnCController
             $category = MasterSectionCategory::where('slug', 'sreschedule')->first();
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string',
+                'subtitle1' => 'required|string',
             ]);
 
             $imgPath = null;
@@ -496,9 +491,9 @@ class TnCController
             }
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string',
+                'subtitle1' => 'required|string',
             ]);
 
             if ($request->hasFile('img')) {
@@ -545,9 +540,9 @@ class TnCController
             $category = MasterSectionCategory::where('slug', 'shte')->first();
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string',
+                'subtitle1' => 'required|string',
             ]);
 
             $imgPath = null;
@@ -580,9 +575,9 @@ class TnCController
             }
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string',
+                'subtitle1' => 'required|string',
             ]);
 
             if ($request->hasFile('img')) {
@@ -653,11 +648,11 @@ class TnCController
             $category = MasterSectionCategory::where('slug', 'sjadwal')->first();
 
             $request->validate([
-                'subtitle1' => 'nullable|string',
-                'subtitle2' => 'nullable|string',
-                'subtitle3' => 'nullable|string',
-                'subtitle4' => 'nullable|string',
-                'subtitle5' => 'nullable|string',
+                'subtitle1' => 'required|string',
+                'subtitle2' => 'required|string',
+                'subtitle3' => 'required|string',
+                'subtitle4' => 'required|string',
+                'subtitle5' => 'required|string',
             ]);
 
             SectionContent::create([
@@ -686,11 +681,11 @@ class TnCController
             }
 
             $request->validate([
-                'subtitle1' => 'nullable|string',
-                'subtitle2' => 'nullable|string',
-                'subtitle3' => 'nullable|string',
-                'subtitle4' => 'nullable|string',
-                'subtitle5' => 'nullable|string',
+                'subtitle1' => 'required|string',
+                'subtitle2' => 'required|string',
+                'subtitle3' => 'required|string',
+                'subtitle4' => 'required|string',
+                'subtitle5' => 'required|string',
             ]);
 
             $benefit->subtitle1 = $request->subtitle1;

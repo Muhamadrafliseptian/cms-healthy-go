@@ -49,9 +49,9 @@ class MilestoneController
     {
         try {
             $request->validate([
-                'year' => 'nullable|string',
-                'title_milestone' => 'nullable|string',
-                'content_milestone' => 'nullable|string',
+                'year' => 'required|string',
+                'title_milestone' => 'required|string',
+                'content_milestone' => 'required|string',
             ]);
 
             $milestone = Milestone::create($request->only('year', 'title_milestone', 'content_milestone'));

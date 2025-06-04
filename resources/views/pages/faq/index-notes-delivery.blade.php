@@ -76,7 +76,7 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="title_tnc" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="title_tnc" name="title_tnc" required>
+                                <input type="text" class="form-control" id="title_tnc" name="title_tnc">
                             </div>
                             <div class="mb-3">
                                 <label for="content_tnc" class="form-label">Content</label>
@@ -106,7 +106,7 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="edit_title_tnc" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="edit_title_tnc" name="title_tnc" required>
+                            <input type="text" class="form-control" id="edit_title_tnc" name="title_tnc">
                         </div>
                         <div class="mb-3">
                             <label for="edit_content_tnc" class="form-label">Content</label>

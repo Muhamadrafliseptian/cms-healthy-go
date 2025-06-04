@@ -52,8 +52,8 @@ class ServiceController
     {
         try {
             $request->validate([
-                'title_service' => 'nullable|string',
-                'content_service' => 'nullable|string',
+                'title_service' => 'required|string',
+                'content_service' => 'required|string',
             ]);
 
             $service = Service::create($request->only('title_service', 'content_service'));

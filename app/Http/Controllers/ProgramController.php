@@ -47,11 +47,11 @@ class ProgramController
     {
         try {
             $request->validate([
-                'program_title' => 'nullable|string',
-                'program_subtitle' => 'nullable|string',
-                'program_subtitle_2' => 'nullable|string',
-                'content_program_2' => 'nullable|string',
-                'content_program' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'program_title' => 'required|nullable|string',
+                'program_subtitle' => 'required|nullable|string',
+                'program_subtitle_2' => 'required|nullable|string',
+                'content_program_2' => 'required|nullable|string',
+                'content_program' => 'required|nullable|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             $imgPath = null;
@@ -78,12 +78,7 @@ class ProgramController
 
             return redirect()->back()->with('success', 'Data berhasil ditambah');
         } catch (\Exception $e) {
-            Log::error('Program Store Error: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat menambahkan program',
-                'data' => null
-            ], 500);
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -91,6 +86,12 @@ class ProgramController
     {
         try {
             $category = MasterSectionCategory::where('slug', 'sprogram')->first();
+
+            $request->validate([
+                'title' => 'required|nullable|string',
+                'subtitle1' => 'required|nullable|string',
+                'subtitle2' => 'required|nullable|string',
+            ]);
 
             SectionContent::create([
                 'menu_id'    => $category->id,
@@ -110,6 +111,12 @@ class ProgramController
     {
         try {
             $content = SectionContent::findOrFail($id);
+
+            $request->validate([
+                'title' => 'required|nullable|string',
+                'subtitle1' => 'required|nullable|string',
+                'subtitle2' => 'required|nullable|string',
+            ]);
 
             $content->update([
                 'title'     => $request->title,
@@ -165,12 +172,12 @@ class ProgramController
             }
 
             $request->validate([
-                'program_title' => 'nullable|string',
-                'program_subtitle' => 'nullable|string',
-                'program_subtitle_2' => 'nullable|string',
-                'program_content_2' => 'nullable|string',
+                'program_title' => 'required|nullable|string',
+                'program_subtitle' => 'required|nullable|string',
+                'program_subtitle_2' => 'required|nullable|string',
+                'program_content_2' => 'required|nullable|string',
 
-                'content_program' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'content_program' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             if ($request->hasFile('content_program')) {

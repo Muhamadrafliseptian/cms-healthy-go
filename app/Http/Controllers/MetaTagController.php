@@ -28,9 +28,9 @@ class MetaTagController
     {
         $request->validate([
             'menu_id' => 'required|exists:lptm_menu,id',
-            'title' => 'nullable|string|max:255',
-            'keywords' => 'nullable|string',
-            'description' => 'nullable|string',
+            'title' => 'required|string|max:255',
+            'keywords' => 'required|string',
+            'description' => 'required|string',
         ]);
 
         $existing = MasterMeta::where('menu_id', $request->menu_id)->first();
@@ -52,9 +52,9 @@ class MetaTagController
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'nullable|string|max:255',
-            'keywords' => 'nullable|string',
-            'description' => 'nullable|string',
+            'title' => 'required|string|max:255',
+            'keywords' => 'required|string',
+            'description' => 'required|string',
         ]);
 
         $meta = MasterMeta::findOrFail($id);

@@ -36,13 +36,13 @@ class IklanController
             $category = MasterSectionCategory::where('slug', 'isbanner')->first();
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-                'title' => 'nullable|string|max:255',
-                'subtitle1' => 'nullable|string|max:255',
-                'subtitle2' => 'nullable|string|max:255',
-                'subtitle3' => 'nullable|string|max:255',
-                'subtitle4' => 'nullable|string|max:255',
-                'subtitle5' => 'nullable|string|max:255',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'title' => 'required|string|max:255',
+                'subtitle1' => 'required|string|max:255',
+                'subtitle2' => 'required|string|max:255',
+                'subtitle3' => 'required|string|max:255',
+                'subtitle4' => 'required|string|max:255',
+                'subtitle5' => 'required|string|max:255',
             ]);
 
             $imgPath = null;
@@ -66,7 +66,7 @@ class IklanController
 
             return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
-            dd($err->getMessage());
+            return redirect()->back()->with('error', $err->getMessage());
         }
     }
 
@@ -80,13 +80,13 @@ class IklanController
             }
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-                'title' => 'nullable|string|max:255',
-                'subtitle1' => 'nullable|string|max:255',
-                'subtitle2' => 'nullable|string|max:255',
-                'subtitle3' => 'nullable|string|max:255',
-                'subtitle4' => 'nullable|string|max:255',
-                'subtitle5' => 'nullable|string|max:255',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'title' => 'required|string|max:255',
+                'subtitle1' => 'required|string|max:255',
+                'subtitle2' => 'required|string|max:255',
+                'subtitle3' => 'required|string|max:255',
+                'subtitle4' => 'required|string|max:255',
+                'subtitle5' => 'required|string|max:255',
             ]);
 
             if ($request->hasFile('img')) {
@@ -193,8 +193,8 @@ class IklanController
     {
         try {
             $request->validate([
-                'content' => 'nullable|string',
-                'img_mealb' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'content' => 'required|string',
+                'img_mealb' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             $imgPath = null;
@@ -227,8 +227,8 @@ class IklanController
             }
 
             $request->validate([
-                'content' => 'nullable|string',
-                'img_mealb' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'content' => 'required|string',
+                'img_mealb' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             if ($request->hasFile('img_mealb')) {
@@ -295,7 +295,7 @@ class IklanController
     public function storeGaleri(Request $request)
     {
         $request->validate([
-            'img_testimoni' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'img_testimoni' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $imgPath = null;
@@ -325,7 +325,7 @@ class IklanController
             }
 
             $request->validate([
-                'img_testimoni' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img_testimoni' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             if ($request->hasFile('img_testimoni')) {
@@ -376,7 +376,7 @@ class IklanController
     public function indexPains(Request $request)
     {
         $data = MealPains::all();
-        if( $request->wantsJson()) {
+        if ($request->wantsJson()) {
             return response()->json([
                 'status' => 'success',
                 'message' => 'Data pains berhasil diambil',
@@ -389,7 +389,7 @@ class IklanController
     {
         try {
             $request->validate([
-                'content' => 'nullable|string',
+                'content' => 'required|string',
             ]);
 
             $benefit = MealPains::create([
@@ -398,6 +398,7 @@ class IklanController
 
             return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -415,7 +416,7 @@ class IklanController
             }
 
             $request->validate([
-                'content' => 'nullable|string',
+                'content' => 'required|string',
             ]);
 
             $benefit->content = $request->content;
@@ -423,6 +424,7 @@ class IklanController
 
             return redirect()->back()->with('success', 'berhasil tambah diperbarui');
         } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -443,12 +445,7 @@ class IklanController
 
             return redirect()->back()->with('success', 'berhasil hapus testimoni');
         } catch (\Exception $e) {
-            Log::error('Testimoni Delete Error: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat menghapus testimoni',
-                'data' => null
-            ], 500);
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -475,13 +472,13 @@ class IklanController
             $category = MasterSectionCategory::where('slug', 'isigoals')->first();
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string|max:255',
-                'subtitle2' => 'nullable|string|max:255',
-                'subtitle3' => 'nullable|string|max:255',
-                'subtitle4' => 'nullable|string|max:255',
-                'subtitle5' => 'nullable|string|max:255',
+                'subtitle1' => 'required|string|max:255',
+                'subtitle2' => 'required|string|max:255',
+                'subtitle3' => 'required|string|max:255',
+                'subtitle4' => 'required|string|max:255',
+                'subtitle5' => 'required|string|max:255',
             ]);
 
             $imgPath = null;
@@ -504,7 +501,7 @@ class IklanController
 
             return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
-            dd($err->getMessage());
+            return redirect()->back()->with('error', $err->getMessage());
         }
     }
 
@@ -518,13 +515,13 @@ class IklanController
             }
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string|max:255',
-                'subtitle2' => 'nullable|string|max:255',
-                'subtitle3' => 'nullable|string|max:255',
-                'subtitle4' => 'nullable|string|max:255',
-                'subtitle5' => 'nullable|string|max:255',
+                'subtitle1' => 'required|string|max:255',
+                'subtitle2' => 'required|string|max:255',
+                'subtitle3' => 'required|string|max:255',
+                'subtitle4' => 'required|string|max:255',
+                'subtitle5' => 'required|string|max:255',
             ]);
 
             if ($request->hasFile('img')) {
@@ -555,7 +552,7 @@ class IklanController
         $section = SectionContent::where('menu_id', $category->id)
             ->where('section', 'ispromo')
             ->first();
-        if( request()->wantsJson()) {
+        if (request()->wantsJson()) {
             return response()->json([
                 'status' => 'success',
                 'message' => 'Data promo berhasil diambil',
@@ -572,10 +569,10 @@ class IklanController
             $category = MasterSectionCategory::where('slug', 'ispromo')->first();
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-                'img2' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'img2' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string|max:255',
+                'subtitle1' => 'required|string|max:255',
             ]);
 
             $imgPath = null;
@@ -600,7 +597,7 @@ class IklanController
 
             return redirect()->back()->with('success', 'Berhasil');
         } catch (\Exception $err) {
-            dd($err->getMessage());
+            return redirect()->back()->with('error', $err->getMessage());
         }
     }
 
@@ -614,10 +611,10 @@ class IklanController
             }
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-                'img2' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'img2' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string|max:255',
+                'subtitle1' => 'required|string|max:255',
             ]);
 
             if ($request->hasFile('img')) {

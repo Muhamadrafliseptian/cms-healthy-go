@@ -35,7 +35,7 @@
                     <div class="mb-3">
                         <label for="title" class="form-label">Judul</label>
                         <input type="text" name="title" class="form-control"
-                            value="{{ old('title', $section->title ?? '') }}" required>
+                            value="{{ old('title', $section->title ?? '') }}">
                     </div>
 
                     <div class="mb-3">
@@ -82,12 +82,12 @@
                         <div class="mb-3">
                             <label for="title_partnership" class="form-label">Title</label>
                             <input type="text" class="form-control" id="title_partnership" name="title_partnership"
-                                required>
+                            >
                         </div>
                         <div class="mb-3">
                             <label for="program_partnership" class="form-label">Program</label>
                             <input type="text" class="form-control" id="program_partnership" name="program_partnership"
-                                required>
+                            >
                         </div>
                         <div class="mb-3">
                             <label for="content_program_partnership" class="form-label">Content</label>
@@ -96,7 +96,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="img_partnership" class="form-label">Pilih Gambar</label>
-                            <input type="file" class="form-control" name="img_partnership" accept="image/*" required>
+                            <input type="file" class="form-control" name="img_partnership" accept="image/*">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -126,12 +126,12 @@
                         <div class="mb-3">
                             <label for="edit_title_partnership" class="form-label">Nama</label>
                             <input type="text" class="form-control" id="edit_title_partnership"
-                                name="title_partnership" required>
+                                name="title_partnership">
                         </div>
                         <div class="mb-3">
                             <label for="edit_program_partnership" class="form-label">Program</label>
                             <input type="text" class="form-control" id="edit_program_partnership"
-                                name="program_partnership" required>
+                                name="program_partnership">
                         </div>
                         <div class="mb-3">
                             <label for="edit_content_program_partnership" class="form-label">Content</label>

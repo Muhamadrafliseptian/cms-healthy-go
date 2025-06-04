@@ -35,7 +35,7 @@
                     <div class="mb-3">
                         <label for="title" class="form-label">Judul Banner</label>
                         <input type="text" name="title" class="form-control"
-                            value="{{ old('title', $section->title ?? '') }}" required>
+                            value="{{ old('title', $section->title ?? '') }}">
                     </div>
 
                     <div class="mb-3">
@@ -83,12 +83,12 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="year" class="form-label">Year</label>
-                                <input type="text" class="form-control" id="year" name="year" required>
+                                <input type="text" class="form-control" id="year" name="year">
                             </div>
                             <div class="mb-3">
                                 <label for="title_milestone" class="form-label">Title</label>
                                 <input type="text" class="form-control" id="title_milestone" name="title_milestone"
-                                    required>
+                                >
                             </div>
                             <div class="mb-3">
                                 <label for="content_milestone" class="form-label">Content</label>
@@ -118,12 +118,12 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="edit_year" class="form-label">Year</label>
-                            <input type="text" class="form-control" id="edit_year" name="year" required>
+                            <input type="text" class="form-control" id="edit_year" name="year">
                         </div>
                         <div class="mb-3">
                             <label for="edit_title_milestone" class="form-label">Title</label>
                             <input type="text" class="form-control" id="edit_title_milestone" name="title_milestone"
-                                required>
+                            >
                         </div>
                         <div class="mb-3">
                             <label for="edit_content_milestone" class="form-label">Content</label>

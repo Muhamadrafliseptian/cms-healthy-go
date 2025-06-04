@@ -32,7 +32,7 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="batch_id" class="form-label">Pilih Batch</label>
-                            <select name="batch_id" class="form-select" required>
+                            <select name="batch_id" class="form-select">
                                 @foreach ($batches as $batch)
                                     <option value="{{ $batch->id }}">
                                         {{ $batch->name }}

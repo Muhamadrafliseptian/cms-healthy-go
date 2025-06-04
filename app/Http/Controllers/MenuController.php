@@ -58,9 +58,9 @@ class MenuController
             $request->validate([
                 'menus' => 'required|array|min:1',
                 'menus.*.day' => 'required|string',
-                'menus.*.lunch_menu' => 'nullable|string',
-                'menus.*.dinner_menu' => 'nullable|string',
-                'menus.*.img_menu' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'menus.*.lunch_menu' => 'required|string',
+                'menus.*.dinner_menu' => 'required|string',
+                'menus.*.img_menu' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'batch_id' => 'required|exists:lptm_batch,id',
             ]);
 
@@ -99,10 +99,10 @@ class MenuController
             $request->validate([
                 'id' => 'required|exists:lpt_batch_menu,id',
                 // 'batch_id' => 'required|exists:lptm_batch,id',
-                'day' => 'nullable|string',
-                'lunch_menu' => 'nullable|string',
-                'dinner_menu' => 'nullable|string',
-                'img_menu' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'day' => 'required|string',
+                'lunch_menu' => 'required|string',
+                'dinner_menu' => 'required|string',
+                'img_menu' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             $menu = Menu::findOrFail($request->id);

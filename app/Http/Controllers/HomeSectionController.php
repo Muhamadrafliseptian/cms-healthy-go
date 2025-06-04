@@ -49,11 +49,11 @@ class HomeSectionController
             $category = MasterSectionCategory::where('slug', 'sbhome')->first();
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-                'img2' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'img2' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string|max:255',
-                'subtitle2' => 'nullable|string|max:255',
+                'subtitle1' => 'required|string|max:255',
+                'subtitle2' => 'required|string|max:255',
             ]);
 
             $imgPath = null;
@@ -93,11 +93,11 @@ class HomeSectionController
             }
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-                'img2' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'img2' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string|max:255',
-                'subtitle2' => 'nullable|string|max:255',
+                'subtitle1' => 'required|string|max:255',
+                'subtitle2' => 'required|string|max:255',
             ]);
 
             if ($request->hasFile('img')) {
@@ -134,13 +134,13 @@ class HomeSectionController
             $category = MasterSectionCategory::where('slug', 'shome1')->first();
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string|max:255',
-                'subtitle2' => 'nullable|string|max:255',
-                'subtitle3' => 'nullable|string|max:255',
-                'subtitle4' => 'nullable|string|max:255',
-                'subtitle5' => 'nullable|string|max:255',
+                'subtitle1' => 'required|string|max:255',
+                'subtitle2' => 'required|string|max:255',
+                'subtitle3' => 'required|string|max:255',
+                'subtitle4' => 'required|string|max:255',
+                'subtitle5' => 'required|string|max:255',
             ]);
 
             $imgPath = null;
@@ -177,13 +177,13 @@ class HomeSectionController
             }
 
             $request->validate([
-                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'nullable|string|max:255',
-                'subtitle2' => 'nullable|string|max:255',
-                'subtitle3' => 'nullable|string|max:255',
-                'subtitle4' => 'nullable|string|max:255',
-                'subtitle5' => 'nullable|string|max:255',
+                'subtitle1' => 'required|string|max:255',
+                'subtitle2' => 'required|string|max:255',
+                'subtitle3' => 'required|string|max:255',
+                'subtitle4' => 'required|string|max:255',
+                'subtitle5' => 'required|string|max:255',
             ]);
 
             if ($request->hasFile('img')) {

@@ -34,7 +34,7 @@
                     <div class="mb-3">
                         <label for="title" class="form-label">Judul Banner</label>
                         <input type="text" name="title" class="form-control"
-                            value="{{ old('title', $section->title ?? '') }}" required>
+                            value="{{ old('title', $section->title ?? '') }}" >
                     </div>
 
                     <div class="mb-3">
@@ -78,7 +78,7 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="title_service" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="title_service" name="title_service" required>
+                                <input type="text" class="form-control" id="title_service" name="title_service" >
                             </div>
                             <div class="mb-3">
                                 <label for="content_service" class="form-label">Content</label>
@@ -109,7 +109,7 @@
                             <div class="mb-3">
                                 <label for="edit_title_service" class="form-label">Title</label>
                                 <input type="text" class="form-control" id="edit_title_service" name="title_service"
-                                    required>
+                                    >
                             </div>
                             <div class="mb-3">
                                 <label for="edit_content_service" class="form-label">Content</label>

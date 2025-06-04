@@ -76,7 +76,7 @@
                             <div class="mb-3">
                                 <label for="title_statistic" class="form-label">Title</label>
                                 <input type="text" class="form-control" id="title_statistic" name="title_statistic"
-                                    required>
+                                    >
                             </div>
                             <div class="mb-3">
                                 <label for="content_statistic" class="form-label">Content</label>
@@ -107,7 +107,7 @@
                             <div class="mb-3">
                                 <label for="edit_title_statistic" class="form-label">Title</label>
                                 <input type="text" class="form-control" id="edit_title_statistic" name="title_statistic"
-                                    required>
+                                    >
                             </div>
                             <div class="mb-3">
                                 <label for="edit_content_statistic" class="form-label">Content</label>
