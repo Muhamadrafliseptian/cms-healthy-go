@@ -113,11 +113,10 @@
                             {{ $item->name }}
                         </td>
                         <td>
-                            {{ $item->start_date }}
+                            {{ \Carbon\Carbon::parse($item->start_date)->translatedFormat('d F Y') }}
                         </td>
                         <td>
-                            {{ $item->end_date }}
-                        </td>
+                            {{ \Carbon\Carbon::parse($item->end_date)->translatedFormat('d F Y') }} </td>
                         {{-- <td>
                             <button class="btn btn-sm btn-primary btn-edit" data-id="{{ $item->id }}"
                                 data-name="{{ $item->name }}" data-start="{{ $item->start_date }}"
@@ -153,7 +152,7 @@
                 responsive: true
             });
 
-                $(document).on('click', '.btn-edit', function () {
+            $(document).on('click', '.btn-edit', function() {
                 const id = $(this).data('id');
                 const name = $(this).data('name');
                 const start = $(this).data('start');

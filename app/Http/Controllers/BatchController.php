@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ApiSyncLog;
 use App\Models\MasterBatch;
 use Exception;
 use Illuminate\Http\Request;
@@ -16,39 +17,66 @@ class BatchController
     public function index()
     {
         try {
+            $log = ApiSyncLog::where('source', 'getlistbatch')->first();
+
+            if (!$log || Carbon::parse($log->last_synced_at)->diffInDays(now()) >= 1) {
+                $url = 'https://api.dapursehatindonesia.com/api/getlistbatch';
+                $response = Http::withToken('4|0pLuWSOnwJjX2MLS2xauoeidaIKleub4g4GsgZsz20df10e5')->post($url);
+                $batchs = json_decode($response->getBody()->getContents(), true);
+
+                if (!is_array($batchs) || !isset($batchs['data'])) {
+                    throw new \Exception('Format response dari API tidak sesuai.');
+                }
+
+                foreach ($batchs['data'] as $batch) {
+                    $cek = MasterBatch::where('code', $batch['name'])->first();
+                    if (!$cek) {
+                        MasterBatch::create([
+                            'name' => $batch['alias'],
+                            'code' => $batch['name'],
+                            'start_date' => $batch['start'],
+                            'end_date' => $batch['end'],
+                        ]);
+                    }
+                }
+
+                ApiSyncLog::updateOrCreate(
+                    ['source' => 'getlistbatch'],
+                    ['last_synced_at' => now()]
+                );
+            }
+
             $data = MasterBatch::orderBy('start_date', 'desc')->get();
             return view('pages.food.master-batch.index-master-batch', compact('data'));
         } catch (\Exception $err) {
-            return back()->with('error', 'Gagal mengambil data batch.');
+            return back()->with('error', $err->getMessage());
         }
     }
 
     public function syncBatch(Request $request)
     {
         try {
-            $url = 'https://api.dapursehatindonesia.com/api/getlistbatch';
-            $response = Http::withToken('Bearer 4|0pLuWSOnwJjX2MLS2xauoeidaIKleub4g4GsgZsz20df10e5')->post($url);
-            $batchs = json_decode($response->getBody()->getContents(), true);
+            // $url = 'https://api.dapursehatindonesia.com/api/getlistbatch';
+            // $response = Http::withToken('Bearer 4|0pLuWSOnwJjX2MLS2xauoeidaIKleub4g4GsgZsz20df10e5')->post($url);
+            // $batchs = json_decode($response->getBody()->getContents(), true);
 
-            foreach ($batchs['data'] as $batch) {
-                $cek = MasterBatch::where('code', $batch['name'])->first();
-                if ($cek == null) {
-                    $save = new MasterBatch();
-                    $save->name = $batch['alias'];
-                    $save->code = $batch['name'];
-                    $save->start_date = $batch['start'];
-                    $save->end_date = $batch['end'];
-                    $save->saveOrFail();
-                }
-            }
+            // foreach ($batchs['data'] as $batch) {
+            //     $cek = MasterBatch::where('code', $batch['name'])->first();
+            //     if ($cek == null) {
+            //         $save = new MasterBatch();
+            //         $save->name = $batch['alias'];
+            //         $save->code = $batch['name'];
+            //         $save->start_date = $batch['start'];
+            //         $save->end_date = $batch['end'];
+            //         $save->saveOrFail();
+            //     }
+            // }
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Batch berhasil disinkronkan.',
-            ], 200);
+            // return response()->json([
+            //     'status' => 'success',
+            //     'message' => 'Batch berhasil disinkronkan.',
+            // ], 200);
         } catch (Exception $e) {
-            // return $this->errorHandler($e);
-
             dd($e->getMessage());
         }
     }
