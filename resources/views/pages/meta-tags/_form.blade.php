@@ -26,13 +26,41 @@
 @section('js')
     <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        let editors = {}; // Simpan instance CKEditor
+
+        function initializeEditors() {
             document.querySelectorAll('.ckeditor').forEach(function(el) {
-                ClassicEditor
-                    .create(el)
-                    .catch(error => {
-                        console.error(error);
+                const name = el.getAttribute('name');
+
+                // Destroy jika sudah ada instance
+                if (editors[name]) {
+                    editors[name].destroy().then(() => {
+                        createEditor(el, name);
                     });
+                } else {
+                    createEditor(el, name);
+                }
+            });
+        }
+
+        function createEditor(element, name) {
+            ClassicEditor
+                .create(element)
+                .then(editor => {
+                    editors[name] = editor;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+
+        // Inisialisasi CKEditor saat modal dibuka
+        document.addEventListener("DOMContentLoaded", function() {
+            initializeEditors();
+
+            // Modal edit dibuka, reinit CKEditor
+            document.getElementById('editModal').addEventListener('shown.bs.modal', function() {
+                initializeEditors();
             });
         });
     </script>

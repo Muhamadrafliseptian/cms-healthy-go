@@ -15,10 +15,8 @@
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
 
-        <!-- Tombol Tambah -->
         <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#createModal">+ Tambah Meta Tag</button>
 
-        <!-- Tabel Data -->
         <table id="metaTable" class="table table-striped table-bordered text-center w-100">
             <thead>
                 <tr>
@@ -36,20 +34,16 @@
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $item->menu->name ?? '-' }}</td>
                         <td>{{ $item->title }}</td>
-                        <td>{{ $item->keywords }}</td>
-                        <td>{{ $item->description }}</td>
+                        <td>{!! $item->keywords !!}</td>
+                        <td>{!! $item->description !!}</td>
                         <td>
-                            <button class="btn btn-sm btn-primary btn-edit"
-                                data-id="{{ $item->id }}"
-                                data-title="{{ $item->title }}"
-                                data-keywords="{{ $item->keywords }}"
-                                data-description="{{ $item->description }}"
-                                data-menu_id="{{ $item->menu_id }}"
-                                data-bs-toggle="modal" data-bs-target="#editModal">
-                                Edit
-                            </button>
+                            <button class="btn btn-sm btn-primary btn-edit" data-id="{{ $item->id }}"
+                                data-title="{{ $item->title }}" data-keywords="{{ $item->keywords }}"
+                                data-description="{{ $item->description }}" data-menu_id="{{ $item->menu_id }}"
+                                data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
 
-                            <form action="{{ route('meta.destroy', $item->id) }}" method="POST" style="display:inline-block;">
+                            <form action="{{ route('meta.destroy', $item->id) }}" method="POST"
+                                style="display:inline-block;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-danger"
@@ -72,7 +66,27 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    @include('pages.meta-tags._form', ['type' => 'create'])
+                    <div class="mb-3">
+                        <label for="menu_id">Pilih Menu</label>
+                        <select name="menu_id" class="form-control">
+                            <option value="">-- Pilih Menu --</option>
+                            @foreach ($data as $menu)
+                                <option value="{{ $menu->id }}">{{ $menu->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="title">Meta Title</label>
+                        <input type="text" name="title" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="keywords">Meta Keywords</label>
+                        <textarea name="keywords" rows="3" class="form-control ckeditor"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description">Meta Description</label>
+                        <textarea name="description" rows="3" class="form-control ckeditor"></textarea>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary">Simpan</button>
@@ -92,7 +106,27 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    @include('pages.meta-tags._form', ['type' => 'edit'])
+                    {{-- <div class="mb-3">
+                        <label for="menu_id">Pilih Menu</label>
+                        <select name="menu_id" class="form-control">
+                            <option value="">-- Pilih Menu --</option>
+                            @foreach ($data as $menu)
+                                <option value="{{ $menu->id }}">{{ $menu->name }}</option>
+                            @endforeach
+                        </select>
+                    </div> --}}
+                    <div class="mb-3">
+                        <label for="title">Meta Title</label>
+                        <input type="text" name="title" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="keywords">Meta Keywords</label>
+                        <textarea name="keywords" rows="3" class="form-control" id="edit-keywords"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description">Meta Description</label>
+                        <textarea name="description" rows="3" class="form-control" id="edit-description"></textarea>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary">Update</button>
@@ -106,17 +140,81 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
     <script>
-        $(document).ready(function () {
-            $('#metaTable').DataTable();
+        let editors = {};
 
-            $('.btn-edit').click(function () {
+        function initEditors() {
+            document.querySelectorAll('.ckeditor').forEach(function(el) {
+                const name = el.getAttribute('name');
+
+                if (editors[name]) {
+                    editors[name].destroy().then(() => {
+                        createEditor(el, name);
+                    });
+                } else {
+                    createEditor(el, name);
+                }
+            });
+        }
+
+        function createEditor(el, name) {
+            ClassicEditor
+                .create(el)
+                .then(editor => {
+                    editors[name] = editor;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+
+        let editorKeywords, editorDescription;
+
+        function initEditEditors() {
+            if (editorKeywords) editorKeywords.destroy().catch(() => {});
+            if (editorDescription) editorDescription.destroy().catch(() => {});
+
+            ClassicEditor
+                .create(document.querySelector('#edit-keywords'))
+                .then(editor => {
+                    editorKeywords = editor;
+                });
+
+            ClassicEditor
+                .create(document.querySelector('#edit-description'))
+                .then(editor => {
+                    editorDescription = editor;
+                });
+        }
+
+        $(document).ready(function() {
+            $('#metaTable').DataTable();
+            initEditors();
+
+            $('.btn-edit').on('click', function() {
                 const id = $(this).data('id');
-                $('#editForm').attr('action', `/dashboard/meta/put/${id}`);
-                $('#editForm select[name="menu_id"]').val($(this).data('menu_id'));
-                $('#editForm input[name="title"]').val($(this).data('title'));
-                $('#editForm textarea[name="keywords"]').val($(this).data('keywords'));
-                $('#editForm textarea[name="description"]').val($(this).data('description'));
+                const title = $(this).data('title');
+                const keywords = $(this).data('keywords');
+                const description = $(this).data('description');
+                const menuId = $(this).data('menu_id');
+
+                const action = "{{ route('meta.put', ':id') }}".replace(':id', id);
+                $('#editForm').attr('action', action);
+                $('#editForm select[name="menu_id"]').val(menuId);
+                $('#editForm input[name="title"]').val(title);
+
+                $('#editModal').modal('show');
+
+                setTimeout(function() {
+                    initEditEditors();
+
+                    setTimeout(() => {
+                        if (editorKeywords) editorKeywords.setData(keywords);
+                        if (editorDescription) editorDescription.setData(description);
+                    }, 300);
+                }, 300);
             });
         });
     </script>
