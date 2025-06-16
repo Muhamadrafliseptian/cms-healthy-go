@@ -6,6 +6,7 @@ use App\Http\Services\AnalyticsService as ServicesAnalyticsService;
 use App\Models\ImgPartnership;
 use App\Models\Program;
 use App\Models\Testimoni;
+use App\Models\User;
 use Exception;
 
 class DashboardController
@@ -48,11 +49,13 @@ class DashboardController
             $total_partnership = ImgPartnership::count();
             $total_program = Program::count();
             $total_testimoni = Testimoni::count();
+            $total_admin = User::count();
 
             return view('index-dashboard', ([
                 "total_partnership" => $total_partnership,
                 "total_program" => $total_program,
                 "total_testimoni" => $total_testimoni,
+                "total_admin" => $total_admin,
             ]));
         } catch (\Exception $err) {
             dd($err->getMessage());
