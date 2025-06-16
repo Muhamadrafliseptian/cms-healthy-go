@@ -2,12 +2,6 @@
     <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion" style="background-color: black;">
         <div class="sb-sidenav-menu">
             <div class="nav">
-                <a class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}"
-                    href="{{ route('dashboard') }}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                    Dashboard
-                </a>
-
                 @php
                     $pagesActive =
                         Request::is('dashboard/home*') ||
@@ -23,16 +17,15 @@
                         Request::is('dashboard/meta*');
                 @endphp
 
-                <a class="nav-link {{ $pagesActive ? '' : 'collapsed' }}" href="#" data-bs-toggle="collapse"
+                {{-- <a class="nav-link {{ $pagesActive ? '' : 'collapsed' }}" href="#" data-bs-toggle="collapse"
                     data-bs-target="#collapseLayouts" aria-expanded="{{ $pagesActive ? 'true' : 'false' }}"
                     aria-controls="collapseLayouts">
                     <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     Pages
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
+                </a> --}}
 
-                <div class="collapse {{ $pagesActive ? 'show' : '' }}" id="collapseLayouts" aria-labelledby="headingOne"
-                    data-bs-parent="#sidenavAccordion">
+                <div class="{{ $pagesActive ? 'show' : '' }}">
                     <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionMenu">
                         @php
                             $homeActive = Request::is('dashboard/home*');
@@ -45,7 +38,10 @@
                             $iklanActive = Request::is('dashboard/iklan*');
                             $partnershipActive = Request::is('dashboard/partnership*');
                         @endphp
-
+                        <a class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}"
+                            href="{{ route('dashboard') }}">
+                            Dashboard
+                        </a>
                         <a class="nav-link {{ Request::is('dashboard/master/section-category*') ? 'active' : '' }}"
                             href="{{ route('scategory.index') }}">
                             Master Category
@@ -57,8 +53,7 @@
 
                         <a class="nav-link {{ $masterActive ? '' : 'collapsed' }}" href="#"
                             data-bs-toggle="collapse" data-bs-target="#masterKontenCollapse"
-                            aria-expanded="{{ $masterActive ? 'true' : 'false' }}"
-                            aria-controls="masterKontenCollapse">
+                            aria-expanded="{{ $masterActive ? 'true' : 'false' }}" aria-controls="masterKontenCollapse">
                             Master
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>

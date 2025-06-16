@@ -32,20 +32,20 @@
                     @endif
 
                     <div class="mb-3">
-                        <label for="title" class="form-label">Judul</label>
+                        <label for="title" class="form-label">Headline</label>
                         <input type="text" name="title" id="title" class="form-control"
                             value="{{ old('title', $section->title ?? '') }}" />
                     </div>
 
                     <div class="mb-3">
-                        <label for="subtitle1" class="form-label">Content 1</label>
+                        <label for="subtitle1" class="form-label">Sub Headline</label>
                         <textarea name="subtitle1" id="subtitle1" class="form-control" rows="3">
                         {{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea
                         >
                     </div>
 
                      <div class="mb-3">
-                        <label for="subtitle2" class="form-label">Content 2</label>
+                        <label for="subtitle2" class="form-label">Content</label>
                          <textarea name="subtitle2" id="subtitle2" class="form-control" rows="3">
                         {{ old('subtitle2', $section->subtitle2 ?? '') }}</textarea
                         >
@@ -70,7 +70,7 @@
                     @csrf
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addMealModalLabel">Add New Promo</h5>
+                            <h5 class="modal-title" id="addMealModalLabel">Add Data</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -100,7 +100,7 @@
                 @method('PUT')
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Edit Promo</h5>
+                        <h5 class="modal-title">Edit Data</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">

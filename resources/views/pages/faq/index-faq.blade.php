@@ -28,18 +28,18 @@
             @endif
 
             <div>
-                <label for="title" class="form-label">Title</label>
+                <label for="title" class="form-label">Headline</label>
                 <input type="text" name="title" class="form-control mb-3"
                     value="{{ old('title', $section->title ?? '') }}">
 
                 <div class="mb-3">
-                    <label for="subtitle1" class="form-label">Subtitle</label>
+                    <label for="subtitle1" class="form-label">Sub Headline</label>
                 <textarea class="form-control ckeditor" id="subtitle1" name="subtitle1" rows="3">
                         {{ old('subtitle1', $section->subtitle1 ?? '') }}
                     </textarea>
                 </div>
 
-                <label for="subtitle2" class="form-label">Subtitle</label>
+                <label for="subtitle2" class="form-label">Content</label>
                 <textarea class="form-control ckeditor" id="subtitle2" name="subtitle2" rows="3">
                         {{ old('subtitle2', $section->subtitle2 ?? '') }}
                     </textarea>
@@ -63,7 +63,7 @@
                     @csrf
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addMealModalLabel">Add New Promo</h5>
+                            <h5 class="modal-title" id="addMealModalLabel">Add Data</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -92,7 +92,7 @@
                     @method('PUT')
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Edit Promo</h5>
+                            <h5 class="modal-title">Edit Data</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">

@@ -32,7 +32,7 @@
                     @endif
 
                     <div class="mb-3">
-                        <label for="title" class="form-label">Content</label>
+                        <label for="title" class="form-label">headline</label>
                         <textarea type="text" name="title" class="form-control" id="title" rows="3">
                             {{ old('title', $section->title ?? '') }}
                         </textarea>
@@ -57,7 +57,7 @@
                     class="modal-content">
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addCarouselModalLabel">Tambah Gambar Sertifikat</h5>
+                        <h5 class="modal-title" id="addCarouselModalLabel">Tambah Gambar</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -81,7 +81,7 @@
                     @csrf
                     @method('PUT')
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editCertificateModalLabel">Edit Gambar Sertifikat</h5>
+                        <h5 class="modal-title" id="editCertificateModalLabel">Edit Gambar</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">

@@ -32,23 +32,23 @@
                 @if ($section && $section->img)
                     <div class="col-md-12 text-center">
                         <img src="{{ asset('storage/' . $section->img) }}" class="img-thumbnail" alt="Gambar Pertama">
-                        <p class="text-muted mt-1">Gambar Pertama</p>
+                        <p class="text-muted mt-1">Gambar Sekarang</p>
                     </div>
                 @endif
             </div>
 
             <div class="mb-3">
-                <label for="img" class="form-label">Upload Hero Lokasi</label>
+                <label for="img" class="form-label">Upload Image Lokasi</label>
                 <input type="file" name="img" class="form-control">
             </div>
 
             <div class="mb-3">
-                <label for="title" class="form-label">Judul</label>
+                <label for="title" class="form-label">Headline</label>
                 <textarea name="title" class="form-control ckeditor" rows="3">{{ old('title', $section->title ?? '') }}</textarea>
             </div>
 
             <div class="mb-3">
-                <label for="subtitle1" class="form-label">Subjudul</label>
+                <label for="subtitle1" class="form-label">Sub Headline</label>
                 <textarea name="subtitle1" class="form-control ckeditor" rows="3">{{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea>
             </div>
 
@@ -74,12 +74,12 @@
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label for="title_statistic" class="form-label">Title</label>
+                                <label for="title_statistic" class="form-label">Headline</label>
                                 <input type="text" class="form-control" id="title_statistic" name="title_statistic"
                                     >
                             </div>
                             <div class="mb-3">
-                                <label for="content_statistic" class="form-label">Content</label>
+                                <label for="content_statistic" class="form-label">Sub Headline</label>
                                 <textarea name="content_statistic" id="content_statistic" rows="5" class="form-control"></textarea>
                             </div>
                         </div>
@@ -105,12 +105,12 @@
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label for="edit_title_statistic" class="form-label">Title</label>
+                                <label for="edit_title_statistic" class="form-label">Headline</label>
                                 <input type="text" class="form-control" id="edit_title_statistic" name="title_statistic"
                                     >
                             </div>
                             <div class="mb-3">
-                                <label for="edit_content_statistic" class="form-label">Content</label>
+                                <label for="edit_content_statistic" class="form-label">Sub Headline</label>
                                 <textarea class="form-control" name="content_statistic" id="edit_content_statistic" rows="5"></textarea>
                             </div>
                         </div>

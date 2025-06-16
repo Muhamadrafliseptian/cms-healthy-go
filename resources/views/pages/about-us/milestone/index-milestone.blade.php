@@ -33,31 +33,31 @@
                     @endif
 
                     <div class="mb-3">
-                        <label for="title" class="form-label">Judul Banner</label>
+                        <label for="title" class="form-label">Headline</label>
                         <input type="text" name="title" class="form-control"
                             value="{{ old('title', $section->title ?? '') }}">
                     </div>
 
                     <div class="mb-3">
-                        <label for="subtitle" class="form-label">Judul Banner 2</label>
+                        <label for="subtitle" class="form-label">Sub Headline</label>
                         <textarea name="subtitle1" id="subtitle1" class="form-control mb-3">
 {{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea
 >
                     </div>
 
                     <div class="mb-3">
-                        <label for="subtitle" class="form-label">Judul Banner 3</label>
+                        <label for="subtitle" class="form-label">Content</label>
                         <textarea name="subtitle2" id="subtitle2" class="form-control mb-3">
                         {{ old('subtitle2', $section->subtitle2 ?? '') }}</textarea
                         >
                     </div>
 
-                    <div class="mb-3">
+                    {{-- <div class="mb-3">
                         <label for="subtitle" class="form-label">Judul Banner 4</label>
                         <textarea name="subtitle3" id="subtitle3" class="form-control mb-3">
                         {{ old('subtitle3', $section->subtitle3 ?? '') }}</textarea
                         >
-                    </div>
+                    </div> --}}
                     <button type="submit" class="btn btn-primary w-100">
                         {{ $section ? 'Perbarui Data' : 'Simpan Data' }}
                     </button>
@@ -122,8 +122,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="edit_title_milestone" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="edit_title_milestone" name="title_milestone"
-                            >
+                            <input type="text" class="form-control" id="edit_title_milestone" name="title_milestone">
                         </div>
                         <div class="mb-3">
                             <label for="edit_content_milestone" class="form-label">Content</label>
@@ -239,7 +238,7 @@
                 console.error(error);
             });
 
-            $(document).on('click', '.btn-edit', function () {
+        $(document).on('click', '.btn-edit', function() {
             const id = $(this).data('id');
             const year = $(this).data('year');
             const title = $(this).data('title');

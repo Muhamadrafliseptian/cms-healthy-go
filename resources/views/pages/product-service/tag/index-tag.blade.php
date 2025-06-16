@@ -27,7 +27,7 @@
                     @endif
 
                     <div class="mb-3">
-                        <label for="title" class="form-label">Content 1</label>
+                        <label for="title" class="form-label">Headline</label>
                          <textarea name="title" id="title" class="form-control" rows="3">
                         {{ old('title', $section->title ?? '') }}</textarea
                         >

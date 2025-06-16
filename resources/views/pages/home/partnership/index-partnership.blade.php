@@ -31,13 +31,13 @@
                     @endif
 
                     <div class="mb-3">
-                        <label for="title" class="form-label">Judul Banner</label>
+                        <label for="title" class="form-label">Headline</label>
                         <input type="text" name="title" class="form-control"
                             value="{{ old('title', $section->title ?? '') }}" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="subtitle1" class="form-label">Subjudul Banner</label>
+                        <label for="subtitle1" class="form-label">Sub Headline</label>
                         <textarea name="subtitle1" class="form-control ckeditor" rows="3">{{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea>
                     </div>
 
@@ -59,7 +59,7 @@
                     class="modal-content">
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addCertificateModalLabel">Tambah Gambar Sertifikat</h5>
+                        <h5 class="modal-title" id="addCertificateModalLabel">Tambah Gambar</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">

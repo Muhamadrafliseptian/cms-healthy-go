@@ -39,29 +39,29 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="subtitle1" class="form-label">Subjudul 1</label>
+                        <label for="subtitle1" class="form-label">Headline</label>
                         <textarea name="subtitle1" id="subtitle1" class="form-control ckeditor" rows="3">{{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="subtitle2" class="form-label">Subjudul 2</label>
+                        <label for="subtitle2" class="form-label">Sub Headline</label>
                         <textarea name="subtitle2" id="subtitle2" class="form-control ckeditor" rows="3">{{ old('subtitle2', $section->subtitle2 ?? '') }}</textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="subtitle3" class="form-label">Subjudul 3</label>
+                        <label for="subtitle3" class="form-label">Headline 2</label>
                         <textarea name="subtitle3" id="subtitle3" class="form-control ckeditor" rows="3">{{ old('subtitle3', $section->subtitle3 ?? '') }}</textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="subtitle4" class="form-label">Subjudul 4</label>
+                        <label for="subtitle4" class="form-label">Sub Headline 2</label>
                         <textarea name="subtitle4" id="subtitle4" class="form-control ckeditor" rows="3">{{ old('subtitle4', $section->subtitle4 ?? '') }}</textarea>
                     </div>
 
-                    <div class="mb-3">
+                    {{-- <div class="mb-3">
                         <label for="subtitle5" class="form-label">Subjudul 5</label>
                         <textarea name="subtitle5" id="subtitle5" class="form-control ckeditor" rows="3">{{ old('subtitle5', $section->subtitle5 ?? '') }}</textarea>
-                    </div>
+                    </div> --}}
 
 
                     <button type="submit" class="btn btn-primary w-100">

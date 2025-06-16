@@ -28,13 +28,13 @@
                     @endif
 
                     <div class="mb-3">
-                        <label for="title" class="form-label">Judul</label>
+                        <label for="title" class="form-label">Headline</label>
                         <input type="text" name="title" class="form-control"
                             value="{{ old('title', $section->title ?? '') }}">
                     </div>
 
                     <div class="mb-3">
-                        <label for="subtitle" class="form-label">Content</label>
+                        <label for="subtitle" class="form-label">Sub Headline</label>
                         <textarea name="subtitle1" id="subtitle1" class="form-control mb-3">
                         {{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea>
                     </div>

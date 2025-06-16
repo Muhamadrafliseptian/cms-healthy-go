@@ -44,17 +44,17 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="title" class="form-label">Judul Banner</label>
+                        <label for="title" class="form-label">Headline</label>
                         <textarea type="text" name="title" class="form-control ckeditor">{{ old('title', $section->title ?? '') }}
                         </textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="subtitle2" class="form-label">Judul Banner 2</label>
+                        <label for="subtitle2" class="form-label">Sub Headline</label>
                         <textarea type="text" name="subtitle2" class="form-control ckeditor">{{ old('subtitle2', $section->subtitle2 ?? '') }}
                         </textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="subtitle3" class="form-label">Subjudul Banner 2</label>
+                        <label for="subtitle3" class="form-label">Content</label>
                         <textarea type="text" name="subtitle3" class="form-control ckeditor">{{ old('subtitle3', $section->subtitle3 ?? '') }}
                         </textarea>
                     </div>

@@ -23,31 +23,31 @@
                     @if ($section)
                         @method('PUT')
                     @endif
-                    <h4 class="card-title mb-1">{{ $section ? 'Syarat dan Ketentuan' : 'Syarat dan Ketentuan' }}</h4>
+                    <h4 class="card-title mb-3">{{ $section ? 'Syarat dan Ketentuan' : 'Syarat dan Ketentuan' }}</h4>
 
                     <div class="mb-3">
-                        <label for="title" class="form-label">Judul Banner</label>
+                        <label for="title" class="form-label">Headline</label>
                         <textarea name="title" class="form-control ckeditor">{{ old('title', $section->title ?? '') }}</textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="subtitle1" class="form-label">Subjudul Banner</label>
+                        <label for="subtitle1" class="form-label">Content</label>
                         <textarea name="subtitle1" class="form-control ckeditor">{{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea>
                     </div>
                     <h4 class="card-title mb-1">{{ $section ? 'Force Majore' : 'Force Majore' }}</h4>
 
                     <div class="mb-3">
-                        <label for="subtitle2" class="form-label">Judul Banner 1</label>
+                        <label for="subtitle2" class="form-label">Headline</label>
                         <textarea name="subtitle2" class="form-control ckeditor">{{ old('subtitle2', $section->subtitle2 ?? '') }}</textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="subtitle3" class="form-label">Subjudul Banner 2</label>
+                        <label for="subtitle3" class="form-label">Sub Headline</label>
                         <textarea name="subtitle3" class="form-control ckeditor">{{ old('subtitle3', $section->subtitle3 ?? '') }}</textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="subtitle4" class="form-label">Subjudul Banner 2</label>
+                        <label for="subtitle4" class="form-label">Content</label>
                         <textarea name="subtitle4" class="form-control ckeditor">{{ old('subtitle4', $section->subtitle4 ?? '') }}</textarea>
                     </div>
 

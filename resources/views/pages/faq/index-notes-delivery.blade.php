@@ -70,7 +70,7 @@
                     @csrf
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addMealModalLabel">Add New Promo</h5>
+                            <h5 class="modal-title" id="addMealModalLabel">Add Data</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -100,7 +100,7 @@
                 @method('PUT')
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Edit Promo</h5>
+                        <h5 class="modal-title">Edit Data</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">

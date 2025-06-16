@@ -40,8 +40,11 @@
                         <label for="img" class="form-label">Upload Gambar</label>
                         <input type="file" name="img" class="form-control">
                     </div>
-
-                    <textarea name="title" class="form-control ckeditor">{{ old('title', $section->title ?? '') }}</textarea>
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Headline</label>
+                        <textarea name="title" class="form-control ckeditor">{{ old('title', $section->title ?? '') }}</textarea>
+                    </div>
+                    <label for="title" class="form-label">Sub Headline</label>
                     <textarea name="subtitle1" class="form-control ckeditor">{{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea>
 
                     <button type="submit" class="btn btn-primary mt-3">
@@ -56,7 +59,7 @@
 @section('js')
     <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             document.querySelectorAll('.ckeditor').forEach(el => {
                 ClassicEditor
                     .create(el)
@@ -67,4 +70,3 @@
         });
     </script>
 @endsection
-

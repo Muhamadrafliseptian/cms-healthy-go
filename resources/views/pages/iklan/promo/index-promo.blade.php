@@ -19,7 +19,7 @@
 
         <div class="card shadow-sm">
             <div class="card-body">
-                <h4 class="card-title mb-4">{{ $section ? 'Edit Promo' : 'Tambah Promo' }}</h4>
+                <h4 class="card-title mb-4">{{ $section ? 'Edit Data' : 'Tambah Promo' }}</h4>
 
                 <form action="{{ $section ? route('promoIklan.put', $section->id) : route('promoIklan.store') }}"
                     method="POST" enctype="multipart/form-data">
@@ -58,12 +58,12 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="title" class="form-label">Subjudul 1</label>
+                        <label for="title" class="form-label">Headline</label>
                         <textarea name="title" id="title" class="form-control ckeditor" rows="3">{{ old('title', $section->title ?? '') }}</textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="subtitle1" class="form-label">Subjudul 2</label>
+                        <label for="subtitle1" class="form-label">Sub Headline</label>
                         <textarea name="subtitle1" id="subtitle1" class="form-control ckeditor" rows="3">{{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea>
                     </div>
 
