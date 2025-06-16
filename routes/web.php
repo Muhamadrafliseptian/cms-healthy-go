@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AboutSectionController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BatchController;
 use App\Http\Controllers\CarouselController;
@@ -337,6 +338,13 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
                 Route::delete('destroy/{id}', [BatchController::class, 'destroy'])->name('batch.destroy');
             });
         });
+    });
+
+    Route::prefix("administrator")->group(function () {
+        Route::get('/', [AdminController::class, 'index'])->name('administrator.index');
+        Route::post('store', [AdminController::class, 'store'])->name('administrator.store');
+        Route::put('put/{id}', [AdminController::class, 'update'])->name('administrator.put');
+        Route::delete('destroy/{id}', [AdminController::class, 'destroy'])->name('administrator.destroy');
     });
 });
 

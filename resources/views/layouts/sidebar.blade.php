@@ -14,16 +14,9 @@
                         Request::is('dashboard/iklan*') ||
                         Request::is('dashboard/master/konten*') ||
                         Request::is('dashboard/master/section-category*') ||
+                        Request::is('dashboard/administrator*') ||
                         Request::is('dashboard/meta*');
                 @endphp
-
-                {{-- <a class="nav-link {{ $pagesActive ? '' : 'collapsed' }}" href="#" data-bs-toggle="collapse"
-                    data-bs-target="#collapseLayouts" aria-expanded="{{ $pagesActive ? 'true' : 'false' }}"
-                    aria-controls="collapseLayouts">
-                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                    Pages
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a> --}}
 
                 <div class="{{ $pagesActive ? 'show' : '' }}">
                     <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionMenu">
@@ -49,6 +42,11 @@
                         <a class="nav-link {{ Request::is('dashboard/meta*') ? 'active' : '' }}"
                             href="{{ route('meta.index') }}">
                             Meta
+                        </a>
+
+                        <a class="nav-link {{ Request::is('dashboard/administrator*') ? 'active' : '' }}"
+                            href="{{ route('administrator.index') }}">
+                            Administrator
                         </a>
 
                         <a class="nav-link {{ $masterActive ? '' : 'collapsed' }}" href="#"
