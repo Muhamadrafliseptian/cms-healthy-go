@@ -230,7 +230,7 @@ class PartnershipController
             }
 
             $request->validate([
-                'img_partnership' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'img_partnership' => 'image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             if ($request->hasFile('img_partnership')) {
@@ -245,12 +245,7 @@ class PartnershipController
 
             return redirect()->back()->with('success', 'data berhasil diperbarui');
         } catch (\Exception $e) {
-            Log::error('Partnership Update Error: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat memperbarui partnership',
-                'data' => null
-            ], 500);
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 

@@ -135,7 +135,7 @@ class TestimoniController
                 'name' => 'required|nullable|string',
                 'program_name' => 'required|nullable|string',
                 'content' => 'required|nullable|string',
-                'ava_testimoni' => 'required|nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'ava_testimoni' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             if ($request->hasFile('ava_testimoni')) {
