@@ -77,7 +77,7 @@ class FaqController
             $request->validate([
                 'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'required|string',
+                // 'subtitle1' => 'required|string',
                 'subtitle2' => 'required|string',
                 'subtitle3' => 'required|string',
             ]);
@@ -91,7 +91,7 @@ class FaqController
             SectionContent::create([
                 'img' => $imgPath,
                 'title' => $request->title,
-                'subtitle1' => $request->subtitle1,
+                // 'subtitle1' => $request->subtitle1,
                 'subtitle2' => $request->subtitle2,
                 'subtitle3' => $request->subtitle3,
                 'menu_id' => $category->id,
@@ -114,7 +114,7 @@ class FaqController
             }
 
             $request->validate([
-                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
                 'subtitle1' => 'required|string',
             ]);
