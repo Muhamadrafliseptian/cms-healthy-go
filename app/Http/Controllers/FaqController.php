@@ -77,7 +77,6 @@ class FaqController
             $request->validate([
                 'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                // 'subtitle1' => 'required|string',
                 'subtitle2' => 'required|string',
                 'subtitle3' => 'required|string',
             ]);
@@ -91,7 +90,6 @@ class FaqController
             SectionContent::create([
                 'img' => $imgPath,
                 'title' => $request->title,
-                // 'subtitle1' => $request->subtitle1,
                 'subtitle2' => $request->subtitle2,
                 'subtitle3' => $request->subtitle3,
                 'menu_id' => $category->id,
@@ -116,7 +114,8 @@ class FaqController
             $request->validate([
                 'img' => 'image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
-                'subtitle1' => 'required|string',
+                'subtitle2' => 'required|string',
+                'subtitle3' => 'required|string',
             ]);
 
             if ($request->hasFile('img')) {
@@ -127,7 +126,6 @@ class FaqController
             }
 
             $benefit->title = $request->title;
-            $benefit->subtitle1 = $request->subtitle1;
             $benefit->subtitle2 = $request->subtitle2;
             $benefit->subtitle3 = $request->subtitle3;
 
@@ -165,7 +163,7 @@ class FaqController
             $content->update([
                 'title'     => $request->title,
                 'subtitle1' => $request->subtitle1,
-                'subtitle2' => $request->subtitle2,
+                // 'subtitle2' => $request->subtitle2,
             ]);
 
             return back()->with('success', 'Data berhasil diperbarui.');
