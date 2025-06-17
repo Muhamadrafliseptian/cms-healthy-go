@@ -163,20 +163,12 @@ class ProgramController
         try {
             $program = Program::find($id);
 
-            if (!$program) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Program tidak ditemukan',
-                    'data' => null
-                ], 404);
-            }
-
+            // dd($request->all());
             $request->validate([
                 'program_title' => 'required|nullable|string',
                 'program_subtitle' => 'required|nullable|string',
                 'program_subtitle_2' => 'required|nullable|string',
-                'program_content_2' => 'required|nullable|string',
-
+                'content_program_2' => 'required|nullable|string',
                 'content_program' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
@@ -192,19 +184,11 @@ class ProgramController
             $program->program_subtitle = $request->program_subtitle;
             $program->program_subtitle_2 = $request->program_subtitle_2;
             $program->content_program_2 = $request->content_program_2;
-
             $program->save();
-
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'Program berhasil diperbarui',
-                    'data' => $program
-                ], 200);
-            }
 
             return redirect()->back()->with('success', 'Program berhasil diperbarui');
         } catch (\Exception $e) {
+            dd($e->getMessage());
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
