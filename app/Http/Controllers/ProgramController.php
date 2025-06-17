@@ -205,12 +205,7 @@ class ProgramController
 
             return redirect()->back()->with('success', 'Program berhasil diperbarui');
         } catch (\Exception $e) {
-            Log::error('Program Update Error: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat memperbarui program',
-                'data' => null
-            ], 500);
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 
@@ -244,12 +239,7 @@ class ProgramController
 
             return redirect()->back()->with('success', 'data berhasil dihapus');
         } catch (\Exception $e) {
-            Log::error('Program Delete Error: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat menghapus program',
-                'data' => null
-            ], 500);
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 }
