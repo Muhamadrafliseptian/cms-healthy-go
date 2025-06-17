@@ -60,7 +60,7 @@ class FoodSectionController
             }
 
             $request->validate([
-                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
             ]);
 

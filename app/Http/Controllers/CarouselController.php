@@ -121,7 +121,7 @@ class CarouselController
             }
 
             $request->validate([
-                'img_carousel' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'img_carousel' => 'image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             if ($request->hasFile('img_carousel')) {

@@ -122,7 +122,7 @@ class PartnershipController
                 'btn_color' => 'required|string',
                 'program_partnership' => 'required|string',
                 'content_program_partnership' => 'required|string',
-                'img_partnership' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'img_partnership' => 'image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             if ($request->hasFile('img_partnership')) {
