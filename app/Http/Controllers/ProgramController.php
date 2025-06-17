@@ -169,7 +169,7 @@ class ProgramController
                 'program_subtitle' => 'required|nullable|string',
                 'program_subtitle_2' => 'required|nullable|string',
                 'content_program_2' => 'required|nullable|string',
-                'content_program' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'content_program' => 'image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             if ($request->hasFile('content_program')) {
