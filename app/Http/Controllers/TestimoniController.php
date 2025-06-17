@@ -59,7 +59,7 @@ class TestimoniController
                 'subtitle1'  => $request->subtitle1,
             ]);
 
-            return back()->with('success', 'Data testimonial berhasil disimpan.');
+            return back()->with('success', 'Data berhasil disimpan.');
         } catch (\Exception $e) {
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }

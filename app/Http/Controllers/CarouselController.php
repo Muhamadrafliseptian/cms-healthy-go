@@ -121,7 +121,7 @@ class CarouselController
             }
 
             $request->validate([
-                'img_carousel' => 'image|mimes:jpg,jpeg,png|max:2048',
+                'img_carousel' => 'Data berhasil disimpan.image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             if ($request->hasFile('img_carousel')) {

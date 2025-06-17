@@ -42,7 +42,7 @@ class IklanController
                 'subtitle2' => 'required|string|max:255',
                 'subtitle3' => 'required|string|max:255',
                 'subtitle4' => 'required|string|max:255',
-                'subtitle5' => 'required|string|max:255',
+                // 'subtitle5' => 'required|string|max:255',
             ]);
 
             $imgPath = null;
@@ -80,13 +80,13 @@ class IklanController
             }
 
             $request->validate([
-                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
                 'subtitle1' => 'required|string|max:255',
                 'subtitle2' => 'required|string|max:255',
                 'subtitle3' => 'required|string|max:255',
                 'subtitle4' => 'required|string|max:255',
-                'subtitle5' => 'required|string|max:255',
+                // 'subtitle5' => 'required|string|max:255',
             ]);
 
             if ($request->hasFile('img')) {
@@ -146,7 +146,7 @@ class IklanController
                 'img'        => $imgPath,
             ]);
 
-            return back()->with('success', 'Data testimonial berhasil disimpan.');
+            return back()->with('success', 'Data berhasil disimpan.');
         } catch (\Exception $e) {
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
@@ -169,7 +169,7 @@ class IklanController
             $testimoni->subtitle1 = $request->subtitle1;
             $testimoni->save();
 
-            return back()->with('success', 'Data testimonial berhasil disimpan.');
+            return back()->with('success', 'Data berhasil disimpan.');
         } catch (\Exception $e) {
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
@@ -228,7 +228,7 @@ class IklanController
 
             $request->validate([
                 'content' => 'required|string',
-                'img_mealb' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'img_mealb' => 'image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             if ($request->hasFile('img_mealb')) {
@@ -325,7 +325,7 @@ class IklanController
             }
 
             $request->validate([
-                'img_testimoni' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'img_testimoni' => 'image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             if ($request->hasFile('img_testimoni')) {
@@ -515,7 +515,7 @@ class IklanController
             }
 
             $request->validate([
-                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
                 'subtitle1' => 'required|string|max:255',
                 'subtitle2' => 'required|string|max:255',
@@ -611,8 +611,8 @@ class IklanController
             }
 
             $request->validate([
-                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-                'img2' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'image|mimes:jpg,jpeg,png|max:2048',
+                'img2' => 'image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
                 'subtitle1' => 'required|string|max:255',
             ]);

@@ -81,7 +81,7 @@ class PromoController
                 'subtitle2'  => $request->subtitle2,
             ]);
 
-            return back()->with('success', 'Data testimonial berhasil disimpan.');
+            return back()->with('success', 'Data berhasil disimpan.');
         } catch (\Exception $e) {
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }

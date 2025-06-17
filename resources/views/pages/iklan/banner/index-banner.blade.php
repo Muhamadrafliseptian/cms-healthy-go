@@ -39,6 +39,12 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="subtitle1" class="form-label">Image Banner</label>
+                        <input type="file" name="img" id="img" class="form-control" accept="image/*"
+                            {{ $section ? '' : 'required' }}>
+                    </div>
+
+                    <div class="mb-3">
                         <label for="subtitle1" class="form-label">Headline</label>
                         <textarea name="subtitle1" id="subtitle1" class="form-control ckeditor" rows="3">{{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea>
                     </div>
