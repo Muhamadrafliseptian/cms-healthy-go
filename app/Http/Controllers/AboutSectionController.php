@@ -38,7 +38,6 @@ class AboutSectionController
         }
     }
 
-
     public function storeSectionBanner(Request $request)
     {
         try {
@@ -81,7 +80,7 @@ class AboutSectionController
             }
 
             $request->validate([
-                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
                 'subtitle1' => 'required|string',
             ]);
@@ -175,7 +174,7 @@ class AboutSectionController
             }
 
             $request->validate([
-                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
                 'subtitle1' => 'required|string',
             ]);
@@ -270,7 +269,7 @@ class AboutSectionController
             }
 
             $request->validate([
-                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'img' => 'image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
                 'subtitle1' => 'required|string',
             ]);
