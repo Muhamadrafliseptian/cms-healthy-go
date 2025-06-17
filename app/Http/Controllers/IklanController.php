@@ -37,7 +37,7 @@ class IklanController
 
             $request->validate([
                 'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-                'title' => 'required|string|max:255',
+                'title' => 'string|max:255',
                 'subtitle1' => 'required|string|max:255',
                 'subtitle2' => 'required|string|max:255',
                 'subtitle3' => 'required|string|max:255',
@@ -81,7 +81,7 @@ class IklanController
 
             $request->validate([
                 'img' => 'image|mimes:jpg,jpeg,png|max:2048',
-                'title' => 'required|string|max:255',
+                'title' => 'string|max:255',
                 'subtitle1' => 'required|string|max:255',
                 'subtitle2' => 'required|string|max:255',
                 'subtitle3' => 'required|string|max:255',
