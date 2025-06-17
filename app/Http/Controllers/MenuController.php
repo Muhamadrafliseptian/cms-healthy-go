@@ -125,10 +125,7 @@ class MenuController
 
             return redirect()->back()->with('success', 'Menu berhasil diperbarui.');
         } catch (\Exception $e) {
-            Log::error('Batch Menu Update Error: ' . $e->getMessage());
-
-            dd($e->getMessage());
-            return back()->with('error', 'Terjadi kesalahan saat memperbarui data.');
+            return back()->with('error', $e->getMessage());
         }
     }
 
