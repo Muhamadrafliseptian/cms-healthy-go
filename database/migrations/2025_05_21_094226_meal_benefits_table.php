@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('lpta_mealb', function(Blueprint $table){
             $table->id();
             $table->string('img_mealb')->nullable();
-            $table->string('content')->nullable();
+            $table->longText('content')->nullable();
             $table->timestamps();
         });
     }

@@ -244,6 +244,7 @@ class IklanController
 
             return redirect()->back()->with('success', 'berhasil tambah diperbarui');
         } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
