@@ -1,8 +1,8 @@
 @extends('layouts.main')
-
 @section('css')
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -112,8 +112,8 @@
                             {!! $item->content !!}
                         </td>
                         <td>
-                            <img src="{{ asset('storage/' . $item->img_mealb) }}" alt="Certificate Image" class="img-fluid"
-                                width="150">
+                            <img src="{{ asset('storage/' . $item->img_mealb) }}" alt="Certificate Image"
+                                class="img-fluid" width="150">
                         </td>
                         <td>
                             <button class="btn btn-sm btn-primary btn-edit" data-id="{{ $item->id }}"
@@ -138,41 +138,65 @@
         </table>
     </div>
 @endsection
-
 @section('js')
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
-    <script>
-        ClassicEditor
-            .create(document.querySelector('#content'))
-            .catch(error => {
-                console.error(error);
-            });
-    </script>
+
     <script>
         $(document).ready(function() {
             $('#certificate').DataTable({
                 scrollX: true,
                 responsive: true
             });
-            ClassicEditor
-                .create(document.querySelector('#edit_answer_content'))
-                .then(editor => {
-                    window.editEditor = editor;
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-                $(document).on('click', '.btn-edit', function () {
+
+            $('#content').summernote({
+                height: 200,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'italic', 'underline', 'strikethrough', 'superscript',
+                        'subscript', 'clear'
+                    ]],
+                    ['fontname', ['fontname']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video', 'hr']],
+                    ['view', ['fullscreen', 'codeview', 'help']],
+                ]
+            });
+
+            $('#edit_answer_content').summernote({
+                height: 200,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'italic', 'underline', 'strikethrough', 'superscript',
+                        'subscript', 'clear'
+                    ]],
+                    ['fontname', ['fontname']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video', 'hr']],
+                    ['view', ['fullscreen', 'codeview', 'help']],
+                ]
+            });
+
+            $(document).on('click', '.btn-edit', function() {
                 const id = $(this).data('id');
                 const image = $(this).data('image');
                 const content = $(this).data('content');
-                window.editEditor.setData(content);
 
                 $('#edit-id').val(id);
                 $('#previewImg').attr('src', '/storage/' + image);
+                $('#edit_answer_content').summernote('code', content);
 
                 const actionUrl = `/dashboard/iklan/benefit/put/${id}`;
                 $('#editForm').attr('action', actionUrl);
