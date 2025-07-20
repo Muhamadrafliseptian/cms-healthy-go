@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AboutImage;
 use App\Models\MasterSectionCategory;
 use App\Models\SectionContent;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -289,6 +291,19 @@ class AboutSectionController
             return redirect()->back()->with('success', 'Data berhasil diperbarui.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function image(){
+        try {
+            $data = AboutImage::all();
+
+            return response()->json([
+                'data' => $data,
+                'status' => "success",
+            ]);
+        } catch (Exception $err){
+
         }
     }
 }

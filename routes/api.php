@@ -36,6 +36,7 @@ Route::prefix('lp')->group(function () {
     Route::prefix('about')->group(function () {
         Route::prefix('section')->group(function () {
             Route::post('banner', [AboutSectionController::class, 'index']);
+            Route::post('image', [AboutSectionController::class, 'image']);
             Route::post('description', [AboutSectionController::class, 'indexContentDescription']);
             Route::post('milestone', [MilestoneController::class, 'index']);
         });
