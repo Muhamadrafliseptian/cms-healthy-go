@@ -22,18 +22,21 @@ class AboutSectionController
                 ->whereIn('menu_id', $categories->pluck('id'))
                 ->get()
                 ->keyBy('section');
+            $data = AboutImage::all();
 
             if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'success',
                     'data' => [
                         'section' => $sections->get('sabout'),
+                        'image' => $data
                     ]
                 ], 200);
             }
 
             return view('pages.about-us.banner.index-banner', [
                 'section' => $sections->get('sabout'),
+                'data' => $data,
             ]);
         } catch (\Exception $e) {
             abort(500, 'Terjadi kesalahan saat memuat data.');
@@ -199,7 +202,6 @@ class AboutSectionController
         }
     }
 
-
     public function indexFooter(Request $request)
     {
         try {
@@ -294,16 +296,63 @@ class AboutSectionController
         }
     }
 
-    public function image(){
+    public function storeImage(Request $request)
+    {
         try {
-            $data = AboutImage::all();
-
-            return response()->json([
-                'data' => $data,
-                'status' => "success",
+            $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
-        } catch (Exception $err){
 
+            $path = $request->file('image')->store('about_images', 'public');
+
+            $image = new AboutImage();
+            $image->image = $path;
+            $image->save();
+
+            return redirect()->back()->with('success', 'Data berhasil diperbarui.');
+        } catch (Exception $err) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $err->getMessage());
+        }
+    }
+
+    public function updateImage(Request $request, $id)
+    {
+        try {
+            $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+
+            $image = AboutImage::findOrFail($id);
+
+            // Hapus gambar lama jika ada
+            if ($image->image && Storage::disk('public')->exists($image->image)) {
+                Storage::disk('public')->delete($image->image);
+            }
+
+            $path = $request->file('image')->store('about_images', 'public');
+            $image->image = $path;
+            $image->save();
+
+            return redirect()->back()->with('success', 'Data berhasil diperbarui.');
+        } catch (Exception $err) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $err->getMessage());
+        }
+    }
+
+    public function destroyImage($id)
+    {
+        try {
+            $image = AboutImage::findOrFail($id);
+
+            if ($image->image && Storage::disk('public')->exists($image->image)) {
+                Storage::disk('public')->delete($image->image);
+            }
+
+            $image->delete();
+
+            return redirect()->back()->with('success', 'Data berhasil diperbarui.');
+        } catch (Exception $err) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $err->getMessage());
         }
     }
 }

@@ -87,6 +87,11 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
             Route::post('store', [AboutSectionController::class, 'storeSectionDescription'])->name('section.about.description.store');
             Route::put('put/{id}', [AboutSectionController::class, 'updateSectionDescription'])->name('section.about.description.put');
         });
+        Route::prefix('image')->group(function () {
+            Route::post('store', [AboutSectionController::class, 'storeImage'])->name('section.about.storeImage.store');
+            Route::put('put/{id}', [AboutSectionController::class, 'updateImage'])->name('section.about.updateImage.put');
+            Route::delete('destroy/{id}', [AboutSectionController::class, 'destroyImage'])->name('section.about.destroyImage.destroy');
+        });
     });
 
     Route::prefix('product-service')->group(function () {
