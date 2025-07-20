@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('lpt_promo', function(Blueprint $table){
             $table->id();
+            $table->string('img')->nullable();
             $table->string('title_promo')->nullable();
             $table->text('content_promo')->nullable();
             $table->timestamps();

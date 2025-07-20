@@ -66,14 +66,18 @@
         <div class="modal fade" id="addMealModal" tabindex="-1" aria-labelledby="addMealModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
-                <form action="{{ route('promo.store') }}" method="POST">
+                <form action="{{ route('promo.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="addMealModalLabel">Add Data</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                <label for="img" class="form-label">Pilih Gambar</label>
+                                <input type="file" class="form-control" name="img" accept="image/*">
+                            </div>
                             <div class="mb-3">
                                 <label for="title_promo" class="form-label">Title</label>
                                 <input type="text" class="form-control" id="title_promo" name="title_promo">
@@ -95,7 +99,7 @@
 
     <div class="modal fade" id="editPromoModal" tabindex="-1" aria-labelledby="editPromoModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form id="editPromoForm" method="POST">
+            <form id="editPromoForm" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="modal-content">
@@ -104,6 +108,10 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="edit_img" class="form-label">Img</label>
+                            <input type="file" class="form-control" id="edit_img" name="img">
+                        </div>
                         <div class="mb-3">
                             <label for="edit_title_promo" class="form-label">Title</label>
                             <input type="text" class="form-control" id="edit_title_promo" name="title_promo">
@@ -136,6 +144,9 @@
                     Content
                 </th>
                 <th>
+                    Image
+                </th>
+                <th>
                     Aksi
                 </th>
             </tr>
@@ -144,7 +155,7 @@
             @foreach ($data as $index => $item)
                 <tr class="alignMiddle">
                     <td class="text-center">
-                        1
+                        {{ $index +1 }}
                     </td>
                     <td class="text-center" style="">
                         {{ $item->title_promo }}
@@ -152,8 +163,13 @@
                     <td>
                         {!! $item->content_promo !!}
                     </td>
+                    <td>
+                        <img src="{{ asset('storage/' . $item->img) }}" alt="Certificate Image"
+                            class="img-fluid" width="150">
+                    </td>
                     <td class="text-center">
                         <button class="btn btn-sm btn-primary btn-edit" data-id="{{ $item->id }}"
+                            data-image="{{ $item->img }}"
                             data-title="{{ $item->title_promo }}" data-content="{{ $item->content_promo }}"
                             data-bs-toggle="modal" data-bs-target="#editPromoModal">
                             Edit
@@ -221,6 +237,7 @@
             const id = $(this).data('id');
             const title = $(this).data('title');
             const content = $(this).data('content');
+            const img = $(this).data('image');
 
             $('#edit_title_promo').val(title);
             window.editEditor.setData(content);

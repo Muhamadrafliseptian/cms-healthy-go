@@ -8,6 +8,7 @@ use App\Models\Promo;
 use App\Models\SectionContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class PromoController
 {
@@ -43,11 +44,26 @@ class PromoController
     {
         try {
             $request->validate([
+                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title_promo' => 'required|string',
                 'content_promo' => 'required|string',
             ]);
 
-            $promo = Promo::create($request->only('title_promo', 'content_promo'));
+            $imgPath = null;
+
+            if ($request->hasFile('img')) {
+                $imgPath = $request->file('img')->store('promo', 'public');
+            }
+
+            $img = Promo::create([
+                'img' => $imgPath,
+            ]);
+
+            $promo = Promo::create([
+                'title_promo' => $request->title_promo,
+                'content_promo' => $request->content_promo,
+                'img' => $img
+            ]);
 
             if ($request->wantsJson()) {
                 return response()->json([
@@ -138,33 +154,33 @@ class PromoController
             $promo = Promo::find($id);
 
             if (!$promo) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Promo tidak ditemukan',
-                    'data' => null
-                ], 404);
+                return redirect()->back()->with('error', 'Promo tidak ditemukan');
             }
 
-            $promo->update($request->only('title_promo', 'content_promo'));
+            $request->validate([
+                'img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'title_promo' => 'required|string',
+                'content_promo' => 'required|string',
+            ]);
 
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'Promo berhasil diperbarui',
-                    'data' => $promo
-                ], 200);
+            if ($request->hasFile('img')) {
+                if ($promo->img && Storage::disk('public')->exists($promo->img)) {
+                    Storage::disk('public')->delete($promo->img);
+                }
+
+                $promo->img = $request->file('img')->store('promo', 'public');
             }
 
-            return redirect()->back()->with('success', 'Data promo berhasil ditambah');
+            $promo->title_promo = $request->title_promo;
+            $promo->content_promo = $request->content_promo;
+            $promo->save();
+
+            return redirect()->back()->with('success', 'Data promo berhasil diperbarui');
         } catch (\Exception $e) {
-            Log::error('Promo Update Error: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan saat memperbarui promo',
-                'data' => null
-            ], 500);
+            return redirect()->back()->with('error', 'Promo Update Error: ' . $e->getMessage());
         }
     }
+
 
     public function destroy(Request $request, $id)
     {

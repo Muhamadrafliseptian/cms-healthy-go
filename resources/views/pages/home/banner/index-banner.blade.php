@@ -62,6 +62,10 @@
                         <label for="title" class="form-label">Headline</label>
                         <textarea name="title" id="subtitlee" class="form-control" rows="3">{{ old('title', $section->title ?? '') }}</textarea>
                     </div>
+                    <div class="mb-3">
+                        <label for="subtitle1" class="form-label">Sub Headline</label>
+                        <textarea name="subtitle1" id="subtitle1" class="form-control" rows="3">{{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea>
+                    </div>
 
                     <button type="submit" class="btn btn-primary w-100">
                         {{ $section ? 'Perbarui Data' : 'Simpan Data' }}
@@ -70,7 +74,7 @@
             </div>
         </div>
 
-        <div class="card shadow-sm mt-5">
+        {{-- <div class="card shadow-sm mt-5">
             <div class="card-body">
                 <h4 class="card-title mb-3">{{ $section2 ? 'Edit Description' : 'Tambah Description' }}</h4>
                 <form
@@ -117,7 +121,7 @@
                     </button>
                 </form>
             </div>
-        </div>
+        </div> --}}
 
 
     </div>

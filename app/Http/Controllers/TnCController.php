@@ -120,25 +120,23 @@ class TnCController
             $category = MasterSectionCategory::where('slug', 'btnc')->first();
 
             $request->validate([
-                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                // 'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
                 'subtitle1' => 'required|string',
                 'subtitle2' => 'required|string',
-                'subtitle3' => 'required|string',
             ]);
 
-            $imgPath = null;
+            // $imgPath = null;
 
-            if ($request->hasFile('img')) {
-                $imgPath = $request->file('img')->store('tnc', 'public');
-            }
+            // if ($request->hasFile('img')) {
+            //     $imgPath = $request->file('img')->store('tnc', 'public');
+            // }
 
             SectionContent::create([
-                'img' => $imgPath,
+                // 'img' => $imgPath,
                 'title' => $request->title,
                 'subtitle1' => $request->subtitle1,
                 'subtitle2' => $request->subtitle2,
-                'subtitle3' => $request->subtitle3,
                 'menu_id' => $category->id,
                 'section' => 'btnc',
             ]);
@@ -159,22 +157,22 @@ class TnCController
             }
 
             $request->validate([
-                'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                // 'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'title' => 'required|string|max:255',
                 'subtitle1' => 'required|string',
+                'subtitle2' => 'required|string',
             ]);
 
-            if ($request->hasFile('img')) {
-                if ($benefit->img && Storage::disk('public')->exists($benefit->img)) {
-                    Storage::disk('public')->delete($benefit->img);
-                }
-                $benefit->img = $request->file('img')->store('about', 'public');
-            }
+            // if ($request->hasFile('img')) {
+            //     if ($benefit->img && Storage::disk('public')->exists($benefit->img)) {
+            //         Storage::disk('public')->delete($benefit->img);
+            //     }
+            //     $benefit->img = $request->file('img')->store('about', 'public');
+            // }
 
             $benefit->title = $request->title;
             $benefit->subtitle1 = $request->subtitle1;
             $benefit->subtitle2 = $request->subtitle2;
-            $benefit->subtitle3 = $request->subtitle3;
 
             $benefit->save();
 

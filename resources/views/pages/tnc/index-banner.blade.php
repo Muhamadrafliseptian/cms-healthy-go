@@ -27,7 +27,7 @@
                         @method('PUT')
                     @endif
 
-                    <div class="row mb-4">
+                    {{-- <div class="row mb-4">
                         @if ($section && $section->img)
                             <div class="col-md-12 text-center">
                                 <img src="{{ asset('storage/' . $section->img) }}" class="img-thumbnail"
@@ -40,7 +40,7 @@
                     <div class="mb-3">
                         <label for="img" class="form-label">Upload Gambar Banner</label>
                         <input type="file" name="img" class="form-control">
-                    </div>
+                    </div> --}}
 
                     <div class="mb-3">
                         <label for="title" class="form-label">Headline</label>
