@@ -9,7 +9,7 @@
 
     <div class="border rounded p-3 mb-3">
         <h6 class="fw-bold">{{ $day }}</h6>
-        <input type="hidden" name="menus[{{ $index }}][day]" value="{{ $day }}">
+        {{-- <input type="hidden" name="menus[{{ $index }}][day]" value="{{ $day }}">
 
         <div class="mb-2">
             <label for="{{ $prefix }}lunch_menu_{{ $index }}" class="form-label">Lunch Menu</label>
@@ -21,7 +21,7 @@
             <label for="{{ $prefix }}dinner_menu_{{ $index }}" class="form-label">Dinner Menu</label>
             <input type="text" name="menus[{{ $index }}][dinner_menu]"
                 id="{{ $prefix }}dinner_menu_{{ $index }}" class="form-control">
-        </div>
+        </div> --}}
 
         <div class="mb-2">
             <label class="form-label">Gambar Menu</label>

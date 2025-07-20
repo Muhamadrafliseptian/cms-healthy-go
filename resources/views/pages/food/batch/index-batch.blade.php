@@ -80,9 +80,9 @@
                     <th>No</th>
                     <th>Batch</th>
                     <th>Periode</th>
-                    <th>Hari</th>
+                    {{-- <th>Hari</th>
                     <th>Lunch Menu</th>
-                    <th>Dinner Menu</th>
+                    <th>Dinner Menu</th> --}}
                     <th>Image</th>
                     <th>Aksi</th>
                 </tr>
@@ -98,7 +98,7 @@
                             <br>{{ \Carbon\Carbon::parse($item->batch->start_date)->translatedFormat('d F Y') }} s/d
                             <br>{{ \Carbon\Carbon::parse($item->batch->end_date)->translatedFormat('d F Y') }}
                         </td>
-                        <td>
+                        {{-- <td>
                             {!! $item->day !!}
                         </td>
                         <td>
@@ -106,7 +106,7 @@
                         </td>
                         <td>
                             {!! $item->lunch_menu !!}
-                        </td>
+                        </td> --}}
                         <td><img src="{{ asset('storage/' . $item->img_menu) }}" alt="Program Image" width="150"></td>
                         <td>
                             <button class="btn btn-sm btn-primary btn-edit" data-id="{{ $item->id }}"

@@ -40,7 +40,7 @@ class MenuController
             }
 
 
-            $data = Menu::all();
+            $data = Menu::orderBy('id', 'desc')->get();
             $batches = MasterBatch::orderByDesc('start_date')->get();
             return view('pages.food.batch.index-batch', compact('data', 'batches'));
         } catch (\Exception $e) {
@@ -58,9 +58,9 @@ class MenuController
         try {
             $request->validate([
                 'menus' => 'required|array|min:1',
-                'menus.*.day' => 'required|string',
-                'menus.*.lunch_menu' => 'required|string',
-                'menus.*.dinner_menu' => 'required|string',
+                // 'menus.*.day' => 'required|string',
+                // 'menus.*.lunch_menu' => 'required|string',
+                // 'menus.*.dinner_menu' => 'required|string',
                 'menus.*.img_menu' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                 'batch_id' => 'required|exists:lptm_batch,id',
             ]);
@@ -79,9 +79,9 @@ class MenuController
 
                 Menu::create([
                     'batch_id' => $request->batch_id,
-                    'day' => $menuData['day'],
-                    'lunch_menu' => $menuData['lunch_menu'],
-                    'dinner_menu' => $menuData['dinner_menu'],
+                    // 'day' => $menuData['day'],
+                    // 'lunch_menu' => $menuData['lunch_menu'],
+                    // 'dinner_menu' => $menuData['dinner_menu'],
                     'img_menu' => $imgPath,
                 ]);
             }
@@ -100,9 +100,9 @@ class MenuController
             $request->validate([
                 'id' => 'required|exists:lpt_batch_menu,id',
                 // 'batch_id' => 'required|exists:lptm_batch,id',
-                'day' => 'required|string',
-                'lunch_menu' => 'required|string',
-                'dinner_menu' => 'required|string',
+                // 'day' => 'required|string',
+                // 'lunch_menu' => 'required|string',
+                // 'dinner_menu' => 'required|string',
                 'img_menu' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
@@ -117,9 +117,9 @@ class MenuController
             }
 
             // $menu->batch_id = $request->batch_id;
-            $menu->day = $request->day;
-            $menu->lunch_menu = $request->lunch_menu;
-            $menu->dinner_menu = $request->dinner_menu;
+            // $menu->day = $request->day;
+            // $menu->lunch_menu = $request->lunch_menu;
+            // $menu->dinner_menu = $request->dinner_menu;
 
             $menu->save();
 

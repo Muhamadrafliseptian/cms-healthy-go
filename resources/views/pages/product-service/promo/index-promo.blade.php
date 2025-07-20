@@ -155,7 +155,7 @@
             @foreach ($data as $index => $item)
                 <tr class="alignMiddle">
                     <td class="text-center">
-                        {{ $index +1 }}
+                        {{ $index + 1 }}
                     </td>
                     <td class="text-center" style="">
                         {{ $item->title_promo }}
@@ -164,14 +164,14 @@
                         {!! $item->content_promo !!}
                     </td>
                     <td>
-                        <img src="{{ asset('storage/' . $item->img) }}" alt="Certificate Image"
-                            class="img-fluid" width="150">
+                        <img src="{{ asset('storage/' . $item->img) }}" alt="Certificate Image" class="img-fluid"
+                            width="150">
                     </td>
                     <td class="text-center">
                         <button class="btn btn-sm btn-primary btn-edit" data-id="{{ $item->id }}"
-                            data-image="{{ $item->img }}"
-                            data-title="{{ $item->title_promo }}" data-content="{{ $item->content_promo }}"
-                            data-bs-toggle="modal" data-bs-target="#editPromoModal">
+                            data-image="{{ $item->img }}" data-title="{{ $item->title_promo }}"
+                            data-content="{{ $item->content_promo }}" data-bs-toggle="modal"
+                            data-bs-target="#editPromoModal">
                             Edit
                         </button>
 

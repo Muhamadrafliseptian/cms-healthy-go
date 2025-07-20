@@ -8,7 +8,7 @@
             @endforeach
         </select>
     </div> --}}
-    <div class="mb-3" hidden>
+    {{-- <div class="mb-3" hidden>
         <label for="edit_day" class="form-label" hidden>Hari</label>
         <input type="text" name="day" id="edit_day" class="form-control" placeholder="Contoh: Senin" hidden>
     </div>
@@ -21,7 +21,7 @@
         <label for="edit_dinner_menu" class="form-label">Menu Makan Malam</label>
         <input type="text" name="dinner_menu" id="edit_dinner_menu" class="form-control"
             placeholder="Contoh: Sup Ayam">
-    </div>
+    </div> --}}
     <div class="mb-3">
         <label for="edit_img_menu" class="form-label">Gambar Menu</label>
         <input type="file" name="img_menu" id="edit_img_menu" class="form-control">
