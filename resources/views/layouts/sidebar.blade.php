@@ -78,6 +78,9 @@
                             </nav>
                         </div>
 
+
+
+
                         <a class="nav-link {{ $homeActive ? '' : 'collapsed' }}" href="#"
                             data-bs-toggle="collapse" data-bs-target="#homeCollapse"
                             aria-expanded="{{ $homeActive ? 'true' : 'false' }}" aria-controls="homeCollapse">
@@ -240,6 +243,44 @@
                                     href="{{ route('section.tnc.jadwal.index') }}">Jadwal Pengiriman</a>
                                 <a class="nav-link {{ Request::is('dashboard/etc/tnc/section/notes-delivery*') ? 'active' : '' }}"
                                     href="{{ route('tnc.index') }}">Notes Pengantaran</a>
+                            </nav>
+                        </div>
+
+
+                        <a class="nav-link {{ $homeActive ? '' : 'collapsed' }}" href="#"
+                            data-bs-toggle="collapse" data-bs-target="#homeCollapse"
+                            aria-expanded="{{ $homeActive ? 'true' : 'false' }}" aria-controls="homeCollapse">
+                            HG For Men
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+
+                        <div class="collapse {{ $homeActive ? 'show' : '' }}" id="homeCollapse"
+                            data-bs-parent="#sidenavAccordionMenu">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link {{ Request::is('dashboard/home/banner*') ? 'active' : '' }}"
+                                    href="{{ route('section.home.index') }}">Section 1</a>
+                                    <a class="nav-link {{ Request::is('dashboard/home/banner*') ? 'active' : '' }}"
+                                    href="{{ route('section.home.index') }}">Section 2</a>
+                                    <a class="nav-link {{ Request::is('dashboard/home/banner*') ? 'active' : '' }}"
+                                    href="{{ route('section.home.index') }}">Section 3</a>
+                                    <a class="nav-link {{ Request::is('dashboard/home/banner*') ? 'active' : '' }}"
+                                    href="{{ route('section.home.index') }}">Section 4</a>
+                                    <a class="nav-link {{ Request::is('dashboard/home/banner*') ? 'active' : '' }}"
+                                    href="{{ route('section.home.index') }}">Section 5</a>
+                                    <a class="nav-link {{ Request::is('dashboard/home/banner*') ? 'active' : '' }}"
+                                    href="{{ route('section.home.index') }}">Section 6</a>
+                                    <a class="nav-link {{ Request::is('dashboard/home/banner*') ? 'active' : '' }}"
+                                    href="{{ route('section.home.index') }}">Section 7</a>
+                                    <a class="nav-link {{ Request::is('dashboard/home/banner*') ? 'active' : '' }}"
+                                    href="{{ route('section.home.index') }}">Section 8</a>
+                                    <a class="nav-link {{ Request::is('dashboard/home/banner*') ? 'active' : '' }}"
+                                    href="{{ route('section.home.index') }}">Section 9</a>
+                                    <a class="nav-link {{ Request::is('dashboard/home/banner*') ? 'active' : '' }}"
+                                    href="{{ route('section.home.index') }}">Section 10</a>
+                                    <a class="nav-link {{ Request::is('dashboard/home/banner*') ? 'active' : '' }}"
+                                    href="{{ route('section.home.index') }}">Section 11</a>
+                                    <a class="nav-link {{ Request::is('dashboard/home/banner*') ? 'active' : '' }}"
+                                    href="{{ route('section.home.index') }}">Section 12</a>
                             </nav>
                         </div>
                     </nav>
