@@ -15,6 +15,7 @@
                         Request::is('dashboard/master/konten*') ||
                         Request::is('dashboard/master/section-category*') ||
                         Request::is('dashboard/administrator*') ||
+                        Request::is('dashboard/hgfm/sections/get*') ||
                         Request::is('dashboard/meta*');
                 @endphp
 
@@ -30,6 +31,7 @@
                             $masterActive = Request::is('dashboard/master/konten*');
                             $iklanActive = Request::is('dashboard/iklan*');
                             $partnershipActive = Request::is('dashboard/partnership*');
+                            $sectionActive = Request::is('dashboard/hgfm/sections/get*');
                         @endphp
                         <a class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}"
                             href="{{ route('dashboard') }}">
@@ -51,7 +53,8 @@
 
                         <a class="nav-link {{ $masterActive ? '' : 'collapsed' }}" href="#"
                             data-bs-toggle="collapse" data-bs-target="#masterKontenCollapse"
-                            aria-expanded="{{ $masterActive ? 'true' : 'false' }}" aria-controls="masterKontenCollapse">
+                            aria-expanded="{{ $masterActive ? 'true' : 'false' }}"
+                            aria-controls="masterKontenCollapse">
                             Master
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
@@ -247,40 +250,38 @@
                         </div>
 
 
-                        <a class="nav-link {{ $homeActive ? '' : 'collapsed' }}" href="#"
-                            data-bs-toggle="collapse" data-bs-target="#homeCollapse"
-                            aria-expanded="{{ $homeActive ? 'true' : 'false' }}" aria-controls="homeCollapse">
+                        <a class="nav-link {{ $sectionActive ? '' : 'collapsed' }}" href="#"
+                            data-bs-toggle="collapse" data-bs-target="#sectionCollapse"
+                            aria-expanded="{{ $sectionActive ? 'true' : 'false' }}" aria-controls="sectionCollapse">
                             HG For Men
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
 
-                        <div class="collapse {{ $homeActive ? 'show' : '' }}" id="homeCollapse"
+                        <div class="collapse {{ $sectionActive ? 'show' : '' }}" id="sectionCollapse"
                             data-bs-parent="#sidenavAccordionMenu">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link {{ Request::is('dashboard/home/banner*') ? 'active' : '' }}"
-                                    href="{{ route('section.home.index') }}">Section 1</a>
-                                    <a class="nav-link {{ Request::is('dashboard/home/banner*') ? 'active' : '' }}"
-                                    href="{{ route('section.home.index') }}">Section 2</a>
-                                    <a class="nav-link {{ Request::is('dashboard/home/banner*') ? 'active' : '' }}"
-                                    href="{{ route('section.home.index') }}">Section 3</a>
-                                    <a class="nav-link {{ Request::is('dashboard/home/banner*') ? 'active' : '' }}"
-                                    href="{{ route('section.home.index') }}">Section 4</a>
-                                    <a class="nav-link {{ Request::is('dashboard/home/banner*') ? 'active' : '' }}"
-                                    href="{{ route('section.home.index') }}">Section 5</a>
-                                    <a class="nav-link {{ Request::is('dashboard/home/banner*') ? 'active' : '' }}"
-                                    href="{{ route('section.home.index') }}">Section 6</a>
-                                    <a class="nav-link {{ Request::is('dashboard/home/banner*') ? 'active' : '' }}"
-                                    href="{{ route('section.home.index') }}">Section 7</a>
-                                    <a class="nav-link {{ Request::is('dashboard/home/banner*') ? 'active' : '' }}"
-                                    href="{{ route('section.home.index') }}">Section 8</a>
-                                    <a class="nav-link {{ Request::is('dashboard/home/banner*') ? 'active' : '' }}"
-                                    href="{{ route('section.home.index') }}">Section 9</a>
-                                    <a class="nav-link {{ Request::is('dashboard/home/banner*') ? 'active' : '' }}"
-                                    href="{{ route('section.home.index') }}">Section 10</a>
-                                    <a class="nav-link {{ Request::is('dashboard/home/banner*') ? 'active' : '' }}"
-                                    href="{{ route('section.home.index') }}">Section 11</a>
-                                    <a class="nav-link {{ Request::is('dashboard/home/banner*') ? 'active' : '' }}"
-                                    href="{{ route('section.home.index') }}">Section 12</a>
+                                <a class="nav-link {{ Request::is('dashboard/hgfm/sections/get/hero*') ? 'active' : '' }}"
+                                    href="{{ route('hgfm.sections.get.hero') }}">Hero</a>
+                                <a class="nav-link {{ Request::is('dashboard/hgfm/sections/get/strategy*') ? 'active' : '' }}"
+                                    href="{{ route('hgfm.sections.get.strategy') }}">Strategy</a>
+                                <a class="nav-link {{ Request::is('dashboard/hgfm/sections/get/food*') ? 'active' : '' }}"
+                                    href="{{ route('hgfm.sections.get.food') }}">Food</a>
+                                <a class="nav-link {{ Request::is('dashboard/hgfm/sections/get/protein*') ? 'active' : '' }}"
+                                    href="{{ route('hgfm.sections.get.protein') }}">Protein</a>
+                                <a class="nav-link {{ Request::is('dashboard/hgfm/sections/get/solution*') ? 'active' : '' }}"
+                                    href="{{ route('hgfm.sections.get.solution') }}">Solution</a>
+                                <a class="nav-link {{ Request::is('dashboard/hgfm/sections/get/progress*') ? 'active' : '' }}"
+                                    href="{{ route('hgfm.sections.get.progress') }}">Progress</a>
+                                <a class="nav-link {{ Request::is('dashboard/hgfm/sections/get/whats-inside*') ? 'active' : '' }}"
+                                    href="{{ route('hgfm.sections.get.whatsinside') }}">Whats Inside</a>
+                                <a class="nav-link {{ Request::is('dashboard/hgfm/sections/get/social-proof*') ? 'active' : '' }}"
+                                    href="{{ route('hgfm.sections.get.socialProof') }}">Social Proof</a>
+                                <a class="nav-link {{ Request::is('dashboard/hgfm/sections/get/testimoni*') ? 'active' : '' }}"
+                                    href="{{ route('hgfm.sections.get.testimoni') }}">Testimoni</a>
+                                <a class="nav-link {{ Request::is('dashboard/hgfm/sections/get/faq*') ? 'active' : '' }}"
+                                    href="{{ route('hgfm.sections.get.faq') }}">Faq</a>
+                                <a class="nav-link {{ Request::is('dashboard/hgfm/sections/get/delivery*') ? 'active' : '' }}"
+                                    href="{{ route('hgfm.sections.get.delivery') }}">Delivery</a>
                             </nav>
                         </div>
                     </nav>

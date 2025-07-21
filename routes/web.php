@@ -9,6 +9,8 @@ use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FoodSectionController;
+use App\Http\Controllers\HgoFm\SectionContentsFmController;
+use App\Http\Controllers\HgoFm\SectionFmController;
 use App\Http\Controllers\HomeSectionController;
 use App\Http\Controllers\IklanController;
 use App\Http\Controllers\MasterSectionCategoryController;
@@ -65,6 +67,27 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
             Route::put('section/put/{id}', [ServiceController::class, 'updateSectionService'])->name('section.service.put');
             Route::put('put/{id}', [ServiceController::class, 'update'])->name('service.put');
             Route::delete('destroy/{id}', [ServiceController::class, 'destroy'])->name('service.destroy');
+        });
+    });
+
+    Route::prefix("hgfm")->group(function(){
+        Route::prefix("sections")->group(function(){
+            Route::prefix("get")->group(function(){
+                Route::get('hero', [SectionContentsFmController::class, "hero"])->name('hgfm.sections.get.hero');
+                Route::get('strategy', [SectionContentsFmController::class, "strategy"])->name('hgfm.sections.get.strategy');
+                Route::get('food', [SectionContentsFmController::class, "food"])->name('hgfm.sections.get.food');
+                Route::get('protein', [SectionContentsFmController::class, "protein"])->name('hgfm.sections.get.protein');
+                Route::get('solution', [SectionContentsFmController::class, "solution"])->name('hgfm.sections.get.solution');
+                Route::get('progress', [SectionContentsFmController::class, "progress"])->name('hgfm.sections.get.progress');
+                Route::get('whats-inside', [SectionContentsFmController::class, "whatsinside"])->name('hgfm.sections.get.whatsinside');
+                Route::get('social-proof', [SectionContentsFmController::class, "socialProof"])->name('hgfm.sections.get.socialProof');
+                Route::get('testimoni', [SectionContentsFmController::class, "testimoni"])->name('hgfm.sections.get.testimoni');
+                Route::get('faq', [SectionContentsFmController::class, "faq"])->name('hgfm.sections.get.faq');
+                Route::get('delivery', [SectionContentsFmController::class, "delivery"])->name('hgfm.sections.get.delivery');
+            });
+            Route::prefix("store")->group(function(){
+                Route::post('{id}', [SectionFmController::class, "store"])->name('hgfm.sections.store');
+            });
         });
     });
 
