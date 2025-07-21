@@ -1,8 +1,11 @@
 @extends('layouts.main')
-
+@section('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+@endsection
 @section('content')
     <div class="container my-4">
-        {{-- Alert Messages --}}
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ session('success') }}
@@ -42,15 +45,8 @@
                         <label for="img" class="form-label">Upload Gambar</label>
                         <input type="file" name="img" class="form-control">
                     </div>
-
                     <div class="mb-3">
-                        <label for="title" class="form-label">Headline</label>
-                        <input type="text" name="title" class="form-control"
-                            value="{{ old('title', $section->title ?? '') }}">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="subtitle" class="form-label">Sub Headline</label>
+                        <label for="subtitle" class="form-label">Headline</label>
                         <textarea name="subtitle1" id="subtitle1" class="form-control mb-3">
                             {{ old('subtitle1', $section->subtitle1 ?? '') }}</textarea>
                     </div>
@@ -66,16 +62,25 @@
 @endsection
 
 @section('js')
-    <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
     <script>
-        const editors = ['subtitle1'];
-        editors.forEach(id => {
-            const el = document.querySelector(`#${id}`);
-            if (el) {
-                ClassicEditor
-                    .create(el)
-                    .catch(error => console.error(`CKEditor init failed for ${id}:`, error));
-            }
+        $(document).ready(function() {
+            $('#subtitle1').summernote({
+                height: 250,
+                tabsize: 2,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'italic', 'underline', 'clear']],
+                    ['fontname', ['fontname']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
         });
     </script>
 @endsection

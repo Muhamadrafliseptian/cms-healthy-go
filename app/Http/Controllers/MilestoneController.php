@@ -49,8 +49,8 @@ class MilestoneController
     {
         try {
             $request->validate([
-                'year' => 'required|string',
-                'title_milestone' => 'required|string',
+                // 'year' => 'required|string',
+                // 'title_milestone' => 'required|string',
                 'content_milestone' => 'required|string',
             ]);
 

@@ -77,11 +77,11 @@
                     @csrf
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addMilestoneModalLabel">Add New Service</h5>
+                            <h5 class="modal-title" id="addMilestoneModalLabel">Add New Milestone</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <div class="mb-3">
+                            {{-- <div class="mb-3">
                                 <label for="year" class="form-label">Year</label>
                                 <input type="text" class="form-control" id="year" name="year">
                             </div>
@@ -89,7 +89,7 @@
                                 <label for="title_milestone" class="form-label">Title</label>
                                 <input type="text" class="form-control" id="title_milestone" name="title_milestone"
                                 >
-                            </div>
+                            </div> --}}
                             <div class="mb-3">
                                 <label for="content_milestone" class="form-label">Content</label>
                                 <textarea name="content_milestone" id="content_milestone" rows="5" class="form-control"></textarea>
@@ -116,14 +116,14 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label for="edit_year" class="form-label">Year</label>
                             <input type="text" class="form-control" id="edit_year" name="year">
                         </div>
                         <div class="mb-3">
                             <label for="edit_title_milestone" class="form-label">Title</label>
                             <input type="text" class="form-control" id="edit_title_milestone" name="title_milestone">
-                        </div>
+                        </div> --}}
                         <div class="mb-3">
                             <label for="edit_content_milestone" class="form-label">Content</label>
                             <textarea class="form-control" name="content_milestone" id="edit_content_milestone" rows="5"></textarea>
@@ -145,12 +145,12 @@
                 <th>
                     No
                 </th>
-                <th>
+                {{-- <th>
                     Year
                 </th>
                 <th>
                     Title
-                </th>
+                </th> --}}
                 <th>
                     Content
                 </th>
@@ -163,14 +163,14 @@
             @foreach ($data as $index => $item)
                 <tr class="alignMiddle">
                     <td class="text-center">
-                        1
+                        {{ $index + 1 }}
                     </td>
-                    <td class="text-center" style="">
+                    {{-- <td class="text-center" style="">
                         {{ $item->year }}
                     </td>
                     <td class="text-center" style="">
                         {{ $item->title_milestone }}
-                    </td>
+                    </td> --}}
                     <td>
                         {!! $item->content_milestone !!}
                     </td>

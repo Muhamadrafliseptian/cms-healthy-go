@@ -145,7 +145,7 @@ class AboutSectionController
 
             $request->validate([
                 'img' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-                'title' => 'required|string|max:255',
+                // 'title' => 'required|string|max:255',
                 'subtitle1' => 'required|string',
             ]);
 
@@ -157,7 +157,7 @@ class AboutSectionController
 
             SectionContent::create([
                 'img' => $imgPath,
-                'title' => $request->title,
+                // 'title' => $request->title,
                 'subtitle1' => $request->subtitle1,
                 'menu_id' => $category->id,
                 'section' => 'sabout1',
@@ -180,7 +180,7 @@ class AboutSectionController
 
             $request->validate([
                 'img' => 'image|mimes:jpg,jpeg,png|max:2048',
-                'title' => 'required|string|max:255',
+                // 'title' => 'required|string|max:255',
                 'subtitle1' => 'required|string',
             ]);
 
@@ -191,7 +191,7 @@ class AboutSectionController
                 $benefit->img = $request->file('img')->store('about', 'public');
             }
 
-            $benefit->title = $request->title;
+            // $benefit->title = $request->title;
             $benefit->subtitle1 = $request->subtitle1;
 
             $benefit->save();
