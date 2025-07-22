@@ -9,8 +9,11 @@ use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FoodSectionController;
+use App\Http\Controllers\HgoFm\ProteinFmController;
 use App\Http\Controllers\HgoFm\SectionContentsFmController;
 use App\Http\Controllers\HgoFm\SectionFmController;
+use App\Http\Controllers\HgoFm\SolutionFmController;
+use App\Http\Controllers\HgoFm\TestimoniFmController;
 use App\Http\Controllers\HomeSectionController;
 use App\Http\Controllers\IklanController;
 use App\Http\Controllers\MasterSectionCategoryController;
@@ -87,6 +90,21 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
             });
             Route::prefix("store")->group(function(){
                 Route::post('{id}', [SectionFmController::class, "store"])->name('hgfm.sections.store');
+            });
+            Route::prefix("testimoni")->group(function(){
+                Route::post("store", [TestimoniFmController::class, "store"])->name('hgfm.sections.testimoni.store');
+                Route::post("put/{id}", [TestimoniFmController::class, "update"])->name('hgfm.sections.testimoni.put');
+                Route::delete("destroy/{id}", [TestimoniFmController::class, "destroy"])->name('hgfm.sections.testimoni.destroy');
+            });
+            Route::prefix("solution")->group(function(){
+                Route::post("store", [SolutionFmController::class, "store"])->name('hgfm.sections.solution.store');
+                Route::post("put/{id}", [SolutionFmController::class, "update"])->name('hgfm.sections.solution.put');
+                Route::delete("destroy/{id}", [SolutionFmController::class, "destroy"])->name('hgfm.sections.solution.destroy');
+            });
+            Route::prefix("protein")->group(function(){
+                Route::post("store", [ProteinFmController::class, "store"])->name('hgfm.sections.protein.store');
+                Route::post("put/{id}", [ProteinFmController::class, "update"])->name('hgfm.sections.protein.put');
+                Route::delete("destroy/{id}", [ProteinFmController::class, "destroy"])->name('hgfm.sections.protein.destroy');
             });
         });
     });

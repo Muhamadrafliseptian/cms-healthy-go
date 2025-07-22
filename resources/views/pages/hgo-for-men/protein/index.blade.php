@@ -37,6 +37,132 @@
             </div>
             <button type="submit" class="btn btn-primary mb-5">Simpan</button>
         </form>
+
+        <h4 class="mb-4">Daftar Protein</h4>
+
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
+
+        <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addModal">
+            <i class="bi bi-plus-circle me-1"></i> Tambah Protein
+        </button>
+
+        <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <form action="{{ route('hgfm.sections.protein.store') }}" method="POST" enctype="multipart/form-data"
+                    class="modal-content">
+                    @csrf
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title" id="addModalLabel">Tambah Protein</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body px-4 py-3">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Judul</label>
+                            <input type="text" name="title" class="form-control" placeholder="Masukkan judul" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Gambar (Opsional)</label>
+                            <input type="file" name="image" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Konten</label>
+                            <textarea name="content" class="form-control summernote" placeholder="Isi konten..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer px-4">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button class="btn btn-success">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        @foreach ($data as $row)
+            <div class="modal fade" id="editModal{{ $row->id }}" tabindex="-1"
+                aria-labelledby="editModalLabel{{ $row->id }}" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <form action="{{ route('hgfm.sections.protein.put', $row->id) }}" method="POST"
+                        enctype="multipart/form-data" class="modal-content">
+                        @csrf
+                        <div class="modal-header bg-primary text-white">
+                            <h5 class="modal-title" id="editModalLabel{{ $row->id }}">Edit Protein</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body px-4 py-3">
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Judul</label>
+                                <input type="text" name="title" class="form-control" value="{{ $row->title }}"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Gambar (Opsional)</label>
+                                <input type="file" name="image" class="form-control">
+                                @if ($row->image)
+                                    <div class="mt-2">
+                                        <img src="{{ asset('storage/' . $row->image) }}" width="80"
+                                            class="rounded shadow-sm">
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Konten</label>
+                                <textarea name="content" class="form-control summernote" id="content-{{ $row->id }}">{{ $row->content }}</textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer px-4">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button class="btn btn-primary">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        @endforeach
+
+
+        <hr class="my-4">
+
+        <table id="proteinTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Judul</th>
+                    <th>Konten</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($data as $row)
+                    <tr>
+                        <td>
+                            @if ($row->image)
+                                <img src="{{ asset('storage/' . $row->image) }}" width="60">
+                            @endif
+                        </td>
+                        <td>{{ $row->title }}</td>
+                        <td>{!! $row->content !!}</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#editModal{{ $row->id }}">
+                                Edit
+                            </button>
+
+                            <form action="{{ route('hgfm.sections.protein.destroy', $row->id) }}" method="POST"
+                                class="d-inline" onsubmit="return confirm('Yakin ingin menghapus?')">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-sm btn-danger">Hapus</button>
+                            </form>
+                        </td>
+
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 @endsection
 
@@ -57,6 +183,16 @@
                     ['insert', ['link', 'picture', 'video']],
                     ['view', ['fullscreen', 'codeview', 'help']]
                 ]
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#proteinTable').DataTable();
+
+            $('.summernote').summernote({
+                height: 150,
+                tabsize: 2
             });
         });
     </script>

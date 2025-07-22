@@ -106,6 +106,11 @@ Route::prefix('lp')->group(function () {
         Route::prefix("section")->group(function(){
             Route::post("/", [SectionContentsFmController::class, "indexHomeApi"]);
         });
+        Route::prefix("konten")->group(function(){
+            Route::post("testimoni", [SectionContentsFmController::class, "testimoniAPi"]);
+            Route::post("solution", [SectionContentsFmController::class, "solutionAPi"]);
+            Route::post("protein", [SectionContentsFmController::class, "proteinAPi"]);
+        });
     });
 
     Route::prefix('visitor')->group(function(){

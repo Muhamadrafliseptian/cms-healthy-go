@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\HgoFm;
 
+use App\Models\FmProtein;
+use App\Models\FmSolution;
+use App\Models\FmTestimoni;
 use App\Models\SectionContentsFm;
 use App\Models\SectionsFm;
 use Exception;
@@ -23,7 +26,7 @@ class SectionContentsFmController
         'delivery' => 11,
     ];
 
-    protected function renderSection(string $name)
+    protected function renderSection(string $name, array $additionalData = [])
     {
         try {
             if (!isset($this->sections[$name])) {
@@ -36,13 +39,16 @@ class SectionContentsFmController
                 ->get();
 
             $section = $contents->pluck('value', 'key');
-
             $viewName = str_replace('_', '-', $name);
-            return view("pages.hgo-for-men.$viewName.index", compact('section'));
+
+            return view("pages.hgo-for-men.$viewName.index", array_merge([
+                'section' => $section
+            ], $additionalData));
         } catch (Exception $err) {
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $err->getMessage());
         }
     }
+
 
     public function hero()
     {
@@ -58,11 +64,14 @@ class SectionContentsFmController
     }
     public function protein()
     {
-        return $this->renderSection(__FUNCTION__);
+        $data = FmProtein::all();
+        return $this->renderSection(__FUNCTION__, ['data' => $data]);
     }
     public function solution()
     {
-        return $this->renderSection(__FUNCTION__);
+        $data = FmSolution::all();
+
+        return $this->renderSection(__FUNCTION__, ['data' => $data]);
     }
     public function progress()
     {
@@ -78,7 +87,8 @@ class SectionContentsFmController
     }
     public function testimoni()
     {
-        return $this->renderSection(__FUNCTION__);
+        $data = FmTestimoni::all();
+        return $this->renderSection(__FUNCTION__, ['data' => $data]);
     }
     public function faq()
     {
@@ -95,6 +105,57 @@ class SectionContentsFmController
             $data = SectionsFm::with('contents')
                 ->where('menu_id', 11)
                 ->get();
+
+            return response()->json([
+                'status' => "success",
+                'data' => $data
+            ]);
+        } catch (\Exception $err) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $err->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function proteinApi()
+    {
+        try {
+            $data = FmProtein::all();
+
+            return response()->json([
+                'status' => "success",
+                'data' => $data
+            ]);
+        } catch (\Exception $err) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $err->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function solutionApi()
+    {
+        try {
+            $data = FmSolution::all();
+
+            return response()->json([
+                'status' => "success",
+                'data' => $data
+            ]);
+        } catch (\Exception $err) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $err->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function testimoniApi()
+    {
+        try {
+            $data = FmTestimoni::all();
 
             return response()->json([
                 'status' => "success",
