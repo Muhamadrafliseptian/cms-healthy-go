@@ -109,6 +109,8 @@
                                     href="{{ route('hgfm.sections.get.socialProof') }}">Social Proof</a>
                                 <a class="nav-link {{ Request::is('dashboard/hgfm/sections/get/testimoni*') ? 'active' : '' }}"
                                     href="{{ route('hgfm.sections.get.testimoni') }}">Testimoni</a>
+                                    <a class="nav-link {{ Request::is('dashboard/hgfm/sections/get/spirit*') ? 'active' : '' }}"
+                                    href="{{ route('hgfm.sections.get.spirit') }}">Spirit</a>
                                 <a class="nav-link {{ Request::is('dashboard/hgfm/sections/get/faq*') ? 'active' : '' }}"
                                     href="{{ route('hgfm.sections.get.faq') }}">Faq</a>
                                 <a class="nav-link {{ Request::is('dashboard/hgfm/sections/get/delivery*') ? 'active' : '' }}"

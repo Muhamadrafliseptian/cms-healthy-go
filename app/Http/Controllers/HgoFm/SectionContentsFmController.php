@@ -58,6 +58,10 @@ class SectionContentsFmController
     {
         return $this->renderSection(__FUNCTION__);
     }
+    public function spirit()
+    {
+        return $this->renderSection(__FUNCTION__);
+    }
     public function food()
     {
         return $this->renderSection(__FUNCTION__);

@@ -87,6 +87,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
                 Route::get('testimoni', [SectionContentsFmController::class, "testimoni"])->name('hgfm.sections.get.testimoni');
                 Route::get('faq', [SectionContentsFmController::class, "faq"])->name('hgfm.sections.get.faq');
                 Route::get('delivery', [SectionContentsFmController::class, "delivery"])->name('hgfm.sections.get.delivery');
+                Route::get('spirit', [SectionContentsFmController::class, "spirit"])->name('hgfm.sections.get.spirit');
             });
             Route::prefix("store")->group(function(){
                 Route::post('{id}', [SectionFmController::class, "store"])->name('hgfm.sections.store');
