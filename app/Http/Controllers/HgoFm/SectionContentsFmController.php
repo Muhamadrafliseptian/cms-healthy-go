@@ -115,7 +115,7 @@ class SectionContentsFmController
     public function delivery()
     {
         try {
-            $contents = SectionContentsFm::with('section')->where('section_id', 12)->get();
+            $contents = SectionContentsFm::with('section')->where('section_id', 11)->get();
             $section = $contents->pluck('value', 'key');
             return view('pages.hgo-for-men.delivery.index', compact('section'));
         } catch (Exception $err) {
