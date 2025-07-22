@@ -7,6 +7,7 @@ use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FoodSectionController;
+use App\Http\Controllers\HgoFm\SectionContentsFmController;
 use App\Http\Controllers\HomeSectionController;
 use App\Http\Controllers\IklanController;
 use App\Http\Controllers\MealController;
@@ -98,6 +99,12 @@ Route::prefix('lp')->group(function () {
             Route::post('statistic', [OperationalStatisticController::class, 'index']);
             Route::post('batch', [BatchController::class, 'index']);
             Route::post('meta', [MetaTagController::class, 'index']);
+        });
+    });
+
+    Route::prefix("hgfm")->group(function(){
+        Route::prefix("section")->group(function(){
+            Route::post("/", [SectionContentsFmController::class, "indexHomeApi"]);
         });
     });
 
