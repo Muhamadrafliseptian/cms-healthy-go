@@ -24,6 +24,7 @@ class SectionContentsFmController
         'testimoni' => 9,
         'faq' => 10,
         'delivery' => 11,
+        'spirit' => 12,
     ];
 
     protected function renderSection(string $name, array $additionalData = [])
